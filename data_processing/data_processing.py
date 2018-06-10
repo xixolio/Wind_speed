@@ -306,10 +306,12 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         min_speeds.append(min_speed)
         max_speeds.append(max_speed)
 
-    
 
-    data_input = []
-    data_output = []
+    training_data_input = []
+    testing_data_input = []
+    
+    training_data_output = []
+    testing_data_output = []
     
     for i in range(number_of_sets):
            
@@ -330,11 +332,18 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
             temp_output = temp_output[(ts-1)*lag:]
         
         temp_input = pd.concat(shifted,axis=1).dropna()
-            
-        data_input.append(temp_input)
-        data_output.append(temp_output)
+        
+        training_data_input.append(temp_input[:-24].values.reshape(-1,ts,lag))
+        testing_data_input.append(temp_input[-24:].values.reshape(-1,ts,lag))
+        
+        training_data_output.append(temp_output[:-24].values)
+        testing_data_output.append(temp_output[-24:].values)        
+        
+    return training_data_input, testing_data_input, training_data_output, \
+           testing_data_output, min_speeds, max_speeds
 
-    return data_input, data_output, min_speeds, max_speeds
+training_data_input, testing_data_input, training_data_output, \
+           testing_data_output, min_speeds, max_speeds = \
+get_data('', 'no_mvs_originald08.csv', ts=2, lag=3, overlap=True)
 
-data_input, data_output, min_speeds, max_speeds = get_data('', 'no_mvs_originald08.csv', ts=2, lag=3, overlap=True)
 
