@@ -334,7 +334,7 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         temp_input = pd.concat(shifted,axis=1).dropna()
         
         training_data_input.append(temp_input[:-24].values.reshape(-1,ts,lag))
-        testing_data_input.append(temp_input[-24:].values.reshape(-1,ts,lag))
+        testing_data_input.append(temp_input[-24].values.reshape(-1,ts,lag))
         
         training_data_output.append(temp_output[:-24].values)
         testing_data_output.append(temp_output[-24:].values)        
