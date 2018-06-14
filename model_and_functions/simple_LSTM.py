@@ -10,7 +10,7 @@ import sys
 
 def get_params():
     
-    params = str(sys.argv[1])
+    params = str(sys.argv[4])
     params = [*params.split(',')]
     
     layers = str(params[0]).strip('[]')
