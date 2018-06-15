@@ -8,10 +8,14 @@ Created on Sun Jun 10 15:07:18 2018
 """
 import sys
 #sys.path.append('../')
-sys.path.append('../data_processing/')
-from data_processing.data_processing import get_data
-import model_and_functions.simple_LSTM as sLSTM
+sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
+sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
 
+#from data_processing.data_processing import get_data
+from data_processing import get_data
+
+#import model_and_functions.simple_LSTM as sLSTM
+import simple_LSTM as sLSTM
 import numpy as np
 
 
@@ -86,7 +90,7 @@ if __name__ == "__main__":
     print("Printing errors")
     print("Mae mape mse :" + str(mae) + str(mape) + str(mse))
             
-    write_file_name = "simple_LSTM_test" + file_name
+    write_file_name = "simple_LSTM_test" + file_name[-4:] + ".txt"
             
     sLSTM.write_results(path, write_file_name, params, mae, mape, mse)
         
