@@ -12,6 +12,7 @@ import sys
 def get_params(argv_position):
     
     params = str(sys.argv[argv_position])
+    print(params)
     params = [*params.split(',')]
     
     layers = str(params[0]).strip('[]')
