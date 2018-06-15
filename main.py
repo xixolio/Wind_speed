@@ -6,6 +6,8 @@ Created on Sun Jun 10 15:07:18 2018
 
 @author: iaaraya
 """
+import os
+os.environ["MKL_THREADING_LAYER"] = "GNU"
 import sys
 sys.path.append('/user/i/iaraya/CIARP/Wind_speed/data/')
 sys.path.append('/user/i/iaraya/CIARP/Wind_speed/model_and_functions/')

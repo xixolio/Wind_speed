@@ -6,6 +6,7 @@ Created on Sun Jun 10 15:07:18 2018
 
 @author: iaaraya
 """
+
 import sys
 #sys.path.append('../')
 sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
