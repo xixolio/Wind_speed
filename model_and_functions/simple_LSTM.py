@@ -66,7 +66,7 @@ def train_and_test(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts)
     
     for i in range(epochs):
         
-        model.fit(X, y, batch_size=1, shuffle=False, verbose=0, epochs=1)
+        model.fit(X, y, batch_size=1, shuffle=False, verbose=1, epochs=1)
         
     # Testing 
     

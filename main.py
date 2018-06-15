@@ -18,46 +18,50 @@ import numpy as np
 
 if __name__ == "__main__":
     
-    path = sys.argv[1]
-    
-    file_name = sys.argv[2]
-  
-    runs = 5
-    
-    sets = 10
-       
-    layers, lag, time_steps, epochs, l2, learning_rate = sLSTM.get_params(3)
-
-    params = [layers, lag, time_steps, epochs, l2, learning_rate]
-    
-    training_inputs, testing_inputs, training_outputs, testing_outputs,\
-    vmins, vmaxs = get_data(path, file_name, time_steps, lag)
+    model = sys.argv[1]
         
-    mae = np.zeros((sets, runs))
-    mape = np.zeros((sets, runs))
-    mse = np.zeros((sets, runs))
+    path = sys.argv[2]
+        
+    file_name = sys.argv[3]
+        
+    if model == "simple_LSTM":
+      
+        runs = 5
+        
+        sets = 10
+           
+        layers, lag, time_steps, epochs, l2, learning_rate = sLSTM.get_params(4)
     
-    for i in range(sets):
+        params = [layers, lag, time_steps, epochs, l2, learning_rate]
         
-        X = training_inputs[i]
-        X_ts = testing_inputs[i]
-        y = training_outputs[i]
-        y_ts = testing_outputs[i]
+        training_inputs, testing_inputs, training_outputs, testing_outputs,\
+        vmins, vmaxs = get_data(path, file_name, time_steps, lag)
+            
+        mae = np.zeros((sets, runs))
+        mape = np.zeros((sets, runs))
+        mse = np.zeros((sets, runs))
         
-        for j in range(runs):
+        for i in range(sets):
             
-            model = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
+            X = training_inputs[i]
+            X_ts = testing_inputs[i]
+            y = training_outputs[i]
+            y_ts = testing_outputs[i]
             
-            mae[i,j], mape[i,j], mse[i,j], model = sLSTM.train_and_test(model, time_steps, lag, \
-                                                  epochs, vmins[i], vmaxs[i],     \
-                                                  X, y, X_ts, y_ts)
-            
-            model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
-            '_'.join(str(x) for x in params)
-            model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
-            
-    write_file_name = "simple_LSTM_test" + file_name[-4:] + ".txt"
-            
-    sLSTM.write_results(path, write_file_name, params, mae, mape, mse)
+            for j in range(runs):
+                
+                model = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
+                
+                mae[i,j], mape[i,j], mse[i,j], model = sLSTM.train_and_test(model, time_steps, lag, \
+                                                      epochs, vmins[i], vmaxs[i],     \
+                                                      X, y, X_ts, y_ts)
+                
+                model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
+                '_'.join(str(x) for x in params)
+                model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
+                
+        write_file_name = "simple_LSTM_test" + file_name[-4:] + ".txt"
+                
+        sLSTM.write_results(path, write_file_name, params, mae, mape, mse)
         
         

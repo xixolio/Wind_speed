@@ -69,8 +69,8 @@ if __name__ == "__main__":
     
         print("Reducing data_size")
         
-        X = X[-100:,:]
-        y = y[-100:,:]
+        #X = X[-100:,:]
+        #y = y[-100:,:]
         
         for j in range(runs):
             
