@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from pathlib import Path
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense
 from keras import optimizers, regularizers
@@ -8,9 +9,9 @@ import sys
 
 ''' Parameters format "[layer1-layer2-...-layern],lag,time_steps,epochs,l2,learning_rate" '''
 
-def get_params():
+def get_params(argv_position):
     
-    params = str(sys.argv[4])
+    params = str(sys.argv[argv_position])
     params = [*params.split(',')]
     
     layers = str(params[0]).strip('[]')
@@ -19,8 +20,8 @@ def get_params():
     lag = int(params[1])
     time_steps = int(params[2])
     epochs = int(params[3])
-    l2 = int(params[4])
-    learning_rate = int(params[5])
+    l2 = float(params[4])
+    learning_rate = float(params[5])
     
     return layers, lag, time_steps, epochs, l2, learning_rate
     
@@ -31,13 +32,18 @@ def model(layers, lag, time_steps, l2, learning_rate):
     
     dummy_layer = inputs
     
-    for layer in layers:
+    for i in range(len(layers)):
         
-        lstm = LSTM(layer,return_sequences=False,activation='tanh',
-                 recurrent_activation='sigmoid',dropout=0.0,recurrent_dropout=0.0,
-                 activity_regularizer=regularizers.l2(l2),
-                 recurrent_regularizer=regularizers.l2(l2),
-                 stateful=True)
+        return_sequences = True
+        
+        if i == len(layers) - 1:
+            
+            return_sequences = False
+                   
+        lstm = LSTM(layers[i], return_sequences=return_sequences, activation='tanh',
+                 recurrent_activation='sigmoid', dropout=0.0,
+                 recurrent_dropout=0.0, activity_regularizer=regularizers.l2(l2),
+                 recurrent_regularizer=regularizers.l2(l2), stateful=True)
     
         dummy_layer = lstm(dummy_layer)
     
@@ -95,7 +101,17 @@ def write_results(path,name,params,mae,mape,mse):
     
     for i in range(10):
             
-            f=open(path+str(i)+name,"a")
+            my_file = Path(path+str(i)+name)
+            
+            if not my_file.is_file():
+                
+                f = open(path + str(i) + name, "a")
+                f.write("layers lag time_steps epochs l2 learning_rate mean_mae \
+                        mean_mape mean_mse std mae std_mape std_mse \n")
+            
+            else:
+                
+                f = open(path + str(i) + name, "a")
                     
             mean_mae, std_mae = str(np.mean(mae[i,:])), str(np.std(mae[i,:]))
             mean_mape, std_mape = str(np.mean(mape[i,:])), str(np.std(mape[i,:]))
@@ -105,8 +121,4 @@ def write_results(path,name,params,mae,mape,mse):
                     , mean_mae, mean_mape, mean_mse, std_mae, std_mape, std_mse) )
             
             f.close()
-            
-    #f=open(path+"summary"+name,"a")
-    #f.write('mae '+', '.join(str(x) for x in params)+' '+str(np.mean(mae))+'\n')
-            
-    f.close()
+                      

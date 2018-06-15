@@ -252,7 +252,7 @@ def correct_data(data,missing_positions,expected_date,name):
 
 def get_data(path, name, ts=1, lag=1, overlap=True):
     
-    path = ''
+    #path = ''
     data = pd.read_csv(path+name, usecols = ['date','speed'])
     
     # It is verified if it starts at minute 00, otherwise index is
@@ -297,8 +297,8 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         temp_data = data_hour[i*w : i*w + n].copy()
         temp_data.index = temp_data.index - temp_data.index.min()
         
-        min_speed = temp_data[:-24].min()
-        max_speed = temp_data[:-24].max()
+        min_speed = temp_data[:-24].values.min()
+        max_speed = temp_data[:-24].values.max()
         
         temp_data = (temp_data - min_speed)/(max_speed - min_speed)
         
@@ -334,7 +334,7 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         temp_input = pd.concat(shifted,axis=1).dropna()
         
         training_data_input.append(temp_input[:-24].values.reshape(-1,ts,lag))
-        testing_data_input.append(temp_input[-24].values.reshape(-1,ts,lag))
+        testing_data_input.append(temp_input.iloc[-24].values.reshape(-1,ts,lag))
         
         training_data_output.append(temp_output[:-24].values)
         testing_data_output.append(temp_output[-24:].values)        
@@ -342,8 +342,8 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
     return training_data_input, testing_data_input, training_data_output, \
            testing_data_output, min_speeds, max_speeds
 
-training_data_input, testing_data_input, training_data_output, \
-           testing_data_output, min_speeds, max_speeds = \
-get_data('', 'no_mvs_originald08.csv', ts=2, lag=3, overlap=True)
+#training_data_input, testing_data_input, training_data_output, \
+#           testing_data_output, min_speeds, max_speeds = \
+#get_data('', 'no_mvs_originald08.csv', ts=2, lag=3, overlap=True)
 
 
