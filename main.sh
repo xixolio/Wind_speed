@@ -5,4 +5,4 @@
 
 use anaconda3
 use gcc48
-python /user/i/iaraya/CIARP/Wind_speed/main.py $1 $2 $3 $4
+KERAS_BACKEND=theano python /user/i/iaraya/CIARP/Wind_speed/main.py $1 $2 $3 $4
