@@ -43,6 +43,10 @@ if model == "simple_LSTM":
         
         epochs = [1]
         
+        l2 = [0.001]
+        
+        learning_rate = [0.05]
+        
     combs = product(layers, lag, time_steps, epochs, l2, learning_rate)
     
     for c in combs:
