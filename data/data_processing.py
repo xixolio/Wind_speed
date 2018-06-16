@@ -215,7 +215,7 @@ def correct_data(data,missing_positions,expected_date,name):
             
             date = expected_date[init+j]
             
-            [minute,hour,day,month,year] = [*date]
+            [minute,hour,day,month,year] = date
             
             if minute < 10:
                 
