@@ -16,7 +16,7 @@ def get_params(argv_position):
     params = [*params.split(',')]
     
     layers = str(params[0]).strip('[]')
-    layers = [int(layer) for layer in [*layers.split('-')]]
+    layers = [int(layer) for layer in layers.split('-')]
     
     lag = int(params[1])
     time_steps = int(params[2])
