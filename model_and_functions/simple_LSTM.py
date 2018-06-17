@@ -13,7 +13,7 @@ def get_params(argv_position):
     
     params = str(sys.argv[argv_position])
     print(params)
-    params = [*params.split(',')]
+    params = params.split(',')
     
     layers = str(params[0]).strip('[]')
     layers = [int(layer) for layer in layers.split('-')]
