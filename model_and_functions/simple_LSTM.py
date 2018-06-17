@@ -6,6 +6,7 @@ from keras.layers import Input, LSTM, Dense
 from keras import optimizers, regularizers
 import numpy as np
 import sys
+import os
 
 ''' Parameters format "[layer1-layer2-...-layern],lag,time_steps,epochs,l2,learning_rate" '''
 
@@ -102,9 +103,10 @@ def write_results(path,name,params,mae,mape,mse):
     
     for i in range(10):
             
-            my_file = Path(path+str(i)+name)
+            my_file = path+str(i)+name
             
-            if not my_file.is_file():
+            if os.path.exists(my_file):
+            #if not my_file.is_file():
                 
                 f = open(path + str(i) + name, "a")
                 f.write("layers lag time_steps epochs l2 learning_rate mean_mae \
