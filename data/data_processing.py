@@ -14,7 +14,7 @@ import numpy as np
     are present). Only wind speed is considered and exogenous attributes
     are discarded. UPDATE (8-6-2018) now it finds missing values and replaces
     them by appending the day before data. Seems to work well at least for
-    d08
+    d08. UPDATE (16-6-2018) works well :)
 """
 
 def get_missing_values(path,name):

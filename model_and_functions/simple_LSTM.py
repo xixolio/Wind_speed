@@ -105,7 +105,7 @@ def write_results(path,name,params,mae,mape,mse):
             
             my_file = path+str(i)+name
             
-            if os.path.exists(my_file):
+            if not os.path.exists(my_file):
             #if not my_file.is_file():
                 
                 f = open(path + str(i) + name, "a")

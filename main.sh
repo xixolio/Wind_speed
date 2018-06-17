@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l cput=1000:00:00
 #PBS -l walltime=1000:00:00
-#PBS -l mem=3gb
+#PBS -l mem=4gb
 
 use anaconda2
 use gcc48
