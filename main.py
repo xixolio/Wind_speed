@@ -7,7 +7,7 @@ Created on Sun Jun 10 15:07:18 2018
 @author: iaaraya
 """
 import os
-os.environ["MKL_THREADING_LAYER"] = "GNU"
+#os.environ["MKL_THREADING_LAYER"] = "GNU"
 import sys
 sys.path.append('/user/i/iaraya/CIARP/Wind_speed/data/')
 sys.path.append('/user/i/iaraya/CIARP/Wind_speed/model_and_functions/')
@@ -60,7 +60,7 @@ if __name__ == "__main__":
                 
                 model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
                 '_'.join(str(x) for x in params)
-                model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
+                #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                
         path = "/user/i/iaraya/CIARP/Wind_speed/results/"
         write_file_name = "simple_LSTM_test_" + file_name[:-4] + ".txt"
