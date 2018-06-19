@@ -121,7 +121,7 @@ def write_results(path,name,params,mae,mape,mse):
             mean_mape, std_mape = str(np.mean(mape[i,:])), str(np.std(mape[i,:]))
             mean_mse, std_mse = str(np.mean(mse[i,:])), str(np.std(mse[i,:]))
 
-            f.write('{} {} {} {} {} {} {}'.format(', '.join(str(x) for x in params) \
+            f.write('{} {} {} {} {} {} {} \n'.format(', '.join(str(x) for x in params) \
                     , mean_mae, mean_mape, mean_mse, std_mae, std_mape, std_mse) )
             
             f.close()
