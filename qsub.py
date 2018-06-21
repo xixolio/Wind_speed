@@ -13,6 +13,8 @@ import sys
 model = sys.argv[1]
 
 experiment = int(sys.argv[2])
+
+queue_type = sys.argv[3]
 #model = "hierarchical_LSTM"
 #experiment = 2
 
@@ -103,8 +105,10 @@ elif model == "hierarchical_LSTM":
                     no_mvs_d05a.csv ' + string
             
             #print(string)
-            subprocess.call(["qsub","main.sh","-F",string])
-        
+            
+            subprocess.call([queue_type,"main.sh","-F",string])
+            
+            
         
 
 
