@@ -102,8 +102,8 @@ elif model == "hierarchical_LSTM":
             string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
                     no_mvs_d05a.csv ' + string
             
-            print(string)
-            #subprocess.call(["qsub","main.sh","-F",string])
+            #print(string)
+            subprocess.call(["qsub","main.sh","-F",string])
         
         
 
