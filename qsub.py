@@ -65,7 +65,47 @@ if model == "simple_LSTM":
             subprocess.call(["qsub","main.sh","-F",string])
             
     
+elif model == "hierarchical_LSTM":
     
+    if experiment == 1:
+        
+        
+    elif experiment == 2:
+                
+        lags = ["[1-6]"]
+        
+        time_steps = ["[4-4]"]
+        
+        dense_nodes = ["[5-5]"]
+        
+        lstm_nodes = ["[6-6]"]
+        
+        processed_scales = ["[0-1]"]
+        
+        epochs = 1
+        
+        l2 = 0.001
+    
+    
+    combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
+                    epochs, l2)
+    
+    for c in combs:
+        
+        if c:
+            
+            string = ''
+            
+            for element in c:
+                
+                string += str(element) + ','
+            
+            string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
+                    no_mvs_d05a.csv ' + string
+            
+            subprocess.call(["qsub","main.sh","-F",string])
+        
+        
 
 
 

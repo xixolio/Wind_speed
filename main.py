@@ -11,10 +11,13 @@ import os
 import sys
 sys.path.append('/user/i/iaraya/CIARP/Wind_speed/data/')
 sys.path.append('/user/i/iaraya/CIARP/Wind_speed/model_and_functions/')
+#sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
+#sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
 
 from data_processing import get_data
 import simple_LSTM as sLSTM
 import hierarchical_LSTM as hLSTM
+import persistence
 
 import numpy as np
 
@@ -110,9 +113,7 @@ if __name__ == "__main__":
             
             X = []
             X_ts = []
-            
-            # Changing training data length to the minimum
-            
+                        
             for j in range(lags):
                 
                  X.append(training_inputs_sets[j][i][-min_data_len:])
@@ -135,8 +136,37 @@ if __name__ == "__main__":
                 #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                
         path = "/user/i/iaraya/CIARP/Wind_speed/results/"
-        write_file_name = "hierarchical_LSTM_test_" + file_name[:-4] + ".txt"
+        write_file_name = "hierarchical_LSTM_" + file_name[:-4] + ".txt"
                 
         hLSTM.write_results(path, write_file_name, params, mae, mape, mse)
         
         
+    elif model == "persistence":
+        
+        training_inputs, testing_inputs, training_outputs, testing_outputs,\
+        vmins, vmaxs = get_data(path, file_name, time_steps, lag)
+        
+        mae = np.zeros((sets))
+        mape = np.zeros((sets))
+        mse = np.zeros((sets))
+        
+        for i in range(sets):
+            
+            X = training_inputs[i]
+            X_ts = testing_inputs[i]
+            y = training_outputs[i]
+            y_ts = testing_outputs[i]
+            
+            model = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
+            
+            mae[i], mape[i], mse[i] = persistence.train_and_test(vmins[i], vmaxs[i], y, y_ts)
+            
+            model_name = "persistence_" + str(i) + "_run"
+            #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
+           
+        path = "results/"
+        write_file_name = "persistence_" + file_name[:-4] + ".txt"
+                
+        persistence.write_results(path, write_file_name, mae, mape, mse)
+        
+       
