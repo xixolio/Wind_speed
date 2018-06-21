@@ -13,7 +13,8 @@ import sys
 model = sys.argv[1]
 
 experiment = int(sys.argv[2])
-#model = "simple_LSTM"
+#model = "hierarchical_LSTM"
+#experiment = 2
 
 if model == "simple_LSTM":
     
@@ -80,9 +81,9 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[0-1]"]
         
-        epochs = 1
+        epochs = [1]
         
-        l2 = 0.001
+        l2 = [0.001]
     
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
@@ -101,7 +102,8 @@ elif model == "hierarchical_LSTM":
             string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
                     no_mvs_d05a.csv ' + string
             
-            subprocess.call(["qsub","main.sh","-F",string])
+            print(string)
+            #subprocess.call(["qsub","main.sh","-F",string])
         
         
 
