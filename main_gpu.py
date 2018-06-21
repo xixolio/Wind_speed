@@ -92,7 +92,7 @@ if __name__ == "__main__":
         training_inputs_sets = []
         testing_inputs_sets = []
         
-        for i in range(lags):
+        for i in range(len(lags)):
             
             training_inputs, testing_inputs, training_outputs, testing_outputs,\
             vmins, vmaxs = get_data(path, file_name, time_steps[i], lags[i])
@@ -110,7 +110,7 @@ if __name__ == "__main__":
             
             min_data_len = 10000000
             
-            for j in range(lags):
+            for j in range(len(lags)):
                 
                 if len(training_inputs_sets[j][i]) < min_data_len:
                     
@@ -119,7 +119,7 @@ if __name__ == "__main__":
             X = []
             X_ts = []
                         
-            for j in range(lags):
+            for j in range(len(lags)):
                 
                  X.append(training_inputs_sets[j][i][-min_data_len:])
                  X_ts.append(testing_inputs_sets[j][i])
