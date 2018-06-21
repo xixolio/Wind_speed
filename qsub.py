@@ -67,10 +67,8 @@ if model == "simple_LSTM":
     
 elif model == "hierarchical_LSTM":
     
-    if experiment == 1:
-        
-        
-    elif experiment == 2:
+      
+    if experiment == 2:
                 
         lags = ["[1-6]"]
         
