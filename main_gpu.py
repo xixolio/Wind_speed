@@ -34,6 +34,10 @@ if __name__ == "__main__":
     path = sys.argv[2]
         
     file_name = sys.argv[3]
+    
+    data_path = path + "data/"
+    
+    results_path = path + "results/"
         
     if model == "simple_LSTM":
       
@@ -71,7 +75,8 @@ if __name__ == "__main__":
                 '_'.join(str(x) for x in params)
                 #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                
-        path = "/user/i/iaraya/CIARP/Wind_speed/results/"
+        #path = "/user/i/iaraya/CIARP/Wind_speed/results/"
+        
         write_file_name = "simple_LSTM_test_" + file_name[:-4] + ".txt"
                 
         sLSTM.write_results(path, write_file_name, params, mae, mape, mse)
@@ -96,7 +101,7 @@ if __name__ == "__main__":
             for i in range(len(lags)):
                 
                 training_inputs, testing_inputs, training_outputs, testing_outputs,\
-                vmins, vmaxs = get_data(path, file_name, time_steps[i], lags[i])
+                vmins, vmaxs = get_data(data_path, file_name, time_steps[i], lags[i])
                 
                 training_inputs_sets.append(training_inputs)
                 testing_inputs_sets.append(testing_inputs)
@@ -140,10 +145,9 @@ if __name__ == "__main__":
                     '_'.join(str(x) for x in params)
                     #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                    
-            path = "/user/i/iaraya/CIARP/Wind_speed/results/"
             write_file_name = "hierarchical_LSTM_" + file_name[:-4] + ".txt"
                     
-            hLSTM.write_results(path, write_file_name, params, mae, mape, mse)
+            hLSTM.write_results(results_path, write_file_name, params, mae, mape, mse)
             
         
     elif model == "persistence":

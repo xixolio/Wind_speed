@@ -41,12 +41,16 @@ def get_params(argv_position):
             
 def get_params_gpu(argv_position):
     
-    raw_parameters = str(sys.argv[argv_position]).split(';')
+    raw_parameters = str(sys.argv[argv_position]).split(':')
     
     parameters_set = []
     
     for params in raw_parameters:
 
+        if params == '':
+            
+            continue
+        
         params = params.split(',')
         
         lags = str(params[0]).strip('[]')
@@ -68,9 +72,9 @@ def get_params_gpu(argv_position):
         
         l2 = float(params[6])
         
-        batch_size = float(params[7])
+        batch_size = int(params[7])
         
-        shuffle = float(params[8])
+        shuffle = bool(int(params[8]))
         
         parameters_set.append([lags, time_steps, dense_nodes, lstm_nodes, \
                                processed_scales, epochs, l2, batch_size, shuffle])

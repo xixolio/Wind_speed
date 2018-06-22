@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+# -*- coding: utf-8 -*-
 """
 Created on Tue Feb 13 12:41:37 2018
 
@@ -10,12 +12,12 @@ import subprocess
 import sys
 
 
-model = sys.argv[1]
+#model = sys.argv[1]
 
-experiment = int(sys.argv[2])
+#experiment = int(sys.argv[2])
 
-#model = "hierarchical_LSTM"
-#experiment = 2
+model = "hierarchical_LSTM"
+experiment = 1
 
 if model == "simple_LSTM":
     
@@ -70,6 +72,26 @@ if model == "simple_LSTM":
 elif model == "hierarchical_LSTM":
     
       
+    if experiment == 1:
+        
+        lags = ["[1-6]",["1-12"]]
+        
+        time_steps = ["[4-4]"]
+        
+        dense_nodes = ["[1-5]"]
+        
+        lstm_nodes = ["[6-6]"]
+        
+        processed_scales = ["[0-1]"]
+        
+        epochs = [1]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
     if experiment == 2:
                 
         lags = ["[1-6]"]
@@ -85,27 +107,34 @@ elif model == "hierarchical_LSTM":
         epochs = [1]
         
         l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
     
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2)
     
+    string = ''
+    
     for c in combs:
         
         if c:
             
-            string = ''
             
             for element in c:
                 
                 string += str(element) + ','
+                
+            string += ":"
             
-            string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
-                    no_mvs_d05a.csv ' + string
+    string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/ \
+                no_mvs_d05a.csv ' + string
             
-            #print(string)
+    print(string)
             
-            subprocess.call(["qsub","main.sh","-F",string])
+    #subprocess.call(["python","main_gpu",string])
 
 
 
