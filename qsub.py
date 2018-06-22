@@ -86,6 +86,23 @@ elif model == "hierarchical_LSTM":
         epochs = [1, 5]
         
         l2 = [0.001]
+        
+    if experiment == 2:
+        
+        lags = ["[1-12-24-48]"]
+        
+        time_steps = ["[24-15-15-15]"]
+        
+        dense_nodes = ["[1-10-10-10]"]
+        
+        lstm_nodes = ["[10-10-10-10]"]
+        
+        processed_scales = ["[0-1-2-3]"]
+        
+        epochs = [1, 5]
+        
+        l2 = [0.001]
+        
     
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
