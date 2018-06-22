@@ -76,7 +76,7 @@ elif model == "hierarchical_LSTM":
         
         lags = ["[1-12-24-48]"]
         
-        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]"\
+        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]",\
                       "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
         
         dense_nodes = ["[1-5-5-5]","[1-10-10-10]"]
@@ -139,9 +139,9 @@ elif model == "hierarchical_LSTM":
     name = "no_mvs_d05a.csv"
     
     
-    print(string)
+    #print(string)
             
-    #subprocess.call(["python","main_gpu.py", model, path, name, string])
+    subprocess.call(["python","main_gpu.py", model, path, name, string])
 
 
 
