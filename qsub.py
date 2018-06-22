@@ -105,7 +105,7 @@ elif model == "hierarchical_LSTM":
             
             #print(string)
             
-            subprocess.call([qsub,main.py,"-F",string])
+            subprocess.call(["qsub","main.py","-F",string])
 
 
 
