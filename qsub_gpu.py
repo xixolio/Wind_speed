@@ -134,7 +134,7 @@ elif model == "hierarchical_LSTM":
             string += ":"
           
     model = "hierarchical_LSTM"
-    path = "/user/i/iaraya/CIARP/Wind_speed/"
+    path = "/home/iaraya/Wind_speed/"
     name = "no_mvs_d05a.csv"
     
     
