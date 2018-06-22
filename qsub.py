@@ -14,9 +14,6 @@ model = sys.argv[1]
 
 experiment = int(sys.argv[2])
 
-queue_type = sys.argv[3]
-
-file = sys.argv[4]
 #model = "hierarchical_LSTM"
 #experiment = 2
 
@@ -108,14 +105,7 @@ elif model == "hierarchical_LSTM":
             
             #print(string)
             
-            
-            if queue_type == "python":
-                
-                subprocess.call([queue_type,file,string])
-
-            else:
-                
-                subprocess.call([queue_type,file,"-F",string])
+            subprocess.call([qsub,main.py,"-F",string])
 
 
 
