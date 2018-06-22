@@ -70,19 +70,20 @@ if model == "simple_LSTM":
 elif model == "hierarchical_LSTM":
     
       
-    if experiment == 2:
+    if experiment == 1:
                 
-        lags = ["[1-6]"]
+        lags = ["[1-12-24-48]"]
         
-        time_steps = ["[4-4]"]
+        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]"\
+                      "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
         
-        dense_nodes = ["[1-5]"]
+        dense_nodes = ["[1-5-5-5]","[1-10-10-10]"]
         
-        lstm_nodes = ["[6-6]"]
+        lstm_nodes = ["[5-5-5-5]","[10-10-10-10]"]
         
-        processed_scales = ["[0-1]"]
+        processed_scales = ["[0-1-2-3]"]
         
-        epochs = [1]
+        epochs = [1, 5]
         
         l2 = [0.001]
     
