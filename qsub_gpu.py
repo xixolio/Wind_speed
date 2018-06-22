@@ -12,12 +12,12 @@ import subprocess
 import sys
 
 
-#model = sys.argv[1]
+model = sys.argv[1]
 
-#experiment = int(sys.argv[2])
+experiment = int(sys.argv[2])
 
-model = "hierarchical_LSTM"
-experiment = 1
+#model = "hierarchical_LSTM"
+#experiment = 1
 
 if model == "simple_LSTM":
     
@@ -136,9 +136,9 @@ elif model == "hierarchical_LSTM":
     string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/ \
                 no_mvs_d05a.csv ' + string
             
-    print(string)
+    #print(string)
             
-    #subprocess.call(["python","main_gpu",string])
+    subprocess.call(["python","main_gpu",string])
 
 
 
