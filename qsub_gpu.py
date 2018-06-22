@@ -132,13 +132,15 @@ elif model == "hierarchical_LSTM":
                 string += str(element) + ','
                 
             string += ":"
-            
-    string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/ \
-                no_mvs_d05a.csv ' + string
-            
+          
+    model = "hierarchical_LSTM"
+    path = "/user/i/iaraya/CIARP/Wind_speed/"
+    name = "no_mvs_d05a.csv"
+    
+    
     #print(string)
             
-    subprocess.call(["python","main_gpu.py",string])
+    subprocess.call(["python","main_gpu.py", model, path, name])
 
 
 
