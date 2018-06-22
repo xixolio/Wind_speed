@@ -57,7 +57,6 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     
     for i in range(len(lags)):
         
-        print(i)
         time_step = time_steps[i]
         lag = lags[i]
         temporal_input = Input(shape=(time_step,lag))
@@ -83,7 +82,6 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
                 # so its needed that 3 * 6 / 2 time steps, 9, be computed at
                 # that scale in order to give 18 values to the next one.
                 
-                print(j)
                 
                 current_time_steps = int(time_step * lag/ lags[j+1])
                 
@@ -157,7 +155,6 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
             
             for j in range(len(lags)):
                 
-                print(X_ts[j].shape)
                 X_ts[j] = np.concatenate((X_ts[j].flatten()[1:], \
                     predicted_vector[i].flatten()))
                 

@@ -105,7 +105,7 @@ if __name__ == "__main__":
             
             min_data_len = 10000000
             
-            for j in range(lags):
+            for j in range(len(lags)):
                 
                 if len(training_inputs_sets[j][i]) < min_data_len:
                     
