@@ -41,7 +41,7 @@ def get_params(argv_position):
             
 def get_params_gpu(argv_position):
     
-    raw_parameters = str(sys.argv[argv_position]).split(':')
+    raw_parameters = str(sys.argv[argv_position]).split('--')
     
     parameters_set = []
     
