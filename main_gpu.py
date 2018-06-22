@@ -90,7 +90,13 @@ if __name__ == "__main__":
            
         parameters_set = hLSTM.get_params_gpu(4)
         
+        counter = 0
+        
         for params in parameters_set:
+            
+            print(counter)
+            
+            counter += 1
         
             lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
             epochs, l2, batch_size, shuffle, verbose = params
