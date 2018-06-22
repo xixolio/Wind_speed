@@ -138,7 +138,7 @@ elif model == "hierarchical_LSTM":
             
     #print(string)
             
-    subprocess.call(["python","main_gpu",string])
+    subprocess.call(["python","main_gpu.py",string])
 
 
 
