@@ -79,8 +79,8 @@ def get_params_gpu(argv_position):
         verbose = bool(int(params[9]))
         
         parameters_set.append([lags, time_steps, dense_nodes, lstm_nodes, \
-                               processed_scales, epochs, l2, batch_size, shuffle\
-                               verbose = verbose])
+                               processed_scales, epochs, l2, batch_size, shuffle,\
+                               verbose])
     
     return parameters_set
 
@@ -179,7 +179,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
 
 
 def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts, \
-                   batch_size = 1, shuffle = False, verbose = 0 ):
+                   batch_size = 1, shuffle = False, verbose = False ):
        
     # Training
     
