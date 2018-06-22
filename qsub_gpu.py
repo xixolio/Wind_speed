@@ -92,6 +92,8 @@ elif model == "hierarchical_LSTM":
         
         shuffle = [0]
         
+        verbose = [0]
+        
     if experiment == 2:
                 
         lags = ["[1-6]"]
@@ -111,10 +113,12 @@ elif model == "hierarchical_LSTM":
         batch_size = [1]
         
         shuffle = [0]
+        
+        verbose = [1]
     
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                    epochs, l2)
+                    epochs, l2, batch_size, shuffle, verbose)
     
     string = ''
     

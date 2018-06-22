@@ -76,8 +76,11 @@ def get_params_gpu(argv_position):
         
         shuffle = bool(int(params[8]))
         
+        verbose = bool(int(params[9]))
+        
         parameters_set.append([lags, time_steps, dense_nodes, lstm_nodes, \
-                               processed_scales, epochs, l2, batch_size, shuffle])
+                               processed_scales, epochs, l2, batch_size, shuffle\
+                               verbose = verbose])
     
     return parameters_set
 
