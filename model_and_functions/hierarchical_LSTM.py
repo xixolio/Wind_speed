@@ -367,7 +367,7 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     
     mae = np.mean(np.abs(predicted_vector - y_ts),axis=0)
     mape = np.mean(np.abs((predicted_vector - y_ts )/y_ts)*100,axis=0)
-    mse = np.mean((predicted_vector - y_ts)**2, ,axis=0)
+    mse = np.mean((predicted_vector - y_ts)**2, axis=0)
                       
     print(mae)
     return mae, mape, mse, model
