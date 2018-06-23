@@ -86,7 +86,7 @@ if __name__ == "__main__":
       
         runs = 5
         
-        sets = 10
+        sets = 3
            
         parameters_set = hLSTM.get_params_gpu(4)
         
@@ -116,8 +116,13 @@ if __name__ == "__main__":
             mape = np.zeros((sets, runs))
             mse = np.zeros((sets, runs))
             
+            X_sets = []
+            X_ts_sets = []
+            y_sets = []
+            y_ts_sets = []
+            
             for i in range(sets):
-                
+                    
                 min_data_len = 10000000
                 
                 for j in range(len(lags)):
@@ -137,19 +142,24 @@ if __name__ == "__main__":
                 y = training_outputs[i][-min_data_len:]
                 y_ts = testing_outputs[i]
                 
-                # Model creation and training
+                X_sets.append(X)
+                X_ts_sets.append(X_ts)
+                y_sets.append(y)
+                y_ts_sets.append(y_ts)
+                
+            # Model creation and training
                     
-                model = hLSTM.model_gpu(lags, time_steps, processed_scales, \
-                                    dense_nodes, lstm_nodes, l2, runs)
-                
-                mae[i,:], mape[i,:], mse[i,:], model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
-                                                      epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, X_ts, y_ts,runs, verbose = verbose,\
-                                                      batch_size = batch_size, shuffle = shuffle)
-                
-                model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
-                '_'.join(str(x) for x in params)
-                #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
+            model = hLSTM.model_gpu(lags, time_steps, processed_scales, \
+                                dense_nodes, lstm_nodes, l2, runs, sets)
+            
+            mae, mape, mse, model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
+                                                  epochs, vmins[i], vmaxs[i],     \
+                                                  X_sets, y_sets, X_ts_sets, y_ts_sets,runs,sets, verbose = verbose,\
+                                                  batch_size = batch_size, shuffle = shuffle)
+            
+            model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
+            '_'.join(str(x) for x in params)
+            #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                    
             write_file_name = "hierarchical_LSTM_" + file_name[:-4] + ".txt"
                     

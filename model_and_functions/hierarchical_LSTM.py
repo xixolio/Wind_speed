@@ -177,104 +177,106 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     
     return model
 
-def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, runs):
+def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, runs, sets):
     
     model_inputs = []
     model_outputs = []
     
-    for k in range(runs):
+    for s in range(sets):
         
-        input_layers = []
-        lstm_layers = []
-        dense_layers = []
-        
-        # Dense layers instantiated and saved
-        
-        for i in range(len(lags)):
-                
-            if lags[i] > 1:
-                   
-                dense_layers.append(Dense(dense_nodes[i],activation='sigmoid'))
-        
-        
-        for i in range(len(lags)):
+        for k in range(runs):
             
-            time_step = time_steps[i]
-            lag = lags[i]
-            temporal_input = Input(shape = (time_step, lag))
-    
-            input_layers.append(temporal_input)
-        
-            # Scales and LSTMs which proccess them are built
+            input_layers = []
+            lstm_layers = []
+            dense_layers = []
             
-            if lag > 1:
+            # Dense layers instantiated and saved
+            
+            for i in range(len(lags)):
+                    
+                if lags[i] > 1:
+                       
+                    dense_layers.append(Dense(dense_nodes[i],activation='sigmoid'))
+            
+            
+            for i in range(len(lags)):
                 
-                dummy_layer = temporal_input
-                
-                # i represents the current scale being worked on. This loops takes
-                # all previous dense layers and puts them together to build that
-                # scale.
-                
-                for j in range(i): 
-                    
-                    # How many time steps in the current scale have to be taken 
-                    # into account to consequently build the current LSTM. Example:
-                    # scale 3 is being processed for 3 time steps and is made of 6 values
-                    # each, so 18 values total. Previous scale is made of 2 values
-                    # so its needed that 3 * 6 / 2 time steps, 9, be computed at
-                    # that scale in order to give 18 values to the next one.
-                    
-                    
-                    current_time_steps = int(time_step * lag/ lags[j+1])
-                    
-                    # The dimension of the values processed at each time step. Example:
-                    # same as before, but say we are building the LSTM for the last scale.
-                    # If  scale is made of 6 values and the previous one by 2,
-                    # but those 2 values were processed by a dense layer with 5 nodes,
-                    # then, each of the 18 time steps are composed of 6/2 = 3 values
-                    # multiplied by the 5 nodes each of the 2 were transformed to.
-                    
-                    current_dimension = int(dense_nodes[j]*lags[j+1]/lags[j])
+                time_step = time_steps[i]
+                lag = lags[i]
+                temporal_input = Input(shape = (time_step, lag))
         
-                    reshaped_layer = Reshape((current_time_steps, current_dimension))(dummy_layer)
-                    dummy_layer = TimeDistributed(dense_layers[j])(reshaped_layer)
-                    
-                # Finally, after all the previous dense structure was created
-                # the LSTM is built using the final dummy_layer.
+                input_layers.append(temporal_input)
+            
+                # Scales and LSTMs which proccess them are built
                 
-                lstm = LSTM(lstm_nodes[i],activation='sigmoid',
+                if lag > 1:
+                    
+                    dummy_layer = temporal_input
+                    
+                    # i represents the current scale being worked on. This loops takes
+                    # all previous dense layers and puts them together to build that
+                    # scale.
+                    
+                    for j in range(i): 
+                        
+                        # How many time steps in the current scale have to be taken 
+                        # into account to consequently build the current LSTM. Example:
+                        # scale 3 is being processed for 3 time steps and is made of 6 values
+                        # each, so 18 values total. Previous scale is made of 2 values
+                        # so its needed that 3 * 6 / 2 time steps, 9, be computed at
+                        # that scale in order to give 18 values to the next one.
+                        
+                        
+                        current_time_steps = int(time_step * lag/ lags[j+1])
+                        
+                        # The dimension of the values processed at each time step. Example:
+                        # same as before, but say we are building the LSTM for the last scale.
+                        # If  scale is made of 6 values and the previous one by 2,
+                        # but those 2 values were processed by a dense layer with 5 nodes,
+                        # then, each of the 18 time steps are composed of 6/2 = 3 values
+                        # multiplied by the 5 nodes each of the 2 were transformed to.
+                        
+                        current_dimension = int(dense_nodes[j]*lags[j+1]/lags[j])
+            
+                        reshaped_layer = Reshape((current_time_steps, current_dimension))(dummy_layer)
+                        dummy_layer = TimeDistributed(dense_layers[j])(reshaped_layer)
+                        
+                    # Finally, after all the previous dense structure was created
+                    # the LSTM is built using the final dummy_layer.
+                    
+                    lstm = LSTM(lstm_nodes[i],activation='sigmoid',
+                            recurrent_activation='sigmoid',
+                            activity_regularizer=regularizers.l2(l2),
+                            recurrent_regularizer=regularizers.l2(l2))(dummy_layer)
+                    
+                else:
+                    
+                    lstm = LSTM(lstm_nodes[i],activation='sigmoid',
                         recurrent_activation='sigmoid',
                         activity_regularizer=regularizers.l2(l2),
-                        recurrent_regularizer=regularizers.l2(l2))(dummy_layer)
-                
-            else:
-                
-                lstm = LSTM(lstm_nodes[i],activation='sigmoid',
-                    recurrent_activation='sigmoid',
-                    activity_regularizer=regularizers.l2(l2),
-                    recurrent_regularizer=regularizers.l2(l2))(temporal_input)
-                
-            lstm_layers.append(lstm)
-        
-        if len(lstm_layers) > 1:
+                        recurrent_regularizer=regularizers.l2(l2))(temporal_input)
+                    
+                lstm_layers.append(lstm)
             
-            layers_to_concatenate = [lstm_layers[index] for index in processed_scales]
-            concatenated = keras.layers.concatenate(layers_to_concatenate)
-            #concatenated = lstms[-1]
-            #concatenated = Flatten()(dummy)
-            #concatenated = Dense(5,activation='sigmoid')(concatenated)
-        
-        else: 
+            if len(lstm_layers) > 1:
+                
+                layers_to_concatenate = [lstm_layers[index] for index in processed_scales]
+                concatenated = keras.layers.concatenate(layers_to_concatenate)
+                #concatenated = lstms[-1]
+                #concatenated = Flatten()(dummy)
+                #concatenated = Dense(5,activation='sigmoid')(concatenated)
             
-            concatenated = lstm_layers[0]
+            else: 
+                
+                concatenated = lstm_layers[0]
+                
+            outputs = Dense(1)(concatenated)
             
-        outputs = Dense(1)(concatenated)
+            model_outputs.append(outputs)
+            model_inputs.extend(tuple(input_layers))
+            #model = Model(inputs=input_layers,outputs=outputs)
+            
         
-        model_outputs.append(outputs)
-        model_inputs.extend(tuple(input_layers))
-        #model = Model(inputs=input_layers,outputs=outputs)
-        
-    
     model = Model(inputs=model_inputs,outputs=model_outputs)
     model.compile(loss='mse',optimizer='adam')
     
@@ -320,7 +322,7 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
                         
     return mae, mape, mse, model
 
-def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts, runs, \
+def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts, sets,runs, \
                    batch_size = 1, shuffle = False, verbose = False ):
        
     
@@ -330,22 +332,23 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     
     X_sets = []
     y_sets = []
-    
-    [X_sets.extend(tuple(X)) for i in range(runs)]
-    [y_sets.append(y) for i in range(runs)]
+    X_ts_sets = []
+
+
+    for j in range(sets):
+        
+        [X_sets.extend(tuple(X[j])) for i in range(runs)] 
+        [y_sets.append(y[j]) for i in range(runs)]
+        [X_ts_sets.extend(tuple(X_ts[j])) for i in range(runs)]
+        
         
     model.fit(X_sets, y_sets, \
                    batch_size=batch_size,shuffle=shuffle, verbose = verbose,\
                    epochs = epochs)
-        
-      
-        
+                
     # Testing 
     
-    X_ts_sets = []
-    [X_ts_sets.extend(tuple(X_ts)) for i in range(runs)]
-
-    predicted_vector = np.zeros((24,runs))
+    predicted_vector = np.zeros((24,sets*runs))
         
     for i in range(24):
                         
@@ -353,14 +356,20 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                 
         if i != 23:
             
-            for k in range(runs):
+            for s in range(sets):
                 
-                for j in range(len(lags)):
+                for k in range(runs):
                     
-                    X_ts_sets[k*len(lags) + j] = np.concatenate((X_ts_sets[k*len(lags) + j].flatten()[1:], \
-                        predicted_vector[i,k].flatten()))
-                    
-                    X_ts_sets[k*len(lags) + j] = X_ts_sets[k*len(lags) + j].reshape(1, time_steps[j], lags[j])
+                    for j in range(len(lags)):
+                        
+                        temporal_X = X_ts_sets[s*runs*len(lags) + k*len(lags) + j]
+                        
+                        temporal_X = np.concatenate((temporal_X.flatten()[1:], \
+                            predicted_vector[i,s*runs + k].flatten()))
+                        
+                        temporal_X = temporal_X.reshape(1, time_steps[j], lags[j])
+                        
+                        X_ts_sets[s*runs*len(lags) + k*len(lags) + j] = temporal_X
                           
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax - vmin) + vmin
