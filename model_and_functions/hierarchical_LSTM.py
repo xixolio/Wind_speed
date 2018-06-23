@@ -358,7 +358,7 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                 for j in range(len(lags)):
                     
                     X_ts_sets[k*len(lags) + j] = np.concatenate((X_ts_sets[k*len(lags) + j].flatten()[1:], \
-                        predicted_vector[k][i].flatten()))
+                        predicted_vector[k,i].flatten()))
                     
                     X_ts_sets[k*len(lags) + j] = X_ts_sets[k*len(lags) + j].reshape(1, time_steps[j], lags[j])
                           
@@ -368,7 +368,8 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     mae = np.mean(np.abs(predicted_vector - y_ts))
     mape = np.mean(np.abs((predicted_vector - y_ts )/y_ts)*100)
     mse = np.mean((predicted_vector - y_ts)**2)
-                        
+                      
+    print(mae)
     return mae, mape, mse, model
 
 
