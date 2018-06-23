@@ -288,13 +288,9 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
                    batch_size = 1, shuffle = False, verbose = False ):
        
     # Training
-    
-    
-        
+         
     model.fit(X, y, batch_size=batch_size, shuffle=shuffle, verbose = verbose,\
                   epochs = epochs)
-        
-        
         
     # Testing 
     
@@ -333,7 +329,8 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     X_sets = []
     y_sets = []
     X_ts_sets = []
-
+    
+    print(len(X))
 
     for j in range(sets):
         
