@@ -320,7 +320,7 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
                         
     return mae, mape, mse, model
 
-def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts, runs \
+def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts, runs, \
                    batch_size = 1, shuffle = False, verbose = False ):
        
     

@@ -139,12 +139,12 @@ if __name__ == "__main__":
                 
                 # Model creation and training
                     
-                model = hLSTM.model(lags, time_steps, processed_scales, \
-                                    dense_nodes, lstm_nodes, l2)
+                model = hLSTM.model_gpu(lags, time_steps, processed_scales, \
+                                    dense_nodes, lstm_nodes, l2, runs)
                 
-                mae[i,:], mape[i,:], mse[i,:], model = hLSTM.train_and_test(model, time_steps, lags, \
+                mae[i,:], mape[i,:], mse[i,:], model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, X_ts, y_ts, verbose = verbose,\
+                                                      X, y, X_ts, y_ts,runs, verbose = verbose,\
                                                       batch_size = batch_size, shuffle = shuffle)
                 
                 model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
