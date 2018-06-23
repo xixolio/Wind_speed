@@ -271,6 +271,7 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
         outputs = Dense(1)(concatenated)
         
         model_outputs.append(outputs)
+        model_inputs.append(inputs)
         #model = Model(inputs=input_layers,outputs=outputs)
         
     
@@ -286,17 +287,17 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
        
     # Training
     
-    for i in range(epochs):
+    
         
-        model.fit(X, y, batch_size=batch_size, shuffle=shuffle, verbose = verbose,\
-                  epochs=1)
+    model.fit(X, y, batch_size=batch_size, shuffle=shuffle, verbose = verbose,\
+                  epochs = epochs)
         
-        model.reset_states()
+        
         
     # Testing 
     
-    predicted_vector = np.zeros((24))
-        
+    predicted_vector = np.zeros((24,5))
+            
     for i in range(24):
                         
         predicted_vector[i] = model.predict(X_ts)
@@ -323,19 +324,22 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                    batch_size = 1, shuffle = False, verbose = False, runs ):
        
     
-    # Output is replicated for gpu trick      
+    # Data is replicated for gpu trick      
         
     # Training
     
-    for i in range(epochs):
+    
         
-        model.fit(X, [y for j in range(runs)], batch_size=batch_size,\
-                      shuffle=shuffle, verbose = verbose, epochs=1)
+    model.fit([X for j in range(runs)], [y for j in range(runs)], \
+                   batch_size=batch_size,shuffle=shuffle, verbose = verbose,\
+                   epochs = epochs)
         
-        model.reset_states()
+      
         
     # Testing 
     
+    X_ts = [X_ts for i in range(runs)]
+
     predicted_vector = np.zeros((24,runs))
         
     for i in range(24):
@@ -344,12 +348,14 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                 
         if i != 23:
             
-            for j in range(len(lags)):
+            for k in range(runs):
                 
-                X_ts[j] = np.concatenate((X_ts[j].flatten()[1:], \
-                    predicted_vector[i].flatten()))
-                
-                X_ts[j] = X_ts[j].reshape(1, time_steps[j], lags[j])
+                for j in range(len(lags)):
+                    
+                    X_ts[k][j] = np.concatenate((X_ts[k][j].flatten()[1:], \
+                        predicted_vector[k][i].flatten()))
+                    
+                    X_ts[k][j] = X_ts[k][j].reshape(1, time_steps[j], lags[j])
                           
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax - vmin) + vmin

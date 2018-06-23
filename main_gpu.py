@@ -137,19 +137,19 @@ if __name__ == "__main__":
                 y = training_outputs[i][-min_data_len:]
                 y_ts = testing_outputs[i]
                 
-                for j in range(runs):
+                # Model creation and training
                     
-                    model = hLSTM.model(lags, time_steps, processed_scales, \
-                                        dense_nodes, lstm_nodes, l2)
-                    
-                    mae[i,j], mape[i,j], mse[i,j], model = hLSTM.train_and_test(model, time_steps, lags, \
-                                                          epochs, vmins[i], vmaxs[i],     \
-                                                          X, y, X_ts, y_ts, verbose = verbose,\
-                                                          batch_size = batch_size, shuffle = shuffle)
-                    
-                    model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
-                    '_'.join(str(x) for x in params)
-                    #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
+                model = hLSTM.model(lags, time_steps, processed_scales, \
+                                    dense_nodes, lstm_nodes, l2)
+                
+                mae[i,:], mape[i,:], mse[i,:], model = hLSTM.train_and_test(model, time_steps, lags, \
+                                                      epochs, vmins[i], vmaxs[i],     \
+                                                      X, y, X_ts, y_ts, verbose = verbose,\
+                                                      batch_size = batch_size, shuffle = shuffle)
+                
+                model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
+                '_'.join(str(x) for x in params)
+                #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                    
             write_file_name = "hierarchical_LSTM_" + file_name[:-4] + ".txt"
                     
