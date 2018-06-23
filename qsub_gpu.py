@@ -97,15 +97,15 @@ elif model == "hierarchical_LSTM":
         
     if experiment == 2:
                 
-        lags = ["[1-6]"]
+        lags = ["[1-12-24-48]"]
         
-        time_steps = ["[4-4]"]
+        time_steps = ["[24-15-15-15]"]
         
-        dense_nodes = ["[1-5]"]
+        dense_nodes = ["[1-10-10-10]"]
         
-        lstm_nodes = ["[6-6]"]
+        lstm_nodes = ["[10-10-10-10]"]
         
-        processed_scales = ["[0-1]"]
+        processed_scales = ["[0-1-2-3]"]
         
         epochs = [1]
         
