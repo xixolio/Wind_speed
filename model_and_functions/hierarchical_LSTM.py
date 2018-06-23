@@ -367,11 +367,26 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                         X_ts_sets[s*runs*len(lags) + k*len(lags) + j] = temporal_X
                           
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
-    y_ts = y_ts * (vmax - vmin) + vmin
+    #y_ts = y_ts * (vmax - vmin) + vmin
     
-    mae = np.mean(np.abs(predicted_vector - y_ts),axis=0)
-    mape = np.mean(np.abs((predicted_vector - y_ts )/y_ts)*100,axis=0)
-    mse = np.mean((predicted_vector - y_ts)**2, axis=0)
+    mae = np.zeros((24,sets,runs))
+    mape = np.zeros((24,sets,runs))
+    mse = np.zeros((24,sets,runs))
+    
+    for s in range(sets):
+        
+        y_ts[s] = y_ts[s] * (vmax[s] - vmin[s]) + vmin[s]
+        
+        for r in range(runs):
+                        
+            mae[:,s,r] = np.abs(predicted_vector[:,s*runs + r] - y_ts[s])
+            mape[:,s,r] = np.abs((predicted_vector[:,s*runs + r] - y_ts[s] )/y_ts[s])*100
+            mse[:,s,r] = (predicted_vector[:,s*runs + r] - y_ts[s])**2
+    
+    
+    mae = np.mean(mae,axis=0)
+    mape = np.mean(mape,axis=0)
+    mse = np.mean(mse, axis=0)
                       
     print(mae)
     return mae, mape, mse, model

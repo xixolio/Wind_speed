@@ -107,7 +107,7 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[0-1-2-3]"]
         
-        epochs = [5]
+        epochs = [1]
         
         l2 = [0.001]
         
@@ -115,7 +115,7 @@ elif model == "hierarchical_LSTM":
         
         shuffle = [0]
         
-        verbose = [1]
+        verbose = [0]
         
     if experiment == 3:
                 
