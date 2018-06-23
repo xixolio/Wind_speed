@@ -366,7 +366,7 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                         
                         X_ts_sets[s*runs*len(lags) + k*len(lags) + j] = temporal_X
                           
-    predicted_vector = predicted_vector * (vmax - vmin) + vmin 
+    #predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     #y_ts = y_ts * (vmax - vmin) + vmin
     
     mae = np.zeros((24,sets,runs))
