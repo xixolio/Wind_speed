@@ -389,7 +389,7 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     mape = np.mean(mape,axis=0)
     mse = np.mean(mse, axis=0)
                       
-    print(mae)
+    print(np.mean(mae))
     return mae, mape, mse, model
 
 
