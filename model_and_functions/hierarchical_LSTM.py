@@ -380,9 +380,9 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
         for r in range(runs):
                         
             predicted = predicted_vector[:,s*runs + r] * (vmax[s] - vmin[s]) + vmin[s] 
-            mae[:,s,r] = np.abs(predicted - y_ts[s])
-            mape[:,s,r] = np.abs((predicted - y_ts[s] )/y_ts[s])*100
-            mse[:,s,r] = (predicted - y_ts[s])**2
+            mae[:,s,r] = np.abs(predicted.flatten() - y_ts[s].flatten())
+            mape[:,s,r] = np.abs((predicted.flatten() - y_ts[s].flatten() )/y_ts[s].flatten())*100
+            mse[:,s,r] = (predicted.flatten() - y_ts[s].flatten())**2
     
     
     mae = np.mean(mae,axis=0)
