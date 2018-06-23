@@ -13,6 +13,8 @@ import sys
 
 file_name = "no_mvs_d05a.csv"
 my_file = "correctedsimple_LSTM_test_" + file_name[:-4] + ".txt"
+
+#my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
 
@@ -20,7 +22,7 @@ for i in range(10):
 
     f = open("results/" + str(i) + my_file)
     
-    lines = f.readlines()
+    lines = f.readlines()[1:]
     f.close()
     
     data_mae_set = []
