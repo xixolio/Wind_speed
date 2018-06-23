@@ -86,7 +86,7 @@ if __name__ == "__main__":
       
         runs = 5
         
-        sets = 4
+        sets = 5
            
         parameters_set = hLSTM.get_params_gpu(4)
         

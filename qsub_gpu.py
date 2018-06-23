@@ -107,7 +107,7 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[0-1-2-3]"]
         
-        epochs = [1]
+        epochs = [5]
         
         l2 = [0.001]
         
