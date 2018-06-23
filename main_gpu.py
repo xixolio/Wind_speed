@@ -154,7 +154,7 @@ if __name__ == "__main__":
             
             mae, mape, mse, model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
                                                   epochs, vmins[i], vmaxs[i],     \
-                                                  X_sets, y_sets, X_ts_sets, y_ts_sets,runs,sets, verbose = verbose,\
+                                                  X_sets, y_sets, X_ts_sets, y_ts_sets,sets, runs, verbose = verbose,\
                                                   batch_size = batch_size, shuffle = shuffle)
             
             model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\

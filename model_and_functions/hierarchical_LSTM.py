@@ -329,8 +329,6 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     X_sets = []
     y_sets = []
     X_ts_sets = []
-    
-    print(len(X))
 
     for j in range(sets):
         
