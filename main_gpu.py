@@ -153,7 +153,7 @@ if __name__ == "__main__":
                                 dense_nodes, lstm_nodes, l2, runs, sets)
             
             mae, mape, mse, model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
-                                                  epochs, vmins[i], vmaxs[i],     \
+                                                  epochs, vmins, vmaxs,     \
                                                   X_sets, y_sets, X_ts_sets, y_ts_sets,sets, runs, verbose = verbose,\
                                                   batch_size = batch_size, shuffle = shuffle)
             
