@@ -328,9 +328,13 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
         
     # Training
     
+    X_sets = []
+    y_sets = []
     
+    [X_sets.extend(tuple(X)) for i in range(runs)]
+    [y_sets.extend(tuple(y)) for i in range(runs)]
         
-    model.fit([X for j in range(runs)], [y for j in range(runs)], \
+    model.fit(X_sets, y_sets, \
                    batch_size=batch_size,shuffle=shuffle, verbose = verbose,\
                    epochs = epochs)
         
@@ -338,13 +342,14 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
         
     # Testing 
     
-    X_ts = [X_ts for i in range(runs)]
+    X_ts_sets = []
+    [X_ts_sets.extend(tuple(X_ts)) for i in range(runs)]
 
     predicted_vector = np.zeros((24,runs))
         
     for i in range(24):
                         
-        predicted_vector[i,:] = model.predict(X_ts)
+        predicted_vector[i,:] = model.predict(X_ts_sets)
                 
         if i != 23:
             
@@ -352,10 +357,10 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                 
                 for j in range(len(lags)):
                     
-                    X_ts[k][j] = np.concatenate((X_ts[k][j].flatten()[1:], \
+                    X_ts_sets[k*len(lags) + j] = np.concatenate((X_ts_sets[k*len(lags) + j].flatten()[1:], \
                         predicted_vector[k][i].flatten()))
                     
-                    X_ts[k][j] = X_ts[k][j].reshape(1, time_steps[j], lags[j])
+                    X_ts_sets[k*len(lags) + j] = X_ts_sets[k*len(lags) + j].reshape(1, time_steps[j], lags[j])
                           
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax - vmin) + vmin
