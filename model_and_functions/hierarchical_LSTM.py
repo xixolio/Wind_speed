@@ -271,7 +271,7 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
         outputs = Dense(1)(concatenated)
         
         model_outputs.append(outputs)
-        model_inputs.append(inputs)
+        model_inputs.append(input_layers)
         #model = Model(inputs=input_layers,outputs=outputs)
         
     
