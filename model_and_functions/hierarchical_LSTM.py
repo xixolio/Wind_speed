@@ -332,7 +332,7 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     y_sets = []
     
     [X_sets.extend(tuple(X)) for i in range(runs)]
-    [y_sets.extend(tuple(y)) for i in range(runs)]
+    [y_sets.append(y) for i in range(runs)]
         
     model.fit(X_sets, y_sets, \
                    batch_size=batch_size,shuffle=shuffle, verbose = verbose,\
