@@ -105,7 +105,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         time_step = time_steps[i]
         lag = lags[i]
         temporal_input = Input(shape=(time_step,lag))
-        dropout = SpatialDropout1D(0.5)
+        
 
         input_layers.append(temporal_input)
     
@@ -114,7 +114,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         if lag > 1:
             
             dummy_layer = temporal_input
-            dummy_layer = dropout(dummy_layer)
+            
             
             # i represents the current scale being worked on. This loops takes
             # all previous dense layers and puts them together to build that
@@ -208,12 +208,14 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
                 temporal_input = Input(shape = (time_step, lag))
         
                 input_layers.append(temporal_input)
+                dropout = SpatialDropout1D(0.5)
             
                 # Scales and LSTMs which proccess them are built
                 
                 if lag > 1:
                     
                     dummy_layer = temporal_input
+                    dummy_layer = dropout(dummy_layer)
                     
                     # i represents the current scale being worked on. This loops takes
                     # all previous dense layers and puts them together to build that
