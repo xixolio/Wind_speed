@@ -196,7 +196,7 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
                     
                 if lags[i] > 1:
                        
-                    dense_layers.append(Dense(dense_nodes[i],activation='relu'))
+                    dense_layers.append(Dense(dense_nodes[i],activation='relu',dropout=0.3))
             
             
             for i in range(len(lags)):
