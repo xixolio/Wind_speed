@@ -90,7 +90,7 @@ if __name__ == "__main__":
         for i in range(len(lags)):
             
             training_inputs, testing_inputs, training_outputs, testing_outputs,\
-            vmins, vmaxs = get_data(path, file_name, time_steps[i], lags[i])
+            vmins, vmaxs = get_data(path, file_name, time_steps[i], lags[i],overlap=False)
             
             training_inputs_sets.append(training_inputs)
             testing_inputs_sets.append(testing_inputs)
@@ -131,7 +131,7 @@ if __name__ == "__main__":
                                                       epochs, vmins[i], vmaxs[i],     \
                                                       X, y, X_ts, y_ts)
                 
-                model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
+                model_name = "hierarchical2_LSTM_set_" + str(i) + "_run_" + str(j) +\
                 '_'.join(str(x) for x in params)
                 #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                

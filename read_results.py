@@ -14,9 +14,10 @@ import sys
 file_name = "no_mvs_d05a.csv"
 my_file = "correctedsimple_LSTM_test_" + file_name[:-4] + ".txt"
 
-#my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
+my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
+data = []
 
 for i in range(10):
 
@@ -31,8 +32,8 @@ for i in range(10):
     for line in lines:
         
         data = line.split(' ')
-        data_mae_set.append(float(data[-6]))
-        data_mse_set.append(float(data[-5]))
+        data_mae_set.append(float(data[-7]))
+        data_mse_set.append(float(data[-6]))
         
     data_mae.append(data_mae_set)
     data_mse.append(data_mse_set)
