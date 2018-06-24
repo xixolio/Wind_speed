@@ -341,6 +341,8 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                    batch_size=batch_size,shuffle=shuffle, verbose = verbose,\
                    epochs = epochs)
                 
+    print("first like")
+    print(X_ts_sets)
     # Testing 
     
     predicted_vector = np.zeros((24,sets*runs))
@@ -369,6 +371,8 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     #predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     #y_ts = y_ts * (vmax - vmin) + vmin
     
+    print("then like")
+    print(X_ts_sets)
     mae = np.zeros((24,sets,runs))
     mape = np.zeros((24,sets,runs))
     mse = np.zeros((24,sets,runs))

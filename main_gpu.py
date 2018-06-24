@@ -152,14 +152,14 @@ if __name__ == "__main__":
             model = hLSTM.model_gpu(lags, time_steps, processed_scales, \
                                 dense_nodes, lstm_nodes, l2, runs, sets)
             
-            print("first like")
+            print("FIRST first like")
             print(X_ts_sets)
             mae, mape, mse, model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
                                                   epochs, vmins, vmaxs,     \
                                                   X_sets, y_sets, X_ts_sets, y_ts_sets,sets, runs, verbose = verbose,\
                                                   batch_size = batch_size, shuffle = shuffle)
-            print("then like")
-            print(X_ts_sets)
+            #print("then like")
+            #print(X_ts_sets)
             model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
             '_'.join(str(x) for x in params)
             #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
