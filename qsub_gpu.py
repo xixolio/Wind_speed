@@ -85,11 +85,11 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[0-1-2-3]"]
         
-        epochs = [5]
+        epochs = [10]
         
         l2 = [0.001]
         
-        batch_size = [32]
+        batch_size = [512]
         
         shuffle = [0]
         
