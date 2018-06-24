@@ -41,9 +41,9 @@ if __name__ == "__main__":
         
     if model == "simple_LSTM":
       
-        runs = 2
+        runs = 5
         
-        sets = 2
+        sets = 10
            
         layers, lag, time_steps, epochs, l2, learning_rate = sLSTM.get_params(4)
     
@@ -84,9 +84,9 @@ if __name__ == "__main__":
         
     elif model == "hierarchical_LSTM":
       
-        runs = 5
+        runs = 2
         
-        sets = 10
+        sets = 3
            
         parameters_set = hLSTM.get_params_gpu(4)
         
