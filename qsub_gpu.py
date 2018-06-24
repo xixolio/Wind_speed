@@ -91,7 +91,7 @@ elif model == "hierarchical_LSTM":
         
         batch_size = [512]
         
-        shuffle = [0]
+        shuffle = [1]
         
         verbose = [1]
         
