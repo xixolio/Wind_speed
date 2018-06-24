@@ -107,7 +107,7 @@ if __name__ == "__main__":
             for i in range(len(lags)):
                 
                 training_inputs, testing_inputs, training_outputs, testing_outputs,\
-                vmins, vmaxs = get_data(data_path, file_name, time_steps[i], lags[i])
+                vmins, vmaxs = get_data(data_path, file_name, time_steps[i], lags[i],overlap=False)
                 
                 training_inputs_sets.append(training_inputs)
                 testing_inputs_sets.append(testing_inputs)
