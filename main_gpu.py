@@ -84,9 +84,9 @@ if __name__ == "__main__":
         
     elif model == "hierarchical_LSTM":
       
-        runs = 2
+        runs = 1
         
-        sets = 3
+        sets = 1
            
         parameters_set = hLSTM.get_params_gpu(4)
         
