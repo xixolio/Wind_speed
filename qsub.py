@@ -136,7 +136,7 @@ elif model == "hierarchical_LSTM":
                 string += str(element) + ','
             
             string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
-                    no_mvs_b08.csv ' + string
+                    no_mvs_b08.csv' + string
             
             #print(string)
             
