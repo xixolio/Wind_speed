@@ -260,7 +260,7 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
                     
                 lstm_layers.append(lstm)
             
-            if len(lstm_layers) > 1:
+            if len(processed_scales) > 1:
                 
                 layers_to_concatenate = [lstm_layers[index] for index in processed_scales]
                 concatenated = keras.layers.concatenate(layers_to_concatenate)
@@ -270,7 +270,7 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
             
             else: 
                 
-                concatenated = lstm_layers[0]
+                concatenated = lstm_layers[processed_scales[0]]
                 
             outputs = Dense(1)(concatenated)
             
