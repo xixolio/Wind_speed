@@ -129,7 +129,7 @@ if __name__ == "__main__":
                 
                 mae[i,j], mape[i,j], mse[i,j], model = hLSTM.train_and_test(model, time_steps, lags, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, X_ts, y_ts)
+                                                      X, y, X_ts.copy(), y_ts)
                 
                 model_name = "hierarchical2_LSTM_set_" + str(i) + "_run_" + str(j) +\
                 '_'.join(str(x) for x in params)
