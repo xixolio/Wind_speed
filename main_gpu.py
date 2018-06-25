@@ -11,8 +11,8 @@ Created on Sun Jun 10 15:07:18 2018
 import os
 #os.environ["MKL_THREADING_LAYER"] = "GNU"
 import sys
-sys.path.append('/user/i/iaraya/CIARP/Wind_speed/data/')
-sys.path.append('/user/i/iaraya/CIARP/Wind_speed/model_and_functions/')
+sys.path.append('/user/i/iaraya/Wind_speed/data/')
+sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
 #sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
 #sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
 
@@ -84,9 +84,9 @@ if __name__ == "__main__":
         
     elif model == "hierarchical_LSTM":
       
-        runs = 1
+        runs = 3
         
-        sets = 1
+        sets = 10
            
         parameters_set = hLSTM.get_params_gpu(4)
         
