@@ -5,4 +5,4 @@
 
 use anaconda3
 use gcc48
-KERAS_BACKEND=tensorflow python /user/i/iaraya/CIARP/Wind_speed/main_gpu.py $1 $2 $3 $4
+KERAS_BACKEND=tensorflow python /user/i/iaraya/Wind_speed/main_gpu.py $1 $2 $3 $4
