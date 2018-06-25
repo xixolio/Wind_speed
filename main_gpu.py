@@ -84,7 +84,7 @@ if __name__ == "__main__":
         
     elif model == "hierarchical_LSTM":
       
-        runs = 2
+        runs = 1
         
         sets = 1
            

@@ -97,21 +97,21 @@ elif model == "hierarchical_LSTM":
         
     if experiment == 2:
                 
-        lags = ["[1-3]"]
+        lags = ["[1-24]"]
         
-        time_steps = ["[1-2]"]
+        time_steps = ["[1-20]"]
         
-        dense_nodes = ["[1-10]"]
+        dense_nodes = ["[1-40]"]
         
-        lstm_nodes = ["[10-10]"]
+        lstm_nodes = ["[5-5]"]
         
-        processed_scales = ["[0-1]"]
+        processed_scales = ["[1]"]
         
         epochs = [10]
         
         l2 = [0.001]
         
-        batch_size = [512]
+        batch_size = [32]
         
         shuffle = [0]
         
@@ -159,7 +159,7 @@ elif model == "hierarchical_LSTM":
           
     model = "hierarchical_LSTM"
     path = "/home/iaraya/Wind_speed/"
-    name = "no_mvs_d05a.csv"
+    name = "no_mvs_b08.csv"
     
     
     #print(string)
