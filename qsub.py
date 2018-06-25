@@ -72,32 +72,37 @@ elif model == "hierarchical_LSTM":
       
     if experiment == 1:
                 
-        lags = ["[1-12-24-48]"]
+        lags = ["[1-24]"]
         
-        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]",\
-                      "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
+        time_steps = ["[24-5]","[24-10]","[24-15]","[24-20]"]
         
-        dense_nodes = ["[1-5-5-5]","[1-10-10-10]"]
+        dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["[5-5-5-5]","[10-10-10-10]"]
+        lstm_nodes = ["[20-20]","[30-30]"]
         
-        processed_scales = ["[0-1-2-3]"]
+        processed_scales = ["[0-1]"]
         
         epochs = [1]
         
         l2 = [0.001]
         
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+        
     if experiment == 2:
+                
+        lags = ["[1-24]"]
         
-        lags = ["[1-24-48]"]
+        time_steps = ["[24-5]","[24-10]","[24-15]","[24-20]"]
         
-        time_steps = ["[24-10-10]"]
+        dense_nodes = ["[1-5]","[1-10]"]
         
-        dense_nodes = ["[1-10-10]"]
+        lstm_nodes = ["[20-20]","[30-30]"]
         
-        lstm_nodes = ["[10-20-20]"]
-        
-        processed_scales = ["[1-2]"]
+        processed_scales = ["[1]"]
         
         epochs = [1]
         
@@ -110,6 +115,29 @@ elif model == "hierarchical_LSTM":
         verbose = [1]
         
     if experiment == 3:
+        
+        lags = ["[1-24-48]"]
+        
+        time_steps = ["[24-5-5]","[24-10-5]","[24-15-5]","[24-20-5]", \
+                      "[24-20-10]","[24-20-15]","[24-20-20]"]
+        
+        dense_nodes = ["[1-10-10]","[1-20-20]"]
+        
+        lstm_nodes = ["[20-20-20]","[30-30-30]"]
+        
+        processed_scales = ["[0-1-2]"]
+        
+        epochs = [1]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+        
+    if experiment == 4:
                 
         lags = ["[1-12-24-48]"]
         
