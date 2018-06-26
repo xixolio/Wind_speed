@@ -55,7 +55,7 @@ if model == "simple_LSTM":
         
         verbose = [1]
         
-    combs = product(layers, lag, time_steps, epochs, l2, learning_rate)
+    combs = product(layers, lag, time_steps, epochs, l2, learning_rate, batch_size, verbose)
     
     string = ''
     
