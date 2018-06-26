@@ -81,7 +81,7 @@ if model == "simple_LSTM":
                 
             else:
                 string = 'simple_LSTM /user/i/iaraya/Wind_speed/ \
-                    no_mvs_villa_tehuelches.csv ' + string
+                    no_mvs_b08.csv ' + string
             
                 #print(string)
             
