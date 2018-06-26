@@ -168,7 +168,7 @@ if __name__ == "__main__":
                     
             hLSTM.write_results(results_path, write_file_name, params, mae, mape, mse)
             
-            K.clear_session()
+            #K.clear_session()
     
         
        
