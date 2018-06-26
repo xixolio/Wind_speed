@@ -86,7 +86,7 @@ elif model == "hierarchical_LSTM":
         
         l2 = [0.001]
         
-        batch_size = [1]
+        batch_size = [2,3]
         
         shuffle = [0]
         
@@ -108,7 +108,7 @@ elif model == "hierarchical_LSTM":
         
         l2 = [0.001]
         
-        batch_size = [1]
+        batch_size = [2,3]
         
         shuffle = [0]
         
@@ -127,7 +127,7 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[0-1-2]"]
         
-        epochs = [1]
+        epochs = [2,3]
         
         l2 = [0.001]
         
@@ -150,7 +150,7 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[1-2]"]
         
-        epochs = [1]
+        epochs = [2,3]
         
         l2 = [0.001]
         
@@ -173,7 +173,7 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[2]"]
         
-        epochs = [1]
+        epochs = [2,3]
         
         l2 = [0.001]
         
@@ -181,14 +181,14 @@ elif model == "hierarchical_LSTM":
         
         shuffle = [0]
         
-        verbose = [1]
+    verbose = [0]
         
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2, batch_size, shuffle, verbose)
     
     counter = 0
-    max_experiments = 3
+    max_experiments = 5
     
     for c in combs:
     

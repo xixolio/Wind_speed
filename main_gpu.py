@@ -23,7 +23,7 @@ from data_processing import get_data
 import simple_LSTM as sLSTM
 import hierarchical_LSTM as hLSTM
 import persistence
-
+import keras.backend as K
 import numpy as np
 
 
@@ -168,7 +168,7 @@ if __name__ == "__main__":
                     
             hLSTM.write_results(results_path, write_file_name, params, mae, mape, mse)
             
-        
+            K.clear_session()
     
         
        
