@@ -21,18 +21,21 @@ if model == "simple_LSTM":
     
     if experiment == 1:
         
-        layers = ['[5]', '[10]', '[15]', '[20]']
+        layers = ['[5]', '[10]', '[15]', '[20]','[30]']
         
-        lag = [12, 24, 36]
+        lag = [1, 12, 24, 36]
         
-        time_steps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,\
-                      18, 19, 20]
+        time_steps = [1, 5, 10, 15, 20]
         
-        epochs = [1, 2]
+        epochs = [1, 5, 10]
         
         l2 = [0.001]
         
         learning_rate = [0.05]
+        
+        batch_size = [1]
+        
+        verbose = [0]
         
         
     if experiment == 2:
@@ -56,7 +59,7 @@ if model == "simple_LSTM":
     combs = product(layers, lag, time_steps, epochs, l2, learning_rate, batch_size, verbose)
     
     counter = 0
-    max_experiments = 2
+    max_experiments = 5
     
     for c in combs:
     
