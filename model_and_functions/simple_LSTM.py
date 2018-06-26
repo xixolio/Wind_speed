@@ -194,13 +194,14 @@ def train_and_test_gpu(model, time_steps, lag, epochs, vmin, vmax,  \
         
     # Testing 
     
-    predicted_vector = np.zeros((24, sets, runs))
+    predicted_vector = np.zeros((24, sets*runs))
+    
+    print(X_ts_sets)
     
     for i in range(24):
         
-        print(X_ts_sets)
-        predicted_vector[i,:,:] = model.predict(X_ts_sets)
-        print(predicted_vector[i,:,:])
+        predicted_vector[i,:] = model.predict(X_ts_sets)
+        print(predicted_vector[i,:])
                 
         if i != 23:
             
@@ -219,6 +220,7 @@ def train_and_test_gpu(model, time_steps, lag, epochs, vmin, vmax,  \
                                        
                     X_ts_sets[s*runs + k] = temporal_X
             
+    print(X_ts_sets)
     
     mae = np.zeros((24,sets,runs))
     mape = np.zeros((24,sets,runs))

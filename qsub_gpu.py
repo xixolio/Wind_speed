@@ -41,9 +41,9 @@ if model == "simple_LSTM":
         
         layers = ['[5]']
         
-        lag = [12]
+        lag = [3]
         
-        time_steps = [5]
+        time_steps = [2]
         
         epochs = [1]
         

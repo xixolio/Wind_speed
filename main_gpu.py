@@ -43,7 +43,7 @@ if __name__ == "__main__":
       
         runs = 3
         
-        sets = 10
+        sets = 2
         
         counter = 0
         
