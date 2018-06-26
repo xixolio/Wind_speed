@@ -36,6 +36,11 @@ if model == "simple_LSTM":
         learning_rate = [0.05]
         
         
+        batch_size = [16]
+        
+        verbose = [1]
+        
+        
     if experiment == 2:
         
         layers = ['[5]']
