@@ -183,7 +183,7 @@ def get_missing_values(path,name):
 def correct_data(data,missing_positions,expected_date,name):
     
     init_index = 0
-    
+    i = 0
     block_indexes = []
     
     for i in range(1,len(missing_positions)):
@@ -246,8 +246,8 @@ def correct_data(data,missing_positions,expected_date,name):
     data.to_csv(path_or_buf = "no_mvs_" + name)
     return data
 
-#missing_positions,expected_date, temporal_data = get_missing_values('','d05a.csv')
-#data = correct_data(temporal_data,missing_positions,expected_date,'d05a.csv')
+#missing_positions,expected_date, temporal_data = get_missing_values('','villa_tehuelches.csv')
+#data = correct_data(temporal_data,missing_positions,expected_date,'villa_tehuelches.csv')
  
 
 def get_data(path, name, ts=1, lag=1, overlap=True):
@@ -279,7 +279,7 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
     # entre cada dataset, acortando n en caso de que no sea multiplo de 24
     
     N = len(data_hour)
-    diff_percentage = 0.3
+    diff_percentage = 0.15
     number_of_sets = 10
     
     n = int(N / ((number_of_sets - 1) * diff_percentage + 1))
@@ -344,6 +344,6 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
 #
 #training_data_input, testing_data_input, training_data_output, \
 #           testing_data_output, min_speeds, max_speeds = \
-#get_data('', 'no_mvs_d05a.csv', ts=1, lag=1, overlap=True)
-
+#get_data('', 'no_mvs_villa_tehuelches.csv', ts=1, lag=1, overlap=True)
+#
 

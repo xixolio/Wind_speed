@@ -11,10 +11,10 @@ import sys
 
 # Simple_LSTM
 
-file_name = "no_mvs_d05a.csv"
+file_name = "no_mvs_b08.csv"
 my_file = "correctedsimple_LSTM_test_" + file_name[:-4] + ".txt"
 
-#my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
+my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
 
@@ -31,8 +31,8 @@ for i in range(10):
     for line in lines:
         
         data = line.split(' ')
-        data_mae_set.append(float(data[-6]))
-        data_mse_set.append(float(data[-5]))
+        data_mae_set.append(float(data[-7]))
+        data_mse_set.append(float(data[-6]))
         
     data_mae.append(data_mae_set)
     data_mse.append(data_mse_set)
@@ -46,7 +46,7 @@ mean_simple_LSTM_mse = np.mean(data_mse,0)
 
 # persistence
 
-file_name = "no_mvs_d05a.csv"
+file_name = "no_mvs_villa_tehuelches.csv"
 my_file = "persistence_" + file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
@@ -54,7 +54,6 @@ data_mse = []
 for i in range(10):
 
     f = open("results/" + str(i) + my_file)
-    
     lines = f.readlines()
     f.close()
     

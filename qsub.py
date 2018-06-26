@@ -184,7 +184,6 @@ elif model == "hierarchical_LSTM":
         verbose = [1]
         
     
-    
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2, batch_size, shuffle, verbose)
     
@@ -199,7 +198,7 @@ elif model == "hierarchical_LSTM":
                 string += str(element) + ','
             
             string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
-                    no_mvs_b08.csv ' + string
+                    no_mvs_villa_tehuelches.csv ' + string
             
             #print(string)
             
