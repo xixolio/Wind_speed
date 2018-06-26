@@ -189,7 +189,7 @@ def train_and_test_gpu(model, time_steps, lag, epochs, vmin, vmax,  \
     
     for i in range(epochs):
         
-        model.fit(X_sets, y_sets, batch_size=1, shuffle=False, verbose=0, epochs=1)
+        model.fit(X_sets, y_sets, batch_size=1, shuffle=False, verbose=verbose, epochs=1)
         model.reset_states()
         
     # Testing 
@@ -197,8 +197,10 @@ def train_and_test_gpu(model, time_steps, lag, epochs, vmin, vmax,  \
     predicted_vector = np.zeros((24, sets, runs))
     
     for i in range(24):
-                        
+        
+        print(X_ts_sets)
         predicted_vector[i,:,:] = model.predict(X_ts_sets)
+        print(predicted_vector[i,:,:])
                 
         if i != 23:
             
