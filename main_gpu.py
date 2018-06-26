@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 
             
                     
-            model = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
+            model = sLSTM.model_gpu(layers, lag, time_steps, l2, learning_rate)
             
             mae, mape, mse, model = sLSTM.train_and_test_gpu(model, time_steps, lag, \
                                                   epochs, vmins[i], vmaxs[i],     \
