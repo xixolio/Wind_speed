@@ -187,24 +187,47 @@ elif model == "hierarchical_LSTM":
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2, batch_size, shuffle, verbose)
     
+    counter = 0
+    max_experiments = 3
+    
     for c in combs:
-        
-        if c:
+    
+        if counter == 0:
             
             string = ''
+            
+        if c:
+            
+            counter += 1
             
             for element in c:
                 
                 string += str(element) + ','
             
-            string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
+            if counter < max_experiments:
+                    
+                    string += '--'
+                
+                
+                
+            else:
+                string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
                     no_mvs_villa_tehuelches.csv ' + string
             
-            #print(string)
+                print(string)
             
-            subprocess.call(["qsub","main.sh","-F",string])
+                #subprocess.call(["qsub","main.sh","-F",string])
+                
+                counter = 0
 
+    if counter > 0:
+                    
+        string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
+        no_mvs_villa_tehuelches.csv ' + string
 
+        print(string)
 
+        #subprocess.call(["qsub","main.sh","-F",string])
+                
 
 
