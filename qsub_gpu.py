@@ -53,20 +53,30 @@ if model == "simple_LSTM":
         
     combs = product(layers, lag, time_steps, epochs, l2, learning_rate)
     
+    string = ''
+    
     for c in combs:
         
         if c:
             
-            string = ''
             
             for element in c:
                 
                 string += str(element) + ','
+                
+            string += "--"
+          
+    model = "simple_LSTM"
+    path = "/home/iaraya/Wind_speed/"
+    name = "no_mvs_b08.csv"
+    
+    
+    #print(string)
             
-            string = 'simple_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
-                    no_mvs_d05a.csv ' + string
-            
-            subprocess.call(["qsub","main.sh","-F",string])
+    subprocess.call(["python","main_gpu.py", model, path, name, string])
+
+
+
             
     
 elif model == "hierarchical_LSTM":
