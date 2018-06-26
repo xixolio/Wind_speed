@@ -214,9 +214,9 @@ elif model == "hierarchical_LSTM":
                 string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
                     no_mvs_villa_tehuelches.csv ' + string
             
-                print(string)
+                #print(string)
             
-                #subprocess.call(["qsub","main.sh","-F",string])
+                subprocess.call(["qsub","main.sh","-F",string])
                 
                 counter = 0
 
@@ -225,9 +225,9 @@ elif model == "hierarchical_LSTM":
         string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
         no_mvs_villa_tehuelches.csv ' + string
 
-        print(string)
+        #print(string)
 
-        #subprocess.call(["qsub","main.sh","-F",string])
+        subprocess.call(["qsub","main.sh","-F",string])
                 
 
 
