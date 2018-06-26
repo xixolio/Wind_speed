@@ -39,7 +39,7 @@ if model == "simple_LSTM":
         
         layers = ['[5]']
         
-        lag = [12]
+        lag = [3,4]
         
         time_steps = [5]
         
@@ -49,22 +49,51 @@ if model == "simple_LSTM":
         
         learning_rate = [0.05]
         
-    combs = product(layers, lag, time_steps, epochs, l2, learning_rate)
+        batch_size = [1]
+        
+        verbose = [0]
+        
+    combs = product(layers, lag, time_steps, epochs, l2, learning_rate, batch_size, verbose)
+    
+    counter = 0
+    max_experiments = 2
     
     for c in combs:
-        
-        if c:
+    
+        if counter == 0:
             
             string = ''
+            
+        if c:
+            
+            counter += 1
             
             for element in c:
                 
                 string += str(element) + ','
             
-            string = 'simple_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
-                    no_mvs_d05a.csv ' + string
+            if counter < max_experiments:
+                    
+                    string += '--'
+                
+            else:
+                string = 'simple_LSTM /user/i/iaraya/Wind_speed/ \
+                    no_mvs_villa_tehuelches.csv ' + string
             
-            subprocess.call(["qsub","main.sh","-F",string])
+                #print(string)
+            
+                subprocess.call(["qsub","main.sh","-F",string])
+                
+                counter = 0
+
+    if counter > 0:
+                    
+        string = 'simple_LSTM /user/i/iaraya/Wind_speed/ \
+        no_mvs_villa_tehuelches.csv ' + string
+
+        #print(string)
+
+        subprocess.call(["qsub","main.sh","-F",string])
             
     
 elif model == "hierarchical_LSTM":
@@ -219,8 +248,6 @@ elif model == "hierarchical_LSTM":
             if counter < max_experiments:
                     
                     string += '--'
-                
-                
                 
             else:
                 string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \

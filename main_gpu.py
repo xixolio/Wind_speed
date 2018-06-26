@@ -43,7 +43,7 @@ if __name__ == "__main__":
       
         runs = 3
         
-        sets = 2
+        sets = 10
         
         counter = 0
         
@@ -87,7 +87,7 @@ if __name__ == "__main__":
                    
             #path = "/user/i/iaraya/CIARP/Wind_speed/results/"
             
-            write_file_name = "simple_LSTM_test_" + file_name[:-4] + ".txt"
+            write_file_name = "simple_LSTM_" + file_name[:-4] + ".txt"
                     
             sLSTM.write_results(results_path, write_file_name, params, mae, mape, mse)
         
