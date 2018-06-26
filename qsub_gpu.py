@@ -51,6 +51,10 @@ if model == "simple_LSTM":
         
         learning_rate = [0.05]
         
+        batch_size = [16]
+        
+        verbose = [1]
+        
     combs = product(layers, lag, time_steps, epochs, l2, learning_rate)
     
     string = ''
