@@ -279,7 +279,7 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
     # entre cada dataset, acortando n en caso de que no sea multiplo de 24
     
     N = len(data_hour)
-    diff_percentage = 0.15
+    diff_percentage = 0.3
     number_of_sets = 10
     
     n = int(N / ((number_of_sets - 1) * diff_percentage + 1))
