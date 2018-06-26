@@ -92,7 +92,7 @@ if model == "simple_LSTM":
     if counter > 0:
                     
         string = 'simple_LSTM /user/i/iaraya/Wind_speed/ \
-        no_mvs_villa_tehuelches.csv ' + string
+        no_mvs_b08.csv ' + string
 
         #print(string)
 
@@ -265,7 +265,7 @@ elif model == "hierarchical_LSTM":
     if counter > 0:
                     
         string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
-        no_mvs_villa_tehuelches.csv ' + string
+        no_mvs_b08.csv ' + string
 
         #print(string)
 

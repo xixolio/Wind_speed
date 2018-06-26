@@ -12,9 +12,9 @@ import sys
 # Simple_LSTM
 
 file_name = "no_mvs_villa_tehuelches.csv"
-my_file = "correctedsimple_LSTM_test_" + file_name[:-4] + ".txt"
+my_file = "simple_LSTM_test_" + file_name[:-4] + ".txt"
 
-my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
+my_file = "simple_LSTM_"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
 
