@@ -80,8 +80,8 @@ if __name__ == "__main__":
                                                   X, y, X_ts, y_ts, sets, runs, batch_size,
                                                   verbose)
             
-            model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
-            '_'.join(str(x) for x in params)
+            #model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
+            #'_'.join(str(x) for x in params)
             
             #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                    
