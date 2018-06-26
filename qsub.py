@@ -28,7 +28,7 @@ if model == "simple_LSTM":
         time_steps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,\
                       18, 19, 20]
         
-        epochs = [1, 5]
+        epochs = [1, 2]
         
         l2 = [0.001]
         
@@ -78,7 +78,9 @@ elif model == "hierarchical_LSTM":
         
         dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["[20-20]","[30-30]"]
+        lstm_nodes = ["[10-10]","[20-20]","[30-30]"]
+        
+        #lstm_nodes = ["[10-10]"]
         
         processed_scales = ["[0-1]"]
         
@@ -86,7 +88,7 @@ elif model == "hierarchical_LSTM":
         
         l2 = [0.001]
         
-        batch_size = [2,3]
+        batch_size = [1]
         
         shuffle = [0]
         
@@ -100,7 +102,9 @@ elif model == "hierarchical_LSTM":
         
         dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["[20-20]","[30-30]"]
+        #lstm_nodes = ["[20-20]","[30-30]"]
+        
+        lstm_nodes = ["[10-10]","[20-20]","[30-30]"]
         
         processed_scales = ["[1]"]
         
@@ -108,7 +112,7 @@ elif model == "hierarchical_LSTM":
         
         l2 = [0.001]
         
-        batch_size = [2,3]
+        batch_size = [1]
         
         shuffle = [0]
         
@@ -121,9 +125,11 @@ elif model == "hierarchical_LSTM":
         time_steps = ["[24-5-5]","[24-10-5]","[24-15-5]","[24-20-5]", \
                       "[24-20-10]","[24-20-15]","[24-20-20]"]
         
-        dense_nodes = ["[1-10-10]","[1-20-20]"]
+        #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
-        lstm_nodes = ["[20-20-20]","[30-30-30]"]
+        dense_nodes = ["[1-5-5]"]
+        
+        lstm_nodes = ["[10-10-10]","[20-20-20]","[30-30-30]"]
         
         processed_scales = ["[0-1-2]"]
         
@@ -144,9 +150,11 @@ elif model == "hierarchical_LSTM":
         time_steps = ["[24-5-5]","[24-10-5]","[24-15-5]","[24-20-5]", \
                       "[24-20-10]","[24-20-15]","[24-20-20]"]
         
-        dense_nodes = ["[1-10-10]","[1-20-20]"]
+        #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
-        lstm_nodes = ["[20-20-20]","[30-30-30]"]
+        dense_nodes = ["[1-5-5]"]
+        
+        lstm_nodes = ["[10-10-10]","[20-20-20]","[30-30-30]"]
         
         processed_scales = ["[1-2]"]
         
@@ -167,9 +175,11 @@ elif model == "hierarchical_LSTM":
         time_steps = ["[24-5-5]",\
                       "[24-20-10]","[24-20-15]","[24-20-20]"]
         
-        dense_nodes = ["[1-10-10]","[1-20-20]"]
+        #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
-        lstm_nodes = ["[20-20-20]","[30-30-30]"]
+        dense_nodes = ["[1-5-5]"]
+        
+        lstm_nodes = ["[10-10-10]","[20-20-20]","[30-30-30]"]
         
         processed_scales = ["[2]"]
         
@@ -182,6 +192,8 @@ elif model == "hierarchical_LSTM":
         shuffle = [0]
         
     verbose = [0]
+    
+    epochs = [1,2,3]
         
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
