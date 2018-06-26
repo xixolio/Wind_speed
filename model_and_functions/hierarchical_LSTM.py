@@ -351,8 +351,8 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
                         
         predicted_vector[i,:] = model.predict(X_ts_sets)
         
-        print("predicted")
-        print(predicted_vector[i,:])
+        #print("predicted")
+        #print(predicted_vector[i,:])
                 
         if i != 23:
             

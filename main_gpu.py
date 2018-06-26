@@ -152,8 +152,8 @@ if __name__ == "__main__":
             model = hLSTM.model_gpu(lags, time_steps, processed_scales, \
                                 dense_nodes, lstm_nodes, l2, runs, sets)
             
-            print("FIRST first like")
-            print(X_ts_sets)
+            #print("FIRST first like")
+            #print(X_ts_sets)
             mae, mape, mse, model = hLSTM.train_and_test_gpu(model, time_steps, lags, \
                                                   epochs, vmins, vmaxs,     \
                                                   X_sets, y_sets, X_ts_sets, y_ts_sets,sets, runs, verbose = verbose,\
