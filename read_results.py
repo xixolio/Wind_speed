@@ -11,7 +11,7 @@ import sys
 
 # Simple_LSTM
 
-file_name = "no_mvs_villa_tehuelches.csv"
+file_name = "no_mvs_e01.csv"
 my_file = "simple_LSTM_test_" + file_name[:-4] + ".txt"
 
 my_file = "simple_LSTM_"+ file_name[:-4] + ".txt"
@@ -22,7 +22,7 @@ for i in range(10):
 
     f = open("results/" + str(i) + my_file)
     
-    lines = f.readlines()[1:]
+    lines = f.readlines()[2:]
     f.close()
     
     data_mae_set = []
@@ -32,7 +32,7 @@ for i in range(10):
         
         data = line.split(' ')
         data_mae_set.append(float(data[-7]))
-        data_mse_set.append(float(data[-6]))
+        data_mse_set.append(float(data[-5]))
         
     data_mae.append(data_mae_set)
     data_mse.append(data_mse_set)

@@ -81,7 +81,7 @@ if model == "simple_LSTM":
                 
             else:
                 string = 'simple_LSTM /user/i/iaraya/Wind_speed/ \
-                    no_mvs_b08.csv ' + string
+                    no_mvs_e01.csv ' + string
             
                 #print(string)
             
@@ -92,7 +92,7 @@ if model == "simple_LSTM":
     if counter > 0:
                     
         string = 'simple_LSTM /user/i/iaraya/Wind_speed/ \
-        no_mvs_b08.csv ' + string
+        no_mvs_e01.csv ' + string
 
         #print(string)
 
@@ -106,11 +106,11 @@ elif model == "hierarchical_LSTM":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-5]","[24-10]","[24-15]","[24-20]"]
+        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
         
         dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["[10-10]","[20-20]","[30-30]"]
+        lstm_nodes = ["[10-10]","[20-20]"]
         
         #lstm_nodes = ["[10-10]"]
         
@@ -130,13 +130,13 @@ elif model == "hierarchical_LSTM":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-5]","[24-10]","[24-15]","[24-20]"]
+        time_steps = ["[24-5]","[24-10]","[24-15]","[24-1]"]
         
         dense_nodes = ["[1-5]","[1-10]"]
         
         #lstm_nodes = ["[20-20]","[30-30]"]
         
-        lstm_nodes = ["[10-10]","[20-20]","[30-30]"]
+        lstm_nodes = ["[10-10]","[20-20]"]
         
         processed_scales = ["[1]"]
         
@@ -154,14 +154,14 @@ elif model == "hierarchical_LSTM":
         
         lags = ["[1-24-48]"]
         
-        time_steps = ["[24-5-5]","[24-10-5]","[24-15-5]","[24-20-5]", \
-                      "[24-20-10]","[24-20-15]","[24-20-20]"]
+        time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-1]", \
+                      "[24-15-1]","[24-15-5]","[24-15-15]"]
         
-        #dense_nodes = ["[1-10-10]","[1-20-20]"]
+        dense_nodes = ["[1-10-10]","[1-5-5]"]
         
-        dense_nodes = ["[1-5-5]"]
+        #dense_nodes = ["[1-5-5]"]
         
-        lstm_nodes = ["[10-10-10]","[20-20-20]","[30-30-30]"]
+        lstm_nodes = ["[10-10-10]","[20-20-20]"]
         
         processed_scales = ["[0-1-2]"]
         
@@ -179,14 +179,13 @@ elif model == "hierarchical_LSTM":
                 
         lags = ["[1-24-48]"]
         
-        time_steps = ["[24-5-5]","[24-10-5]","[24-15-5]","[24-20-5]", \
-                      "[24-20-10]","[24-20-15]","[24-20-20]"]
-        
+        time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-10]", \
+                      "[24-15-1]","[24-15-5]","[24-15-15]"]
         #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
         dense_nodes = ["[1-5-5]"]
         
-        lstm_nodes = ["[10-10-10]","[20-20-20]","[30-30-30]"]
+        lstm_nodes = ["[10-10-10]","[20-20-20]"]
         
         processed_scales = ["[1-2]"]
         
@@ -204,14 +203,14 @@ elif model == "hierarchical_LSTM":
                 
         lags = ["[1-24-48]"]
         
-        time_steps = ["[24-5-5]",\
-                      "[24-20-10]","[24-20-15]","[24-20-20]"]
+        time_steps = ["[24-5-1]",\
+                      "[24-20-5]","[24-20-10]","[24-20-15]"]
         
         #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
-        dense_nodes = ["[1-5-5]"]
+        dense_nodes = ["[1-5-5]", "[1-10-10]"]
         
-        lstm_nodes = ["[10-10-10]","[20-20-20]","[30-30-30]"]
+        lstm_nodes = ["[10-10-10]","[20-20-20]"]
         
         processed_scales = ["[2]"]
         
@@ -225,7 +224,7 @@ elif model == "hierarchical_LSTM":
         
     verbose = [0]
     
-    epochs = [1,2,3]
+    epochs = [1,5,10]
         
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
@@ -254,7 +253,7 @@ elif model == "hierarchical_LSTM":
                 
             else:
                 string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
-                    no_mvs_villa_tehuelches.csv ' + string
+                    no_mvs_e01.csv ' + string
             
                 #print(string)
             
@@ -265,7 +264,7 @@ elif model == "hierarchical_LSTM":
     if counter > 0:
                     
         string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/ \
-        no_mvs_b08.csv ' + string
+        no_mvs_e01.csv ' + string
 
         #print(string)
 
