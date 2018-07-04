@@ -23,31 +23,31 @@ if model == "simple_LSTM":
     
     if experiment == 1:
         
-        layers = ['[5]', '[10]', '[15]', '[20]']
+        layers = ['[1-1]']
         
-        lag = [1, 12, 24, 36]
+        lag = [1]
         
-        time_steps = [1, 5, 10, 15]
+        time_steps = [20]
         
-        epochs = [1, 5]
+        epochs = [5]
         
         l2 = [0.001]
         
         learning_rate = [0.05]
         
         
-        batch_size = [16]
+        batch_size = [1]
         
         verbose = [1]
         
         
     if experiment == 2:
         
-        layers = ['[5]']
+        layers = ['[1-1-1]']
         
-        lag = [3]
+        lag = [1]
         
-        time_steps = [2]
+        time_steps = [20]
         
         epochs = [1]
         
@@ -55,7 +55,7 @@ if model == "simple_LSTM":
         
         learning_rate = [0.05]
         
-        batch_size = [16]
+        batch_size = [1]
         
         verbose = [1]
         
