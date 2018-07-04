@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, TimeDistributed, Reshape, SpatialDropout1D
-from keras import regularizers
+from keras import regularizers,optimizers
 
 import keras
 
@@ -198,7 +198,7 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
                     
                 if lags[i] > 1:
                        
-                    dense_layers.append(Dense(dense_nodes[i],activation='relu'))
+                    dense_layers.append(Dense(dense_nodes[i],activation='sigmoid'))
             
             
             for i in range(len(lags)):
@@ -280,7 +280,11 @@ def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, r
             
         
     model = Model(inputs=model_inputs,outputs=model_outputs)
-    model.compile(loss='mse',optimizer='adam')
+    
+    ad = optimizers.Adadelta(lr = 0.05)
+            
+    model.compile(optimizer = ad, loss = 'mse')
+   
     
 
     return model
@@ -395,15 +399,15 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     mape = np.mean(mape,axis=0)
     mse = np.mean(mse, axis=0)
                       
-    print(np.mean(mae))
+    #print(np.mean(mae))
     return mae, mape, mse, model
 
 
 """ Results are written as "params mean_mae mean_mape mean_mse std_mae std_mape std_mse" """
 
-def write_results(path,name,params,mae,mape,mse):
+def write_results(path,name,params,mae,mape,mse,runs):
     
-    for i in range(10):
+    for i in range(runs):
             
             my_file = path+str(i)+name
             
@@ -413,17 +417,17 @@ def write_results(path,name,params,mae,mape,mse):
                 f = open(path + str(i) + name, "a")
                 f.write("lags time_steps dense_nodes lstm_nodes processed scales\
                         epochs l2 learning_rate mean_mae mean_mape mean_mse \
-                        std mae std_mape std_mse \n")
+                         \n")
             
             else:
                 
                 f = open(path + str(i) + name, "a")
                     
-            mean_mae, std_mae = str(np.mean(mae[i,:])), str(np.std(mae[i,:]))
-            mean_mape, std_mape = str(np.mean(mape[i,:])), str(np.std(mape[i,:]))
-            mean_mse, std_mse = str(np.mean(mse[i,:])), str(np.std(mse[i,:]))
+            mean_mae = str(np.mean(mae[:,i]))
+            mean_mape = str(np.mean(mape[:,i]))
+            mean_mse = str(np.mean(mse[:,i]))
 
-            f.write('{} {} {} {} {} {} {} \n'.format(', '.join(str(x) for x in params) \
-                    , mean_mae, mean_mape, mean_mse, std_mae, std_mape, std_mse) )
+            f.write('{} {} {} {} \n'.format(', '.join(str(x) for x in params) \
+                    , mean_mae, mean_mape, mean_mse) )
             
             f.close()

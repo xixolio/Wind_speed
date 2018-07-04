@@ -170,11 +170,11 @@ if __name__ == "__main__":
                                                   batch_size = batch_size, shuffle = shuffle)
             #print("then like")
             #print(X_ts_sets)
-            model_name = "hierarchical_LSTM_set_" + str(i) + "_run_" + str(j) +\
+            model_name = "hierarchical_LSTM_" +\
             '_'.join(str(x) for x in params)
-            #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
+            model.save("/user/i/iaraya/Wind_speed/models/" + model_name + ".h5")
                    
-            write_file_name = "hierarchical_LSTM_" + file_name[:-4] + ".txt"
+            write_file_name = "final_hierarchical_LSTM_" + file_name[:-4] + ".txt"
                     
             hLSTM.write_results(results_path, write_file_name, params, mae, mape, mse)
             

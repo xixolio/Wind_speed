@@ -344,6 +344,5 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
 #
 #training_data_input, testing_data_input, training_data_output, \
 #           testing_data_output, min_speeds, max_speeds = \
-#get_data('', 'no_mvs_villa_tehuelches.csv', ts=1, lag=1, overlap=True)
+#get_data('', 'no_mvs_e01.csv', ts=1, lag=1, overlap=True)
 #
-
