@@ -23,13 +23,13 @@ if model == "simple_LSTM":
     
     if experiment == 1:
         
-        layers = ['[1-1]']
+        layers = ['[5-5]']
         
         lag = [1]
         
-        time_steps = [20]
+        time_steps = [5,10,15]
         
-        epochs = [5]
+        epochs = [2]
         
         l2 = [0.001]
         
@@ -43,13 +43,31 @@ if model == "simple_LSTM":
         
     if experiment == 2:
         
-        layers = ['[1-1-1]']
+        layers = ['[5-5-5]']
         
         lag = [1]
         
-        time_steps = [20]
+        time_steps = [5,10,15]
         
-        epochs = [1]
+        epochs = [2]
+        
+        l2 = [0.001]
+        
+        learning_rate = [0.05]
+        
+        batch_size = [1]
+        
+        verbose = [1]
+        
+    if experiment == 3:
+        
+        layers = ['[5]']
+        
+        lag = [1]
+        
+        time_steps = [5,10,15]
+        
+        epochs = [2]
         
         l2 = [0.001]
         
@@ -94,11 +112,11 @@ elif model == "hierarchical_LSTM":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[20-20]"]
+        time_steps = ["[5-5]","[10-10]","[15-15]"]
         
-        dense_nodes = ["[1-1]"]
+        dense_nodes = ["[5-5]"]
         
-        lstm_nodes = ["[1-1]"]
+        lstm_nodes = ["[5-5]"]
         
         #lstm_nodes = ["[10-10]"]
         
@@ -122,15 +140,15 @@ elif model == "hierarchical_LSTM":
         #time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-1]", \
         #              "[24-15-1]","[24-15-5]","[24-15-15]"]
         
-        time_steps = ["[20-20-20]"]
-        
+        #time_steps = ["[20-20-20]"]
+        time_steps = ["[5-5-5]","[10-10-10]","[15-15-15]"]
         #dense_nodes = ["[1-10-10]","[1-5-5]"]
         
-        dense_nodes = ["[1-1-1]"]
+        dense_nodes = ["[5-5-5]"]
         
         #lstm_nodes = ["[10-10-10]","[20-20-20]"]
         
-        lstm_nodes = ["[1-1-1]"]
+        lstm_nodes = ["[5-5-5]"]
         
         processed_scales = ["[0-1-2]"]
         
