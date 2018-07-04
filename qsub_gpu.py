@@ -91,72 +91,60 @@ elif model == "hierarchical_LSTM":
     
       
     if experiment == 1:
-        
-        lags = ["[1-12-24-48]"]
-        
-        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]",\
-                      "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
-        
-        dense_nodes = ["[1-5-5-5]","[1-10-10-10]"]
-        
-        lstm_nodes = ["[5-5-5-5]","[10-10-10-10]"]
-        
-        processed_scales = ["[0-1-2-3]"]
-        
-        epochs = [1]
-        
-        l2 = [0.001]
-        
-        batch_size = [32]
-        
-        shuffle = [1]
-        
-        verbose = [1]
-        
-    if experiment == 2:
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[1-20]"]
+        time_steps = ["[20-20]"]
         
-        dense_nodes = ["[1-40]"]
+        dense_nodes = ["[1-1]"]
         
-        lstm_nodes = ["[5-5]"]
+        lstm_nodes = ["[1-1]"]
         
-        processed_scales = ["[1]"]
+        #lstm_nodes = ["[10-10]"]
         
-        epochs = [10]
+        processed_scales = ["[0-1]"]
         
-        l2 = [0.001]
-        
-        batch_size = [32]
-        
-        shuffle = [0]
-        
-        verbose = [1]
-        
-    if experiment == 3:
-                
-        lags = ["[1-12-24-48]"]
-        
-        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]",\
-                      "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
-        
-        dense_nodes = ["[1-5-5-5]","[1-10-10-10]"]
-        
-        lstm_nodes = ["[5-5-5-5]","[10-10-10-10]"]
-        
-        processed_scales = ["[1-2-3]"]
-        
-        epochs = [5,10]
+        epochs = [5]
         
         l2 = [0.001]
         
-        batch_size = [512]
+        batch_size = [1]
         
         shuffle = [0]
         
         verbose = [0]
+    
+        
+    if experiment == 3:
+        
+        lags = ["[1-24-48]"]
+        
+        #time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-1]", \
+        #              "[24-15-1]","[24-15-5]","[24-15-15]"]
+        
+        time_steps = ["[20-20-20]"]
+        
+        #dense_nodes = ["[1-10-10]","[1-5-5]"]
+        
+        dense_nodes = ["[1-1-1]"]
+        
+        #lstm_nodes = ["[10-10-10]","[20-20-20]"]
+        
+        lstm_nodes = ["[1-1-1]"]
+        
+        processed_scales = ["[0-1-2]"]
+        
+        epochs = [5]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+    
+    verbose = [1]
     
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
