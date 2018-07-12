@@ -26,7 +26,7 @@ import persistence
 import keras.backend as K
 import numpy as np
 
-numpy.random.seed(42)
+np.random.seed(42)
 
 if __name__ == "__main__":
     
