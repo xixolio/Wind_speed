@@ -399,35 +399,53 @@ def train_and_test_gpu(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, 
     mape = np.mean(mape,axis=0)
     mse = np.mean(mse, axis=0)
                       
-    #print(np.mean(mae))
+    print(np.mean(mae))
     return mae, mape, mse, model
 
 
 """ Results are written as "params mean_mae mean_mape mean_mse std_mae std_mape std_mse" """
 
-def write_results(path,name,params,mae,mape,mse,runs):
-    
-    for i in range(runs):
-            
-            my_file = path+str(i)+name
-            
-            if not os.path.exists(my_file):
-            #if not my_file.is_file():
-                
-                f = open(path + str(i) + name, "a")
-                f.write("lags time_steps dense_nodes lstm_nodes processed scales\
-                        epochs l2 learning_rate mean_mae mean_mape mean_mse \
-                         \n")
-            
-            else:
-                
-                f = open(path + str(i) + name, "a")
-                    
-            mean_mae = str(np.mean(mae[:,i]))
-            mean_mape = str(np.mean(mape[:,i]))
-            mean_mse = str(np.mean(mse[:,i]))
+#def write_results(path,name,params,mae,mape,mse,runs):
+#    
+#    for i in range(runs):
+#            
+#            my_file = path+str(i)+name
+#            
+#            if not os.path.exists(my_file):
+#            #if not my_file.is_file():
+#                
+#                f = open(path + str(i) + name, "a")
+#                f.write("lags time_steps dense_nodes lstm_nodes processed scales\
+#                        epochs l2 learning_rate mean_mae mean_mape mean_mse \
+#                         \n")
+#            
+#            else:
+#                
+#                f = open(path + str(i) + name, "a")
+#                    
+#
+#            f.write('{}; {} \n'.format(', '.join(str(x) for x in params) \
+#                    , ', '.join(str(x) for x in mae), mean_mape, mean_mse) )
+#            
+#            f.close()
 
-            f.write('{} {} {} {} \n'.format(', '.join(str(x) for x in params) \
-                    , mean_mae, mean_mape, mean_mse) )
+def write_results(path,name,params,mae,mse,runs):
+               
+    my_file = path+name
+    
+    if not os.path.exists(my_file):
+    #if not my_file.is_file():
+        
+        f = open(path + name, "a")
+        f.write("lags time_steps dense_nodes lstm_nodes processed scales\
+                epochs l2 learning_rate errors \
+                 \n") 
+    else:
+        
+        f = open(path + name, "a")
             
-            f.close()
+
+    f.write('{}; {}; {} \n'.format(', '.join(str(x) for x in params) \
+            , ', '.join(str(x) for x in mae),', '.join(str(x) for x in mse)))
+    
+    f.close()
