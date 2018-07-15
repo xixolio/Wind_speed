@@ -173,7 +173,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         
     outputs = Dense(1)(concatenated)
     model = Model(inputs=input_layers,outputs=outputs)
-    model.compile(loss='mse',optimizer='adam')
+    model.compile(loss='mse',optimizer='adadelta')
     
     return model
 
