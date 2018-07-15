@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb 13 12:41:37 2018
-
-@author: iaaraya
-"""
 
 from itertools import product
 import subprocess
@@ -68,59 +62,165 @@ if model == "simple_LSTM":
             
     
 elif model == "hierarchical_LSTM":
-    
+        
+    if experiment == 0:
+                
+        lags = ["[1-24]"]
+        
+        time_steps = ["[24-1]"]
+        
+        dense_nodes = ["[1-1]"]
+        
+        lstm_nodes = ["1-1]"]
+        
+        #lstm_nodes = ["[10-10]"]
+        
+        processed_scales = ["[0-1]"]
+        
+        epochs = [1]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [0]
       
     if experiment == 1:
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-5]","[24-10]",\
-                      "[24-15]","[24-20]"]
+        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
         
         dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["[5-5]","[10-10]"]
+        lstm_nodes = ["10-10]","[20-20]"]
+        
+        #lstm_nodes = ["[10-10]"]
         
         processed_scales = ["[0-1]"]
         
-        epochs = [10]
+        epochs = [1,5,10,15,20]
         
         l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [0]
         
     if experiment == 2:
+                
+        lags = ["[1-24]"]
         
-        lags = ["[1-12-24-48]"]
+        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
         
-        time_steps = ["[24-15-15-15]"]
+        dense_nodes = ["[1-5]", "[1-10]"]
         
-        dense_nodes = ["[1-10-10-10]"]
+        #lstm_nodes = ["[20-20]","[30-30]"]
         
-        lstm_nodes = ["[10-10-10-10]"]
+        lstm_nodes = ["[10-10]", "[20-20]"]
         
-        processed_scales = ["[0-1-2-3]"]
+        processed_scales = ["[1]"]
         
-        epochs = [1, 5]
+        epochs = [10,20]
         
         l2 = [0.001]
         
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+        
     if experiment == 3:
+        
+        lags = ["[1-24-48]"]
+        
+        time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-1]", \
+                      "[24-15-1]","[24-15-5]","[24-15-15]"]
+        
+        #time_steps = ["[24-10-1]"]
+        
+        #dense_nodes = ["[1-10-10]","[1-5-5]"]
+        
+        dense_nodes = ["[1-5-5]", "[1-10-10]"]
+        
+        #lstm_nodes = ["[10-10-10]","[20-20-20]"]
+        
+        lstm_nodes = ["[10-10-10]", "[20-20-20]"]
+        
+        processed_scales = ["[0-1-2]"]
+        
+        epochs = [1,5,10,15,20]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+        
+    if experiment == 4:
                 
         lags = ["[1-24-48]"]
         
-        time_steps = ["[24-5-5]","[24-10-5]","[24-15-5]","[24-20-5]",\
-                      "[24-20-10]","[24-20-15]","[24-20-20]"]
+        time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-10]", \
+                      "[24-15-1]","[24-15-5]","[24-15-15]"]
+        #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
-        dense_nodes = ["[1-5-5]","[1-10-10]"]
+        #time_steps = ["[24-5-1]"]
         
-        lstm_nodes = ["[5-5]","[10-10-10]"]
+        dense_nodes = ["[1-5-5]", "[1-10-10]"]
+        
+        lstm_nodes = ["[10-10-10]","[20-20-20]"]
+        
+        #lstm_nodes = ["[20-20-20]"]
         
         processed_scales = ["[1-2]"]
         
-        epochs = [10]
+        epochs = [1,5,10,15,20]
         
         l2 = [0.001]
         
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+        
+    if experiment == 5:
+                
+        lags = ["[1-24-48]"]
+        
+        time_steps = ["[24-5-1]",\
+                      "[24-20-5]","[24-20-10]","[24-20-15]"]
+        
+        time_steps = ["[24-20-15]"]
+        
+        dense_nodes = ["[1-10-10]","[1-5-5]"]
+        
+        #dense_nodes = ["[1-5-5]"]
+        
+        lstm_nodes = ["[10-10-10]","[20-20-20]"]
+        
+        processed_scales = ["[2]"]
+        
+        epochs = [1,5,10,15,20]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [0]
     
+    verbose = [0]
+    #epochs = [10,20]
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2)
@@ -136,7 +236,7 @@ elif model == "hierarchical_LSTM":
                 string += str(element) + ','
             
             string = 'hierarchical_LSTM /user/i/iaraya/CIARP/Wind_speed/data/  \
-                    no_mvs_b08.csv ' + string
+                    no_mvs_e08.csv ' + string
             
             #print(string)
             

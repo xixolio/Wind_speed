@@ -18,7 +18,7 @@ from data_processing import get_data
 import simple_LSTM as sLSTM
 import hierarchical_LSTM as hLSTM
 import persistence
-
+import copy
 import numpy as np
 
 
@@ -129,16 +129,16 @@ if __name__ == "__main__":
                 
                 mae[i,j], mape[i,j], mse[i,j], model = hLSTM.train_and_test(model, time_steps, lags, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, X_ts.copy(), y_ts)
+                                                      X, y, copy.deepcopy(X_ts), y_ts)
                 
                 model_name = "hierarchical2_LSTM_set_" + str(i) + "_run_" + str(j) +\
                 '_'.join(str(x) for x in params)
                 #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                
         path = "/user/i/iaraya/CIARP/Wind_speed/results/"
-        write_file_name = "hierarchical_LSTM_" + file_name[:-4] + ".txt"
+        write_file_name = "final2_hierarchical_LSTM_" + file_name[:-4] + ".txt"
                 
-        hLSTM.write_results(path, write_file_name, params, mae, mape, mse)
+        hLSTM.write_results(path, write_file_name, params, mae, mape, mse,runs)
         
         
     elif model == "persistence":
