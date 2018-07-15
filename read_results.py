@@ -42,6 +42,8 @@ data_mse = np.array(data_mse)
 
 mean_simple_LSTM_mae = np.mean(data_mae,0)
 mean_simple_LSTM_mse = np.mean(data_mse,0)
+
+total_mean = np.min(mean_simple_LSTM_mae)
 #%%
 indexes = np.zeros((len(lines)))
 scales = ['0, 1','1','0, 1, 2','1, 2','2']
@@ -134,7 +136,72 @@ mean_persistence_mae = np.mean(data_mae,0)
 mean_persistence_mse = np.mean(data_mse,0)
         
     
+#%%
+
+import numpy as np    
+import sys
+
+
+# Simple_LSTM
+
+file_name = "no_mvs_e01.csv"
+my_file = "hierarchical_LSTM_test_" + file_name[:-4] + ".txt"
+
+my_file = "final_hierarchical_LSTM_"+ file_name[:-4] + ".txt"
+
+
+f = open("results/" + my_file)
+
+lines = f.readlines()[1:-11]
+mean_mae = np.zeros((len(lines),10,3))
+
+for j,line in zip(range(len(lines)),lines):
+    
+    data = line.split(';')[1].split('],')
+    
+    for d,i in zip(data,range(10)):
         
+        d2 = d.strip(' []').split(' ')
+        
+        values = []
+        
+        for value in d2:
+            
+            
+            if value != '':
+                
+                values.append(float(value))
+                
+        mean_mae[j,i,:] = values
+        
+mean_by_run = np.mean(mean_mae, axis = 1)
+total_mean = np.mean(mean_by_run, axis = 1)
+
+    #%%
+for i in range(10):
+
+    f = open("results/" + str(i) + my_file)
+    
+    lines = f.readlines()[2:]
+    f.close()
+    
+    data_mae_set = []
+    data_mse_set = []
+    
+    for line in lines:
+        
+        data = line.split(' ')
+        data_mae_set.append(float(data[-7]))
+        data_mse_set.append(float(data[-5]))
+        
+    data_mae.append(data_mae_set)
+    data_mse.append(data_mse_set)
+    
+data_mae = np.array(data_mae)
+data_mse = np.array(data_mse)
+
+mean_simple_LSTM_mae = np.mean(data_mae,0)
+mean_simple_LSTM_mse = np.mean(data_mse,0)        
     
 
 

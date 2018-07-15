@@ -163,7 +163,7 @@ elif model == "hierarchical_LSTM":
         
         processed_scales = ["[1]"]
         
-        epochs = [1,5,10,15,20]
+        epochs = [10,20]
         
         l2 = [0.001]
         
@@ -257,7 +257,8 @@ elif model == "hierarchical_LSTM":
         
         verbose = [0]
     
-    
+    verbose = [0]
+    epochs = [10,20]
         
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
