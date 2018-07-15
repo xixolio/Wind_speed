@@ -138,7 +138,7 @@ if __name__ == "__main__":
         path = "/user/i/iaraya/CIARP/Wind_speed/results/"
         write_file_name = "final2_hierarchical_LSTM_" + file_name[:-4] + ".txt"
                 
-        hLSTM.write_results(path, write_file_name, params, mae, mape, mse,runs)
+        hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
         
         
     elif model == "persistence":
