@@ -77,9 +77,40 @@ data_mse = np.array(data_mse)
 mean_persistence_mae = np.mean(data_mae,0)
 mean_persistence_mse = np.mean(data_mse,0)
         
-    
+#%%
+
+   
         
+file_name = "no_mvs_e01.csv"
+my_file = "correctedsimple_LSTM_test_" + file_name[:-4] + ".txt"
+
+my_file = "final2_hierarchical_LSTM_"+ file_name[:-4] + ".txt"
+data_mae = []
+data_mse = []
+data = []
+f = open("results/" + my_file)
+lines = f.readlines()[1:]
+f.close()
+results = np.zeros((len(lines), 10, 5))
+
+for k,line in zip(range(len(lines)),lines):
     
+    data = line.split(';')[1].split(' ')[1:]
+    
+    for i in range(10): 
+        
+        for j in range(5):
+            
+            results[k,i,j] = float(data[i*5 + j].strip(','))
+            
+ 
+mean_by_run = np.mean(results,axis = 1)
+total_mean = np.mean(results, axis = 1)
+#data_mae = np.array(data_mae)
+#data_mse = np.array(data_mse)
+#
+#mean_simple_LSTM_mae = np.mean(data_mae,0)
+#mean_simple_LSTM_mse = np.mean(data_mse,0)
 
 
     

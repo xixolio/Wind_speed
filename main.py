@@ -167,6 +167,6 @@ if __name__ == "__main__":
         path = "results/"
         write_file_name = "persistence_" + file_name[:-4] + ".txt"
                 
-        persistence.write_results(path, write_file_name, mae, mape, mse)
+        persistence.write_results(path, write_file_name, mae, mse, runs)
         
        

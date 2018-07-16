@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, TimeDistributed, Reshape
-from keras import regularizers
+from keras import regularizers, optimizers
 
 import keras
 
@@ -159,7 +159,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
             
         lstm_layers.append(lstm)
     
-    if len(lstm_layers) > 1:
+    if len(processed_scales) > 1:
         
         layers_to_concatenate = [lstm_layers[index] for index in processed_scales]
         concatenated = keras.layers.concatenate(layers_to_concatenate)
@@ -173,7 +173,8 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         
     outputs = Dense(1)(concatenated)
     model = Model(inputs=input_layers,outputs=outputs)
-    model.compile(loss='mse',optimizer='adadelta')
+    ad = optimizers.Adadelta(lr = 0.05)
+    model.compile(loss='mse',optimizer=ad)
     
     return model
 
