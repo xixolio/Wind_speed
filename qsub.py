@@ -67,17 +67,17 @@ elif model == "hierarchical_LSTM":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-1]"]
+        time_steps = ["[24-10]"]
         
-        dense_nodes = ["[1-1]"]
+        dense_nodes = ["[1-5]"]
         
-        lstm_nodes = ["1-1]"]
+        lstm_nodes = ["10-10]"]
         
         #lstm_nodes = ["[10-10]"]
         
         processed_scales = ["[0-1]"]
         
-        epochs = [1]
+        epochs = [10]
         
         l2 = [0.001]
         
@@ -219,12 +219,29 @@ elif model == "hierarchical_LSTM":
         
         verbose = [0]
     
-    verbose = [0]
+    verbose = [1]
     #epochs = [10,20]
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2)
     
+#    for c in combs:
+#        
+#        if c:
+#            
+#            string = ''
+#            
+#            for element in c:
+#                
+#                string += str(element) + ','
+#            
+#            string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
+#                    no_mvs_e08.csv ' + string
+#            
+#            #print(string)
+#            
+#            subprocess.call(["qsub","main.sh","-F",string])
+            
     for c in combs:
         
         if c:
@@ -235,12 +252,15 @@ elif model == "hierarchical_LSTM":
                 
                 string += str(element) + ','
             
-            string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
-                    no_mvs_e08.csv ' + string
+            model = 'hierarchical_LSTM'
+            path = '/user/i/iaraya/Wind_speed/data/'
+            file = 'no_mvs_e08.csv'
+            #string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
+            #        no_mvs_e08.csv ' + string
             
             #print(string)
             
-            subprocess.call(["qsub","main.sh","-F",string])
+            subprocess.call(["python","main.py",model, path, file,string])
 
 
 

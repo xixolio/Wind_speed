@@ -11,7 +11,7 @@ import sys
 
 # Simple_LSTM
 
-file_name = "no_mvs_d05a.csv"
+file_name = "no_mvs_e01.csv"
 my_file = "correctedsimple_LSTM_test_" + file_name[:-4] + ".txt"
 
 my_file = "hierarchical_LSTM_"+ file_name[:-4] + ".txt"
@@ -105,7 +105,7 @@ for k,line in zip(range(len(lines)),lines):
             
  
 mean_by_run = np.mean(results,axis = 1)
-total_mean = np.mean(results, axis = 1)
+total_mean = np.mean(mean_by_run, axis = 1)
 #data_mae = np.array(data_mae)
 #data_mse = np.array(data_mse)
 #
