@@ -253,7 +253,8 @@ elif model == "hierarchical_LSTM":
                 string += str(element) + ','
             
             model = 'hierarchical_LSTM'
-            path = '/user/i/iaraya/Wind_speed/data/'
+            #path = '/user/i/iaraya/Wind_speed/data/'
+            path = '/home/iaraya/CIARP/Wind_speed/data/'
             file = 'no_mvs_e08.csv'
             #string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
             #        no_mvs_e08.csv ' + string
