@@ -225,23 +225,6 @@ elif model == "hierarchical_LSTM":
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2)
     
-#    for c in combs:
-#        
-#        if c:
-#            
-#            string = ''
-#            
-#            for element in c:
-#                
-#                string += str(element) + ','
-#            
-#            string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
-#                    no_mvs_e08.csv ' + string
-#            
-#            #print(string)
-#            
-#            subprocess.call(["qsub","main.sh","-F",string])
-            
     for c in combs:
         
         if c:
@@ -252,16 +235,33 @@ elif model == "hierarchical_LSTM":
                 
                 string += str(element) + ','
             
-            model = 'hierarchical_LSTM'
-            #path = '/user/i/iaraya/Wind_speed/data/'
-            path = '/home/iaraya/CIARP/Wind_speed/data/'
-            file = 'no_mvs_e01.csv'
-            #string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
-            #        no_mvs_e08.csv ' + string
+            string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
+                    no_mvs_e01.csv ' + string
             
             #print(string)
             
-            subprocess.call(["python","main.py",model, path, file,string])
+            subprocess.call(["qsub","main.sh","-F",string])
+            
+#    for c in combs:
+#        
+#        if c:
+#            
+#            string = ''
+#            
+#            for element in c:
+#                
+#                string += str(element) + ','
+#            
+#            model = 'hierarchical_LSTM'
+#            path = '/user/i/iaraya/Wind_speed/data/'
+#            #path = '/home/iaraya/CIARP/Wind_speed/data/'
+#            file = 'no_mvs_e01.csv'
+#            #string = 'hierarchical_LSTM /user/i/iaraya/Wind_speed/data/  \
+#            #        no_mvs_e08.csv ' + string
+#            
+#            #print(string)
+#            
+#            subprocess.call(["python","main.py",model, path, file,string])
 
 
 

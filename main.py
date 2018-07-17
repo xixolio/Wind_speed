@@ -11,10 +11,10 @@ import os
 import sys
 sys.path.append('/user/i/iaraya/Wind_speed/data/')
 sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
-sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
-sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
-sys.path.append('/home/iaraya/CIARP/Wind_speed/data/')
-sys.path.append('/home/iaraya/CIARP/Wind_speed/model_and_functions/')
+#sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
+#sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
+#sys.path.append('/home/iaraya/CIARP/Wind_speed/data/')
+#sys.path.append('/home/iaraya/CIARP/Wind_speed/model_and_functions/')
 
 
 from data_processing import get_data
@@ -138,8 +138,8 @@ if __name__ == "__main__":
                 '_'.join(str(x) for x in params)
                 #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                
-        #path = "/user/i/iaraya/Wind_speed/results/"
-        path = "/home/iaraya/CIARP/Wind_speed/results/"
+        path = "/user/i/iaraya/Wind_speed/results/"
+        #path = "/home/iaraya/CIARP/Wind_speed/results/"
         write_file_name = "final2_hierarchical_LSTM_" + file_name[:-4] + ".txt"
                 
         hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
