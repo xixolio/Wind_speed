@@ -13,6 +13,9 @@ sys.path.append('/user/i/iaraya/Wind_speed/data/')
 sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
 sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
 sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
+sys.path.append('/home/iaraya/CIARP/Wind_speed/data/')
+sys.path.append('/home/iaraya/CIARP/Wind_speed/model_and_functions/')
+
 
 from data_processing import get_data
 import simple_LSTM as sLSTM
@@ -74,9 +77,9 @@ if __name__ == "__main__":
         
     elif model == "hierarchical_LSTM":
       
-        runs = 5
+        runs = 1
         
-        sets = 10
+        sets = 1
            
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
         epochs, l2 = hLSTM.get_params(4)

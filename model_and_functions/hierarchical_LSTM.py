@@ -297,7 +297,7 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
     # Testing 
     
     predicted_vector = np.zeros((24))
-        
+    print(X_ts)
     for i in range(24):
                         
         predicted_vector[i] = model.predict(X_ts)
@@ -310,7 +310,9 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
                     predicted_vector[i].flatten()))
                 
                 X_ts[j] = X_ts[j].reshape(1, time_steps[j], lags[j])
-                          
+        
+        print(X_ts)
+    print(predicted_vector)              
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax - vmin) + vmin
     
