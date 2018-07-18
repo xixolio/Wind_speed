@@ -173,7 +173,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     
     else: 
         
-        concatenated = lstm_layers[0]
+        concatenated = lstm_layers[processed_scales[0]]
         
     outputs = Dense(1)(concatenated)
     model = Model(inputs=input_layers,outputs=outputs)

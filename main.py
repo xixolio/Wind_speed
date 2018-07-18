@@ -77,9 +77,9 @@ if __name__ == "__main__":
         
     elif model == "hierarchical_LSTM":
       
-        runs = 1
+        runs = 5
         
-        sets = 1
+        sets = 10
            
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
         epochs, l2, batch_size, shuffle = hLSTM.get_params(4)
