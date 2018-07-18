@@ -41,7 +41,7 @@ def get_params(argv_position):
     shuffle = bool(int(params[8]))
     
     return lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
-            epochs, l2
+            epochs, l2, batch_size, shuffle
             
 def get_params_gpu(argv_position):
     
