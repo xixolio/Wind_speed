@@ -82,10 +82,10 @@ if __name__ == "__main__":
         sets = 1
            
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
-        epochs, l2 = hLSTM.get_params(4)
+        epochs, l2, batch_size, shuffle = hLSTM.get_params(4)
     
         params = [lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                   epochs, l2]
+                   epochs, l2, batch_size, shuffle]
         
         training_inputs_sets = []
         testing_inputs_sets = []
@@ -132,7 +132,8 @@ if __name__ == "__main__":
                 
                 mae[i,j], mape[i,j], mse[i,j], model = hLSTM.train_and_test(model, time_steps, lags, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_ts), y_ts)
+                                                      X, y, copy.deepcopy(X_ts), y_ts, batch_size = batch_size, \
+                                                      shuffle = shuffle)
                 
                 model_name = "hierarchical2_LSTM_set_" + str(i) + "_run_" + str(j) +\
                 '_'.join(str(x) for x in params)

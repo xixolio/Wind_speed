@@ -89,7 +89,7 @@ data_mae = []
 data_mse = []
 data = []
 f = open("results/" + my_file)
-lines = f.readlines()[1:]
+lines = f.readlines()[-3:]
 f.close()
 results = np.zeros((len(lines), 10, 5))
 

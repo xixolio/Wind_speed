@@ -219,11 +219,12 @@ elif model == "hierarchical_LSTM":
         
         verbose = [0]
     
-    verbose = [1]
-    #epochs = [10,20]
+    #verbose = [1]
+    shuffle = [1]
+    epochs = [10,20]
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                    epochs, l2)
+                    epochs, l2, batch_size, shuffle)
     
     for c in combs:
         

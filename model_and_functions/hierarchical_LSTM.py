@@ -36,6 +36,10 @@ def get_params(argv_position):
     
     l2 = float(params[6])
     
+    batch_size = int(params[7])
+        
+    shuffle = bool(int(params[8]))
+    
     return lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
             epochs, l2
             
@@ -287,17 +291,17 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
        
     # Training
     
-    for i in range(epochs):
+    
         
-        model.fit(X, y, batch_size=batch_size, shuffle=shuffle, verbose = verbose,\
-                  epochs=1)
+    model.fit(X, y, batch_size=batch_size, shuffle=shuffle, verbose = verbose,\
+                  epochs=epochs)
         
-        model.reset_states()
+       
         
     # Testing 
     
     predicted_vector = np.zeros((24))
-    print(X_ts)
+    #print(X_ts)
     for i in range(24):
                         
         predicted_vector[i] = model.predict(X_ts)
@@ -311,14 +315,14 @@ def train_and_test(model, time_steps, lags, epochs, vmin, vmax, X, y, X_ts, y_ts
                 
                 X_ts[j] = X_ts[j].reshape(1, time_steps[j], lags[j])
         
-        print(X_ts)
-    print(predicted_vector)              
+        #print(X_ts)
+    #print(predicted_vector)              
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax - vmin) + vmin
     
-    mae = np.mean(np.abs(predicted_vector - y_ts))
+    mae = np.mean(np.abs(predicted_vector.flatten() - y_ts.flatten()))
     mape = np.mean(np.abs((predicted_vector - y_ts )/y_ts)*100)
-    mse = np.mean((predicted_vector - y_ts)**2)
+    mse = np.mean((predicted_vector.flatten() - y_ts.flatten())**2)
                         
     print(np.mean(mae))
     return mae, mape, mse, model
