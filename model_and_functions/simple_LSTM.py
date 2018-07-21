@@ -42,7 +42,7 @@ def model(layers, lag, time_steps, l2, learning_rate):
             
             return_sequences = False
                    
-        lstm = LSTM(layers[i], return_sequences=return_sequences, activation='tanh',
+        lstm = LSTM(layers[i], return_sequences=return_sequences, activation='sigmoid',
                  recurrent_activation='sigmoid', dropout=0.0,
                  recurrent_dropout=0.0, activity_regularizer=regularizers.l2(l2),
                  recurrent_regularizer=regularizers.l2(l2), stateful=True)
@@ -100,29 +100,50 @@ def train_and_test(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts)
 
 """ Results are written as "params mean_mae mean_mape mean_mse std_mae std_mape std_mse" """
 
-def write_results(path,name,params,mae,mape,mse):
-    
-    for i in range(10):
-            
-            my_file = path+str(i)+name
-            
-            if not os.path.exists(my_file):
-            #if not my_file.is_file():
-                
-                f = open(path + str(i) + name, "a")
-                f.write("layers lag time_steps epochs l2 learning_rate mean_mae \
-                        mean_mape mean_mse std mae std_mape std_mse \n")
-            
-            else:
-                
-                f = open(path + str(i) + name, "a")
-                    
-            mean_mae, std_mae = str(np.mean(mae[i,:])), str(np.std(mae[i,:]))
-            mean_mape, std_mape = str(np.mean(mape[i,:])), str(np.std(mape[i,:]))
-            mean_mse, std_mse = str(np.mean(mse[i,:])), str(np.std(mse[i,:]))
+#def write_results(path,name,params,mae,mape,mse):
+#    
+#    for i in range(10):
+#            
+#            my_file = path+str(i)+name
+#            
+#            if not os.path.exists(my_file):
+#            #if not my_file.is_file():
+#                
+#                f = open(path + str(i) + name, "a")
+#                f.write("layers lag time_steps epochs l2 learning_rate mean_mae \
+#                        mean_mape mean_mse std mae std_mape std_mse \n")
+#            
+#            else:
+#                
+#                f = open(path + str(i) + name, "a")
+#                    
+#            mean_mae, std_mae = str(np.mean(mae[i,:])), str(np.std(mae[i,:]))
+#            mean_mape, std_mape = str(np.mean(mape[i,:])), str(np.std(mape[i,:]))
+#            mean_mse, std_mse = str(np.mean(mse[i,:])), str(np.std(mse[i,:]))
+#
+#            f.write('{} {} {} {} {} {} {} \n'.format(', '.join(str(x) for x in params) \
+#                    , mean_mae, mean_mape, mean_mse, std_mae, std_mape, std_mse) )
+#            
+#            f.close()
 
-            f.write('{} {} {} {} {} {} {} \n'.format(', '.join(str(x) for x in params) \
-                    , mean_mae, mean_mape, mean_mse, std_mae, std_mape, std_mse) )
+def write_results(path,name,params,mae,mse,runs):
+               
+    my_file = path+name
+    
+    if not os.path.exists(my_file):
+    #if not my_file.is_file():
+        
+        f = open(path + name, "a")
+        f.write("lags time_steps dense_nodes lstm_nodes processed scales\
+                epochs l2 learning_rate errors \
+                 \n") 
+    else:
+        
+        f = open(path + name, "a")
             
-            f.close()
+
+    f.write('{}; {}; {} \n'.format(', '.join(str(x) for x in params) \
+            , ', '.join(str(x) for x in mae.flatten()),', '.join(str(x) for x in mse.flatten())))
+    
+    f.close()
                       

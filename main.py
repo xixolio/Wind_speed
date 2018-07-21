@@ -63,7 +63,7 @@ if __name__ == "__main__":
                 
                 mae[i,j], mape[i,j], mse[i,j], model = sLSTM.train_and_test(model, time_steps, lag, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, X_ts, y_ts)
+                                                      X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts))
                 
                 model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
                 '_'.join(str(x) for x in params)
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         path = "/user/i/iaraya/CIARP/Wind_speed/results/"
         write_file_name = "simple_LSTM_test_" + file_name[:-4] + ".txt"
                 
-        sLSTM.write_results(path, write_file_name, params, mae, mape, mse)
+        sLSTM.write_results(path, write_file_name, params, mae, mse,runs)
         
         
     elif model == "hierarchical_LSTM":

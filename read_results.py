@@ -47,7 +47,7 @@ mean_simple_LSTM_mse = np.mean(data_mse,0)
 
 # persistence
 
-file_name = "no_mvs_d05a.csv"
+file_name = "no_mvs_e01.csv"
 my_file = "persistence_" + file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
@@ -78,7 +78,7 @@ mean_persistence_mae = np.mean(data_mae,0)
 mean_persistence_mse = np.mean(data_mse,0)
         
 #%%
-
+import numpy as np
    
         
 file_name = "no_mvs_e01.csv"
@@ -89,13 +89,18 @@ data_mae = []
 data_mse = []
 data = []
 f = open("results/" + my_file)
-lines = f.readlines()[-3:]
+lines = f.readlines()[1:]
 f.close()
 results = np.zeros((len(lines), 10, 5))
 
 for k,line in zip(range(len(lines)),lines):
     
+    
     data = line.split(';')[1].split(' ')[1:]
+    
+    if len(data) != 50:
+        
+        continue
     
     for i in range(10): 
         
@@ -106,6 +111,9 @@ for k,line in zip(range(len(lines)),lines):
  
 mean_by_run = np.mean(results,axis = 1)
 total_mean = np.mean(mean_by_run, axis = 1)
+mean_by_run = mean_by_run[total_mean > 0]
+total_mean = total_mean[total_mean > 0]
+stds = np.std(mean_by_run, axis = 1)
 #data_mae = np.array(data_mae)
 #data_mse = np.array(data_mse)
 #

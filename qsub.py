@@ -19,10 +19,9 @@ if model == "simple_LSTM":
         
         lag = [12, 24, 36]
         
-        time_steps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,\
-                      18, 19, 20]
+        time_steps = [1, 12,24,36]
         
-        epochs = [1, 5]
+        epochs = [10, 20]
         
         l2 = [0.001]
         
@@ -56,7 +55,7 @@ if model == "simple_LSTM":
                 string += str(element) + ','
             
             string = 'simple_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
-                    no_mvs_d05a.csv ' + string
+                    no_mvs_e01.csv ' + string
             
             subprocess.call(["qsub","main.sh","-F",string])
             
