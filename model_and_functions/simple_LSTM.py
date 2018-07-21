@@ -96,6 +96,7 @@ def train_and_test(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts)
     mape = np.mean(np.abs((predicted_vector - y_ts )/y_ts)*100)
     mse = np.mean((predicted_vector - y_ts)**2)
                         
+    print(mae)
     return mae, mape, mse, model
 
 """ Results are written as "params mean_mae mean_mape mean_mse std_mae std_mape std_mse" """

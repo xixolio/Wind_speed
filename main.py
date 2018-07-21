@@ -69,8 +69,8 @@ if __name__ == "__main__":
                 '_'.join(str(x) for x in params)
                 #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
                
-        path = "/user/i/iaraya/CIARP/Wind_speed/results/"
-        write_file_name = "simple_LSTM_test_" + file_name[:-4] + ".txt"
+        path = "/user/i/iaraya/Wind_speed/results/"
+        write_file_name = "finalsimple_LSTM_" + file_name[:-4] + ".txt"
                 
         sLSTM.write_results(path, write_file_name, params, mae, mse,runs)
         
