@@ -54,7 +54,7 @@ if model == "simple_LSTM":
                 
                 string += str(element) + ','
             
-            string = 'simple_LSTM /user/i/iaraya/CIARP/Wind_speed/data/ \
+            string = 'simple_LSTM /user/i/iaraya/Wind_speed/data/ \
                     no_mvs_e01.csv ' + string
             
             subprocess.call(["qsub","main.sh","-F",string])
