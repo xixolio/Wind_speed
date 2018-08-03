@@ -149,7 +149,7 @@ if __name__ == "__main__":
                 
         hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
         
-    elif model == 'LSTM-Ms':
+    elif model == 'LSTM_Ms':
         
         runs = 5
         
