@@ -1,0 +1,106 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Aug  2 11:56:29 2018
+
+@author: iaaraya
+"""
+
+from keras.models import Model
+from keras.layers import Input, LSTM, Dense, TimeDistributed, \
+Reshape, Lambda, Conv1D
+from keras import regularizers, optimizers
+
+import keras
+
+import numpy as np
+import sys
+import os
+
+def z_n(x, position):
+    
+    return x[:, -position:, :]
+
+#lambda_layer = Lambda(return_specific, arguments = {'position': 1})(dense)
+#dense = Dense(1)(lambda_layer)
+
+def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
+
+    number_layers = len(lags)
+    
+    # we get the max number of values required by the model
+    
+    max_input_values = np.max([lags[i]*time_steps[i] for i in range(number_layers)])
+    
+    inputs = Input(shape = (max_input_values, 1))
+    
+    dense_layers = []
+    
+    dense_layers.append(inputs)
+    
+    for i in range(1, number_layers):
+        
+        strides =  lags[i]//lags[i-1]
+        
+        conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = strides, \
+               activation = 'sigmoid', use_bias = True)(dense_layers[i-1])
+        
+        dense_layers.append(conv)
+        
+    lstm_layers = []
+    
+    for scale in processed_scales:
+        
+        lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
+        
+        lstm = LSTM(lstm_nodes[i], activation='sigmoid', recurrent_activation='sigmoid',\
+                activity_regularizer=regularizers.l2(l2), \
+                recurrent_regularizer=regularizers.l2(l2))(lambda_layer)
+        
+        lstm_layers.append(lstm)
+        
+    if len(lstm_layers) > 1:
+        
+        concatenated = keras.layers.concatenate(lstm_layers)
+        
+    else:
+        
+        concatenated = lstm_layers[0]
+        
+    outputs = Dense(1)(concatenated)
+    #outputs = dense_layers[1]
+    #outputs = concatenated
+    model = Model(inputs = inputs, outputs = outputs)
+    
+    ad = optimizers.Adadelta(lr = 0.05)
+    
+    model.compile(loss = 'mse', optimizer = ad)
+    #model.compile(loss = 'mse', optimizer = "sgd")
+    
+    return model
+        
+def test(): 
+    lags = [1,2]
+    processed_scales = [0]
+    dense_nodes = [1, 5]
+    time_steps = [3,2]
+    lstm_nodes = [1, 1]
+    l2 = 0.001
+    mod = model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2)
+    
+    inputs = np.random.normal(size=(1,4,1))
+    outputs = np.random.normal(size=(1,1))
+    #outputs[:,1] = mod.predict(inputs)[:,1]
+    print(mod.layers)
+    #weights = mod.layers[4].get_weights()
+    #print(mod.layers[1].get_weights())
+    print("i")
+    print(mod.predict(inputs))
+    print(outputs)
+
+    mod.fit(inputs,outputs,epochs=10)
+    print("i")
+    print(mod.predict(inputs))
+    #weights2 = mod.layers[4].get_weights()
+    #print(np.abs(weights[0] - weights2[0]))
+
+        

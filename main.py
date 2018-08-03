@@ -20,6 +20,10 @@ sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
 from data_processing import get_data
 import simple_LSTM as sLSTM
 import hierarchical_LSTM as hLSTM
+import LSTM_Ms as Ms
+import write_results as wr
+import get_params as gp
+import train_and_test_functions as trf
 import persistence
 import copy
 import numpy as np
@@ -144,6 +148,49 @@ if __name__ == "__main__":
         write_file_name = "final2_hierarchical_LSTM_" + file_name[:-4] + ".txt"
                 
         hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
+        
+    elif model == 'LSTM-Ms':
+        
+        runs = 5
+        
+        sets = 10
+           
+        lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
+        epochs, l2, batch_size, shuffle = gp.get_params_Ms(4)
+    
+        params = [lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
+                   epochs, l2, batch_size, shuffle]
+        
+        max_input_values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
+        
+            
+        training_inputs, testing_inputs, training_outputs, testing_outputs,\
+        vmins, vmaxs = get_data(path, file_name, max_input_values, 1, overlap=False)
+        
+        mae = np.zeros((sets, runs))
+        mape = np.zeros((sets, runs))
+        mse = np.zeros((sets, runs))
+        
+        for i in range(sets):
+            
+            X = training_inputs[i]
+            X_ts = testing_inputs[i]
+            y = training_outputs[i]
+            y_ts = testing_outputs[i]
+            
+            for j in range(runs):
+                
+                model = Ms.model(lags, time_steps, processed_scales, \
+                                    dense_nodes, lstm_nodes, l2)
+                
+                mae[i,j], mape[i,j], mse[i,j], model = trf.train_and_test(model, max_input_values, 1, \
+                                                      epochs, vmins[i], vmaxs[i],     \
+                                                      X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
+                                                      shuffle = shuffle)
+                
+        path = "/user/i/iaraya/Wind_speed/results/"     
+                
+        wr.write_results(path, write_file_name, params, mae, mse,runs)
         
         
     elif model == "persistence":
