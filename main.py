@@ -190,6 +190,8 @@ if __name__ == "__main__":
                 
         path = "/user/i/iaraya/Wind_speed/results/"     
                 
+        write_file_name = "LSTM_Ms" + file_name[:-4] + ".txt"
+        
         wr.write_results(path, write_file_name, params, mae, mse,runs)
         
         
