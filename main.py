@@ -180,7 +180,7 @@ if __name__ == "__main__":
             
             for j in range(runs):
                 
-                model = Ms.model(lags, time_steps, processed_scales, \
+                model = Ms.LSTM_Ms(lags, time_steps, processed_scales, \
                                     dense_nodes, lstm_nodes, l2)
                 
                 mae[i,j], mape[i,j], mse[i,j], model = trf.train_and_test(model, max_input_values, 1, \
