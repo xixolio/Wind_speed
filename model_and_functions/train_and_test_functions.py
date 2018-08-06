@@ -58,9 +58,9 @@ def train_and_test(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts,
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax-vmin) + vmin
     
-    mae = np.mean(np.abs(predicted_vector - y_ts))
+    mae = np.mean(np.abs(predicted_vector.flatten() - y_ts.flatten()))
     mape = np.mean(np.abs((predicted_vector - y_ts )/y_ts)*100)
-    mse = np.mean((predicted_vector - y_ts)**2)
+    mse = np.mean((predicted_vector.flatten() - y_ts.flatten())**2)
                         
     print(mae)
     return mae, mape, mse, model
