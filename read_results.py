@@ -84,10 +84,10 @@ mean_persistence_mse = np.mean(data_mse,0)
 import numpy as np
    
         
-file_name = "no_mvs_b08.csv"
+file_name = "no_mvs_e01.csv"
 #my_file = "finalsimple_LSTM_" + file_name[:-4] + ".txt"
 
-my_file = "final2_hierarchical_LSTM_"+ file_name[:-4] + ".txt"
+my_file = "LSTM_Ms"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
 data = []

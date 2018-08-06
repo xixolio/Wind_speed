@@ -67,13 +67,15 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         concatenated = lstm_layers[0]
         
     outputs = Dense(1)(concatenated)
-    #outputs = dense_layers[1]
+    #outputs = dense_layers[2]
+    #outputs2 = dense_layers[1]
     #outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
-    
+    #model2 = Model(inputs = inputs, outputs = outputs2)
     ad = optimizers.Adadelta(lr = 0.05)
     
     model.compile(loss = 'mse', optimizer = ad)
+    #model2.compile(loss = 'mse', optimizer = ad)
     #model.compile(loss = 'mse', optimizer = "sgd")
     
     return model
@@ -205,21 +207,22 @@ def test():
     
 def test2(): 
     
-    lags = [1,24,48]
-    processed_scales = [1,2]
-    dense_nodes = [1, 5, 5]
+    lags = [1,2,4]
+    processed_scales = [1]
+    dense_nodes = [1,2,1]
     
-    time_steps = [1,2,4]
-    lstm_nodes = [4, 3, 2]
+    time_steps = [1, 5,7]
+    lstm_nodes = [4, 3,5]
     l2 = 0.001
     #values = int(48*10)
     values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
-    mod = LSTM_Ms_pool(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2)
+    mod,mod2 = LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2)
     
     
-    inputs = np.random.normal(size=(2,values,1))
+    inputs = np.ones((1,values,1))
     outputs = np.random.normal(size=(1,1))
     #outputs[:,1] = mod.predict(inputs)[:,1]
-    print(mod.predict(inputs).shape)
+    #print(mod.predict(inputs).shape)
+    return mod,mod2, inputs
 
         

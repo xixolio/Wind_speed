@@ -152,7 +152,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
             lstm = LSTM(lstm_nodes[i],activation='sigmoid',
                     recurrent_activation='sigmoid',
                     activity_regularizer=regularizers.l2(l2),
-                    recurrent_regularizer=regularizers.l2(l2))(dummy_layer)
+                    recurrent_regularizer=regularizers.l2(l2), return_sequences = True)(dummy_layer)
             
         else:
             
@@ -176,11 +176,36 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         concatenated = lstm_layers[processed_scales[0]]
         
     outputs = Dense(1)(concatenated)
+    #outputs = lstm
     model = Model(inputs=input_layers,outputs=outputs)
     ad = optimizers.Adadelta(lr = 0.05)
     model.compile(loss='mse',optimizer=ad)
     
     return model
+
+def test2(): 
+    
+    lags = [1,24,48]
+    processed_scales = [1,2]
+    dense_nodes = [1, 5,6]
+    
+    time_steps = [1, 2,3]
+    lstm_nodes = [4, 3,5]
+    l2 = 0.001
+    #values = int(48*10)
+    values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
+    mod = model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2)
+    
+    
+    inputs = np.random.normal(size=(1, values, 1))
+    inputs = [inputs[0,-time_steps[i]*lags[i]:,0].reshape(1,time_steps[i],lags[i]) for i in range(len(lags))]
+    outputs = np.random.normal(size=(1,1))
+    #outputs = [outputs for i in range(len(lags))]
+    #outputs[:,1] = mod.predict(inputs)[:,1]
+    print(mod.predict(inputs).shape)
+    print(mod.layers[2].get_weights)
+    mod.fit(inputs,outputs,epochs=10)
+    return mod
 
 def model_gpu(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, runs):
     

@@ -69,12 +69,12 @@ if model == "simple_LSTM":
             subprocess.call(["qsub","main.sh","-F",string])
             
     
-elif model == "hierarchical_LSTM":
+elif model == "LSTM_Ms":
     
       
     if experiment == 1:
         
-        lags = ["[1-12-24-48]"]
+        lags = ["[1-24]"]
         
         time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]",\
                       "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
@@ -97,17 +97,17 @@ elif model == "hierarchical_LSTM":
         
     if experiment == 2:
                 
-        lags = ["[1-6]"]
+        lags = ["[1-24]"]
         
-        time_steps = ["[4-4]"]
+        time_steps = ["[24-10]"]
         
         dense_nodes = ["[1-5]"]
         
-        lstm_nodes = ["[6-6]"]
+        lstm_nodes = ["[10-10]"]
         
-        processed_scales = ["[0-1]"]
+        processed_scales = ["[1]"]
         
-        epochs = [1]
+        epochs = [10]
         
         l2 = [0.001]
         
@@ -119,7 +119,7 @@ elif model == "hierarchical_LSTM":
     
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                    epochs, l2, batch_size, shuffle, verbose)
+                    epochs, l2, batch_size, shuffle)
     
     string = ''
     
@@ -134,14 +134,14 @@ elif model == "hierarchical_LSTM":
                 
             string += "--"
           
-    model = "hierarchical_LSTM"
+    model = "LSTM_Ms"
     path = "/home/iaraya/Wind_speed/"
-    name = "no_mvs_d05a.csv"
+    name = "no_mvs_e01.csv"
     
     
     #print(string)
             
-    subprocess.call(["python","main_gpu.py", model, path, name, string])
+    subprocess.call(["python","main.py", model, path, name, string])
 
 
 
