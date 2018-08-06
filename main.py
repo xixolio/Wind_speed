@@ -9,12 +9,12 @@ Created on Sun Jun 10 15:07:18 2018
 import os
 #os.environ["MKL_THREADING_LAYER"] = "GNU"
 import sys
-#sys.path.append('/user/i/iaraya/Wind_speed/data/')
-#sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
+sys.path.append('/user/i/iaraya/Wind_speed/data/')
+sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
 #sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
 #sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
-sys.path.append('/home/iaraya/Wind_speed/CIARP2/Wind_speed/data/')
-sys.path.append('/home/iaraya/Wind_speed/CIARP2/Wind_speed/model_and_functions/')
+#sys.path.append('/home/iaraya/Wind_speed/CIARP2/Wind_speed/data/')
+#sys.path.append('/home/iaraya/Wind_speed/CIARP2/Wind_speed/model_and_functions/')
 
 
 from data_processing import get_data

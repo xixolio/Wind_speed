@@ -21,15 +21,15 @@ def train_and_test(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts,
             
     else:
         
-        model.fit(X, y, batch_size = batch_size, shuffle = shuffle, verbose = True, epochs = epochs)
+        model.fit(X, y, batch_size = batch_size, shuffle = shuffle, verbose = False, epochs = epochs)
         
     # Testing 
     
     predicted_vector = np.zeros((24))
     
     X_ts = X_ts.reshape(1, time_steps, lag)
-    print(X_ts)
-    print(y_ts)
+    #print(X_ts)
+    #print(y_ts)
     for i in range(24):
                         
         predicted_vector[i] = model.predict(X_ts)
@@ -53,8 +53,8 @@ def train_and_test(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts,
                 X_ts = np.concatenate((X_ts.flatten()[1:], predicted_vector[i].flatten()))
                 
                 X_ts = X_ts.reshape(1, time_steps, lag)
-    print(X_ts)
-    print(predicted_vector)                   
+    #print(X_ts)
+    #print(predicted_vector)                   
     predicted_vector = predicted_vector * (vmax - vmin) + vmin 
     y_ts = y_ts * (vmax-vmin) + vmin
     
