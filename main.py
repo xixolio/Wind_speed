@@ -149,7 +149,7 @@ if __name__ == "__main__":
                 
         hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
         
-    elif model == 'LSTM_Ms':
+    elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool':
         
         runs = 5
         
@@ -180,8 +180,15 @@ if __name__ == "__main__":
             
             for j in range(runs):
                 
-                model = Ms.LSTM_Ms(lags, time_steps, processed_scales, \
-                                    dense_nodes, lstm_nodes, l2)
+                if model == 'LSTM_Ms':
+                    
+                    model = Ms.LSTM_Ms(lags, time_steps, processed_scales, \
+                                        dense_nodes, lstm_nodes, l2)
+                    
+                elif model == 'LSTM_Ms_pool':
+                    
+                    model = Ms.LSTM_Ms_pool(lags, time_steps, processed_scales, \
+                                        dense_nodes, lstm_nodes, l2)
                 
                 mae[i,j], mape[i,j], mse[i,j], model = trf.train_and_test(model, max_input_values, 1, \
                                                       epochs, vmins[i], vmaxs[i],     \
@@ -190,7 +197,7 @@ if __name__ == "__main__":
                 
         path = "/user/i/iaraya/Wind_speed/results/"     
                 
-        write_file_name = "LSTM_Ms" + file_name[:-4] + ".txt"
+        write_file_name = 'LSTM_Ms_pool_' + file_name[:-4] + ".txt"
         
         wr.write_results(path, write_file_name, params, mae, mse,runs)
         
