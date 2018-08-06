@@ -152,7 +152,7 @@ def model(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
             lstm = LSTM(lstm_nodes[i],activation='sigmoid',
                     recurrent_activation='sigmoid',
                     activity_regularizer=regularizers.l2(l2),
-                    recurrent_regularizer=regularizers.l2(l2), return_sequences = True)(dummy_layer)
+                    recurrent_regularizer=regularizers.l2(l2))(dummy_layer)
             
         else:
             

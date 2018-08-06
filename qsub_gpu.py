@@ -135,7 +135,7 @@ elif model == "LSTM_Ms":
             string += "--"
           
     model = "LSTM_Ms"
-    path = "/home/iaraya/CIARP2/Wind_speed/"
+    path = "/home/iaraya/Wind_speed/CIARP2/Wind_speed/data/"
     name = "no_mvs_e01.csv"
     
     
@@ -145,5 +145,78 @@ elif model == "LSTM_Ms":
 
 
 
+elif model == "hierarchical_LSTM":
+    
+      
+    if experiment == 1:
+        
+        lags = ["[1-24]"]
+        
+        time_steps = ["[24-5-5-5]","[24-10-5-5]","[24-15-5-5]","[24-15-10-5]",\
+                      "[24-15-15-5]","[24-15-15-10]","[24-15-15-15]"]
+        
+        dense_nodes = ["[1-5-5-5]","[1-10-10-10]"]
+        
+        lstm_nodes = ["[5-5-5-5]","[10-10-10-10]"]
+        
+        processed_scales = ["[0-1-2-3]"]
+        
+        epochs = [10]
+        
+        l2 = [0.001]
+        
+        batch_size = [512]
+        
+        shuffle = [0]
+        
+        verbose = [0]
+        
+    if experiment == 2:
+                
+        lags = ["[1-24]"]
+        
+        time_steps = ["[24-10]"]
+        
+        dense_nodes = ["[1-5]"]
+        
+        lstm_nodes = ["[10-10]"]
+        
+        processed_scales = ["[1]"]
+        
+        epochs = [10]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [0]
+        
+        verbose = [1]
+    
+    
+    combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
+                    epochs, l2, batch_size, shuffle)
+    
+    string = ''
+    
+    for c in combs:
+        
+        if c:
+            
+            
+            for element in c:
+                
+                string += str(element) + ','
+                
+            string += "--"
+          
+    model = "hierarchical_LSTM"
+    path = "/home/iaraya/Wind_speed/CIARP2/Wind_speed/data/"
+    name = "no_mvs_e01.csv"
+    
+    
+    #print(string)
+            
+    subprocess.call(["python","main.py", model, path, name, string])
 
 
