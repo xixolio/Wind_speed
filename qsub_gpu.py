@@ -135,7 +135,7 @@ elif model == "LSTM_Ms":
             string += "--"
           
     model = "LSTM_Ms"
-    path = "/home/iaraya/Wind_speed/"
+    path = "/home/iaraya/CIARP2/Wind_speed/"
     name = "no_mvs_e01.csv"
     
     
