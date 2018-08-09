@@ -293,11 +293,21 @@ elif model == "LSTM_Ms":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
+        steps = ["1","5","10","15"]
+        steps_pairs = product(steps,steps)
+        time_steps = []
+        
+        for element in steps_pairs:
+            
+            time_steps.append("[" + "-".join(element) + "]")
+                          
+        #print(time_steps)
+        
+        #time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
         
         dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["10-10]","[20-20]"]
+        lstm_nodes = ["[10-10]","[20-20]"]
         
         #lstm_nodes = ["[10-10]"]
         
@@ -370,8 +380,11 @@ elif model == "LSTM_Ms":
                 
         lags = ["[1-24-48]"]
         
+        
         time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]","[24-15-10]", \
                       "[24-15-1]","[24-15-5]","[24-15-15]"]
+        
+        
         #dense_nodes = ["[1-10-10]","[1-20-20]"]
         
         #time_steps = ["[24-5-1]"]
@@ -500,7 +513,7 @@ elif model == "LSTM_Ms_pool":
         
         dense_nodes = ["[1-5]","[1-10]"]
         
-        lstm_nodes = ["10-10]","[20-20]"]
+        lstm_nodes = ["[10-10]","[20-20]"]
         
         #lstm_nodes = ["[10-10]"]
         
