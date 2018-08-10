@@ -131,10 +131,10 @@ if __name__ == "__main__":
             
             for j in range(runs):
                 
-                model = hLSTM.model(lags, time_steps, processed_scales, \
+                mod = hLSTM.model(lags, time_steps, processed_scales, \
                                     dense_nodes, lstm_nodes, l2)
                 
-                mae[i,j], mape[i,j], mse[i,j], model = hLSTM.train_and_test(model, time_steps, lags, \
+                mae[i,j], mape[i,j], mse[i,j], mod = hLSTM.train_and_test(mod, time_steps, lags, \
                                                       epochs, vmins[i], vmaxs[i],     \
                                                       X, y, copy.deepcopy(X_ts), y_ts, batch_size = batch_size, \
                                                       shuffle = shuffle)
@@ -182,22 +182,22 @@ if __name__ == "__main__":
                 
                 if model == 'LSTM_Ms':
                     
-                    model = Ms.LSTM_Ms(lags, time_steps, processed_scales, \
+                    mod = Ms.LSTM_Ms(lags, time_steps, processed_scales, \
                                         dense_nodes, lstm_nodes, l2)
                     
                 elif model == 'LSTM_Ms_pool':
                     
-                    model = Ms.LSTM_Ms_pool(lags, time_steps, processed_scales, \
+                    mod = Ms.LSTM_Ms_pool(lags, time_steps, processed_scales, \
                                         dense_nodes, lstm_nodes, l2)
                 
-                mae[i,j], mape[i,j], mse[i,j], model = trf.train_and_test(model, max_input_values, 1, \
+                mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, max_input_values, 1, \
                                                       epochs, vmins[i], vmaxs[i],     \
                                                       X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
                                                       shuffle = shuffle)
                 
         path = "/user/i/iaraya/Wind_speed/results/"     
                 
-        write_file_name = 'LSTM_Ms_pool_' + file_name[:-4] + ".txt"
+        write_file_name = str(mod) + '_' + file_name[:-4] + ".txt"
         
         wr.write_results(path, write_file_name, params, mae, mse,runs)
         

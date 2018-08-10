@@ -509,7 +509,13 @@ elif model == "LSTM_Ms_pool":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
+        steps = ["1","5","10","15"]
+        steps_pairs = product(steps,steps)
+        time_steps = []
+        
+        for element in steps_pairs:
+            
+            time_steps.append("[" + "-".join(element) + "]")
         
         dense_nodes = ["[1-20]","[1-40]"]
         
