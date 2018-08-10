@@ -511,7 +511,7 @@ elif model == "LSTM_Ms_pool":
         
         time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
         
-        dense_nodes = ["[1-5]","[1-10]"]
+        dense_nodes = ["[1-20]","[1-40]"]
         
         lstm_nodes = ["[10-10]","[20-20]"]
         
