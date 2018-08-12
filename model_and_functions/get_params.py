@@ -35,3 +35,28 @@ def get_params_Ms(argv_position):
     
     return lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
             epochs, l2, batch_size, shuffle
+            
+def get_params_Conv(argv_position):
+    
+    params = str(sys.argv[argv_position]).split(',')
+
+    lags = str(params[0]).strip('[]')
+    lags = [int(lag) for lag in lags.split('-')]
+    
+    dense_nodes = str(params[1]).strip('[]')
+    dense_nodes = [int(dn) for dn in dense_nodes.split('-')]
+    
+    input_length = int(params[2])
+    
+    final_nodes = int(params[3])
+    
+    epochs = int(params[4])
+    
+    l2 = float(params[5])
+    
+    batch_size = int(params[6])
+        
+    shuffle = bool(int(params[7]))
+    
+    return lags, dense_nodes, input_length, final_nodes, epochs, l2,\
+            batch_size, shuffle

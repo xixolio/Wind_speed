@@ -2,7 +2,7 @@
 from itertools import product
 import subprocess
 import sys
-
+import numpy as np
 
 model = sys.argv[1]
 
@@ -667,6 +667,81 @@ elif model == "LSTM_Ms_pool":
             
             subprocess.call(["qsub","main.sh","-F",string])
             
+elif model == "Conv":
+    
+    if experiment == 0:
+        
+        lags = ["[1-24]"]
+        
+        dense_nodes = ["[1-15]"]
+        
+        multipliers = np.array([15])
+        
+        input_length = 24*multipliers
+        input_length = input_length.tolist()
+        
+        final_nodes = [15]
+        #lstm_nodes = ["10-10]"]
+        
+        #lstm_nodes = ["[10-10]"]
+        
+        #processed_scales = ["[0-1]"]
+        
+        epochs = [10]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [1]
+        
 
+    if experiment == 1:
+                
+        lags = ["[1-24]"]
+        
+        dense_nodes = ["[1-5]", "[1-10]","[1-15]"]
+        
+        multipliers = np.array([1, 5, 10, 15])
+        
+        input_length = 24*multipliers
+        input_length = input_length.tolist()
+        
+        final_nodes = [5,10,15]
+        #lstm_nodes = ["10-10]"]
+        
+        #lstm_nodes = ["[10-10]"]
+        
+        #processed_scales = ["[0-1]"]
+        
+        epochs = [10]
+        
+        l2 = [0.001]
+        
+        batch_size = [1]
+        
+        shuffle = [1]
+        
+        verbose = [0]
+        
+    combs = product(lags, dense_nodes, input_length, final_nodes, epochs,\
+                    l2, batch_size, shuffle)
+    
+    for c in combs:
+        
+        if c:
+            
+            string = ''
+            
+            for element in c:
+                
+                string += str(element) + ','
+            
+            string = 'Conv /user/i/iaraya/Wind_speed/data/  \
+                    no_mvs_e01.csv ' + string
+            
+            #print(string)
+            
+            subprocess.call(["qsub","main.sh","-F",string])
 
 

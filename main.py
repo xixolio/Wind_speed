@@ -201,6 +201,49 @@ if __name__ == "__main__":
         
         wr.write_results(path, write_file_name, params, mae, mse,runs)
         
+    elif model == 'Conv':
+        
+        runs = 5
+        
+        sets = 10
+           
+        lags, dense_nodes, input_length, final_nodes, epochs, l2,\
+            batch_size, shuffle = gp.get_params_Conv(4)
+    
+        params = [lags, dense_nodes, input_length, final_nodes, epochs, l2,\
+            batch_size, shuffle]
+        
+        #max_input_values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
+        
+            
+        training_inputs, testing_inputs, training_outputs, testing_outputs,\
+        vmins, vmaxs = get_data(path, file_name, input_length, 1, overlap=False)
+        
+        mae = np.zeros((sets, runs))
+        mape = np.zeros((sets, runs))
+        mse = np.zeros((sets, runs))
+        
+        for i in range(sets):
+            
+            X = training_inputs[i]
+            X_ts = testing_inputs[i]
+            y = training_outputs[i]
+            y_ts = testing_outputs[i]
+            
+            for j in range(runs):
+                
+                mod = Ms.Conv(lags, dense_nodes, input_length, l2, final_nodes)
+                
+                mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, input_length, 1, \
+                                                      epochs, vmins[i], vmaxs[i],     \
+                                                      X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
+                                                      shuffle = shuffle)
+                
+        path = "/user/i/iaraya/Wind_speed/results/"     
+                
+        write_file_name = str(model) + '_' + file_name[:-4] + ".txt"
+        
+        wr.write_results(path, write_file_name, params, mae, mse,runs)
         
     elif model == "persistence":
         

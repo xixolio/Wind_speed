@@ -80,7 +80,7 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     
     return model
 
-def Conv(lags, dense_nodes, input_length, l2):
+def Conv(lags, dense_nodes, input_length, l2, final_nodes):
 
     number_layers = len(lags)
     
@@ -106,7 +106,8 @@ def Conv(lags, dense_nodes, input_length, l2):
         dense_layers.append(pool)
         
     flattened = Flatten()(dense_layers[-1])
-    outputs = Dense(1)(flattened)
+    final_layer = Dense(final_nodes, activation = 'sigmoid')(flattened)
+    outputs = Dense(1)(final_layer)
     #outputs = concatenated
     
     model = Model(inputs = inputs, outputs = outputs)
