@@ -87,12 +87,12 @@ import numpy as np
 file_name = "no_mvs_e01.csv"
 #my_file = "finalsimple_LSTM_" + file_name[:-4] + ".txt"
 
-my_file = "LSTM_Ms_pool_"+ file_name[:-4] + ".txt"
+my_file = "Conv_"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
 data = []
 f = open("results/" + my_file)
-lines = f.readlines()[1:]
+lines = f.readlines()
 f.close()
 results = np.zeros((len(lines), 10, 5))
 

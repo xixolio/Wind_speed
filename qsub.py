@@ -687,7 +687,7 @@ elif model == "Conv":
         
         #processed_scales = ["[0-1]"]
         
-        epochs = [10]
+        epochs = [20]
         
         l2 = [0.001]
         
@@ -714,7 +714,7 @@ elif model == "Conv":
         
         #processed_scales = ["[0-1]"]
         
-        epochs = [10]
+        epochs = [20]
         
         l2 = [0.001]
         
