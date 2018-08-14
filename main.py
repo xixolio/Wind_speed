@@ -201,7 +201,7 @@ if __name__ == "__main__":
         
         wr.write_results(path, write_file_name, params, mae, mse,runs)
         
-    elif model == 'Conv' or model == 'TDNN':
+    elif model == 'Conv' or model == 'TDNN' or model == 'TDNN_l':
         
         runs = 5
         
