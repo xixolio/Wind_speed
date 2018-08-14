@@ -240,6 +240,10 @@ if __name__ == "__main__":
                     
                     mod = Ms.TDNN(lags, dense_nodes, input_length, l2, final_nodes)
 
+                elif model == 'TDNN_l':
+                    
+                    mod = Ms.TDNN_locally(lags, dense_nodes, input_length, l2, final_nodes)
+                    
                 mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, input_length, 1, \
                                                       epochs, vmins[i], vmaxs[i],     \
                                                       X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \

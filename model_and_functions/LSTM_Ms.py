@@ -7,7 +7,7 @@ Created on Thu Aug  2 11:56:29 2018
 
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, TimeDistributed, \
-Reshape, Lambda, Conv1D, MaxPooling1D, Flatten
+Reshape, Lambda, Conv1D, MaxPooling1D, Flatten, LocallyConnected1D
 from keras import regularizers, optimizers
 
 import keras
@@ -196,6 +196,45 @@ def TDNN(lags, dense_nodes, input_length, l2, final_nodes):
         strides =  lags[i]//lags[i-1]
         
         conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = strides, \
+               activation = 'sigmoid', use_bias = True)(dense_layers[i-1])
+        
+        #pool = MaxPooling1D(pool_size = strides, strides = strides)(conv)
+        
+        dense_layers.append(conv)
+        
+    flattened = Flatten()(dense_layers[-1])
+    final_layer = Dense(final_nodes, activation = 'sigmoid')(flattened)
+    outputs = Dense(1)(final_layer)
+    #outputs = concatenated
+    
+    model = Model(inputs = inputs, outputs = outputs)
+    
+    ad = optimizers.Adadelta(lr = 0.05)
+    
+    model.compile(loss = 'mse', optimizer = ad)
+    #model.compile(loss = 'mse', optimizer = "sgd")
+    
+    return model
+
+def TDNN_locally(lags, dense_nodes, input_length, l2, final_nodes):
+
+    number_layers = len(lags)
+    
+    # we get the max number of values required by the model
+    
+    #max_input_values = np.max([lags[i]*time_steps[i] for i in range(number_layers)])
+    
+    inputs = Input(shape = (input_length, 1))
+    
+    dense_layers = []
+    
+    dense_layers.append(inputs)
+    
+    for i in range(1, number_layers):
+        
+        strides =  lags[i]//lags[i-1]
+        
+        conv = LocallyConnected1D(filters = dense_nodes[i], kernel_size = strides, strides = strides, \
                activation = 'sigmoid', use_bias = True)(dense_layers[i-1])
         
         #pool = MaxPooling1D(pool_size = strides, strides = strides)(conv)
