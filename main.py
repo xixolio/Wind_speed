@@ -201,7 +201,7 @@ if __name__ == "__main__":
         
         wr.write_results(path, write_file_name, params, mae, mse,runs)
         
-    elif model == 'Conv':
+    elif model == 'Conv' or model == 'TDNN':
         
         runs = 5
         
@@ -232,8 +232,14 @@ if __name__ == "__main__":
             
             for j in range(runs):
                 
-                mod = Ms.Conv(lags, dense_nodes, input_length, l2, final_nodes)
+                if model == 'Conv':
+                    
+                    mod = Ms.Conv(lags, dense_nodes, input_length, l2, final_nodes)
                 
+                elif model == 'TDNN':
+                    
+                    mod = Ms.TDNN(lags, dense_nodes, input_length, l2, final_nodes)
+
                 mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, input_length, 1, \
                                                       epochs, vmins[i], vmaxs[i],     \
                                                       X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
