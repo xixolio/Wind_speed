@@ -263,7 +263,7 @@ elif model == "hierarchical_LSTM":
 #            
 #            subprocess.call(["python","main.py",model, path, file,string])
             
-elif model == "LSTM_Ms":
+elif model == "LSTM_Ms" or model == "LSTM_Ms_locally":
         
     if experiment == 0:
                 
@@ -327,17 +327,17 @@ elif model == "LSTM_Ms":
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
+        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]","[24-15]"]
         
-        dense_nodes = ["[1-5]", "[1-10]"]
+        dense_nodes = ["[1-5]", "[1-10]","[1-15]"]
         
         #lstm_nodes = ["[20-20]","[30-30]"]
         
-        lstm_nodes = ["[10-10]", "[20-20]"]
+        lstm_nodes = ["[10-10]", "[20-20]","[30-30]"]
         
         processed_scales = ["[1]"]
         
-        epochs = [10,20]
+        epochs = [10,20,30]
         
         l2 = [0.001]
         
@@ -451,7 +451,7 @@ elif model == "LSTM_Ms":
                 
                 string += str(element) + ','
             
-            string = 'LSTM_Ms /user/i/iaraya/Wind_speed/data/  \
+            string = str(model) + ' /user/i/iaraya/Wind_speed/data/  \
                     no_mvs_e01.csv ' + string
             
             #print(string)

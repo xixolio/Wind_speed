@@ -112,9 +112,8 @@ for k,line in zip(range(len(lines)),lines):
         for j in range(5):
             
             results[k,i,j] = float(data[i*5 + j].strip(','))
-            
-            
- 
+        
+
 mean_by_run = np.mean(results,axis = 1)
 total_mean = np.mean(mean_by_run, axis = 1)
 #mean_by_run = mean_by_run[total_mean > 0]
