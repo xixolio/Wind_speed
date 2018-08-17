@@ -51,7 +51,7 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     for scale in processed_scales:
         
         lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
-        
+            
         lstm = LSTM(lstm_nodes[scale], activation='sigmoid', recurrent_activation='sigmoid',\
                 activity_regularizer=regularizers.l2(l2), \
                 recurrent_regularizer=regularizers.l2(l2))(lambda_layer)
@@ -59,6 +59,65 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         lstm_layers.append(lstm)
         
     if len(lstm_layers) > 1:
+        
+        concatenated = keras.layers.concatenate(lstm_layers)
+        
+    else:
+        
+        concatenated = lstm_layers[0]
+        
+    outputs = Dense(1)(concatenated)
+    #outputs = dense_layers[2]
+    #outputs2 = dense_layers[1]
+    #outputs = concatenated
+    model = Model(inputs = inputs, outputs = outputs)
+    #model2 = Model(inputs = inputs, outputs = outputs2)
+    ad = optimizers.Adadelta(lr = 0.05)
+    
+    model.compile(loss = 'mse', optimizer = ad)
+    #model2.compile(loss = 'mse', optimizer = ad)
+    #model.compile(loss = 'mse', optimizer = "sgd")
+    
+    return model
+
+def LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
+
+    number_layers = len(lags)
+    
+    # we get the max number of values required by the model
+    
+    max_input_values = np.max([lags[i]*time_steps[i] for i in range(number_layers)])
+    
+    inputs = Input(shape = (max_input_values, 1))
+    
+    dense_layers = []
+    
+    dense_layers.append(inputs)
+    
+    for i in range(1, number_layers):
+        
+        strides =  lags[i]//lags[i-1]
+        
+        conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = strides, \
+               activation = 'sigmoid', use_bias = True)(dense_layers[i-1])
+        
+        dense_layers.append(conv)
+        
+    lstm_layers = []
+    
+    for scale in processed_scales:
+        
+        lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
+            
+        lstm = LSTM(lstm_nodes[scale], activation='sigmoid', recurrent_activation='sigmoid',\
+                activity_regularizer=regularizers.l2(l2), \
+                recurrent_regularizer=regularizers.l2(l2), return_sequences = True)(lambda_layer)
+        
+        flattened = Flatten()(lstm)
+        lstm_layers.append(flattened)
+        
+    if len(lstm_layers) > 1:
+        
         
         concatenated = keras.layers.concatenate(lstm_layers)
         

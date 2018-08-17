@@ -149,7 +149,8 @@ if __name__ == "__main__":
                 
         hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
         
-    elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool' or model == 'LSTM_Ms_locally':
+    elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool' or model == 'LSTM_Ms_locally' \
+    or model == 'LSTM_Ms_return':
         
         runs = 5
         
@@ -193,6 +194,11 @@ if __name__ == "__main__":
                 elif model == 'LSTM_Ms_locally':
                    
                     mod = Ms.LSTM_Ms_locally(lags, time_steps, processed_scales, \
+                                        dense_nodes, lstm_nodes, l2)
+                    
+                elif model == 'LSTM_Ms_return':
+                    
+                    mod = Ms.LSTM_Ms_return(lags, time_steps, processed_scales, \
                                         dense_nodes, lstm_nodes, l2)
                     
                 

@@ -87,7 +87,7 @@ import numpy as np
 file_name = "no_mvs_e01.csv"
 #my_file = "finalsimple_LSTM_" + file_name[:-4] + ".txt"
 
-my_file = "Conv_"+ file_name[:-4] + ".txt"
+my_file = "LSTM_Ms_locally_"+ file_name[:-4] + ".txt"
 data_mae = []
 data_mse = []
 data = []

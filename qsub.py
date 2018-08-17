@@ -263,7 +263,7 @@ elif model == "hierarchical_LSTM":
 #            
 #            subprocess.call(["python","main.py",model, path, file,string])
             
-elif model == "LSTM_Ms" or model == "LSTM_Ms_locally":
+elif model == "LSTM_Ms" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return':
         
     if experiment == 0:
                 
@@ -337,7 +337,7 @@ elif model == "LSTM_Ms" or model == "LSTM_Ms_locally":
         
         processed_scales = ["[1]"]
         
-        epochs = [10,20,30]
+        epochs = [10,20,30 ]
         
         l2 = [0.001]
         
