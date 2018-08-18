@@ -33,8 +33,10 @@ def get_params_Ms(argv_position):
         
     shuffle = bool(int(params[8]))
     
+    final_nodes = int(params[9])
+    
     return lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
-            epochs, l2, batch_size, shuffle
+            epochs, l2, batch_size, shuffle, final_nodes
             
 def get_params_Conv(argv_position):
     

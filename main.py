@@ -157,10 +157,10 @@ if __name__ == "__main__":
         sets = 10
            
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
-        epochs, l2, batch_size, shuffle = gp.get_params_Ms(4)
+        epochs, l2, batch_size, shuffle, final_nodes = gp.get_params_Ms(4)
     
         params = [lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                   epochs, l2, batch_size, shuffle]
+                   epochs, l2, batch_size, shuffle, final_nodes]
         
         max_input_values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
         
@@ -199,7 +199,7 @@ if __name__ == "__main__":
                 elif model == 'LSTM_Ms_return':
                     
                     mod = Ms.LSTM_Ms_return(lags, time_steps, processed_scales, \
-                                        dense_nodes, lstm_nodes, l2)
+                                        dense_nodes, lstm_nodes, l2, final_nodes)
                     
                 
                 mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, max_input_values, 1, \

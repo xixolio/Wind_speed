@@ -305,6 +305,8 @@ elif model == "LSTM_Ms" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_retur
         
         #time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]"]
         
+        final_nodes = [5,10,15]
+        
         dense_nodes = ["[1-5]","[1-10]"]
         
         lstm_nodes = ["[10-10]","[20-20]"]
@@ -327,13 +329,15 @@ elif model == "LSTM_Ms" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_retur
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[24-1]","[24-5]","[24-10]","[24-15]","[24-15]"]
+        time_steps = ["[24-5]","[24-10]"]
         
         dense_nodes = ["[1-5]", "[1-10]","[1-15]"]
         
         #lstm_nodes = ["[20-20]","[30-30]"]
         
-        lstm_nodes = ["[10-10]", "[20-20]","[30-30]"]
+        lstm_nodes = ["[1-1]", "[5-5]","[10-10]"]
+        
+        final_nodes = [5,10,15]
         
         processed_scales = ["[1]"]
         
@@ -439,7 +443,7 @@ elif model == "LSTM_Ms" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_retur
     epochs = [10,20]
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                    epochs, l2, batch_size, shuffle)
+                    epochs, l2, batch_size, shuffle, final_nodes)
     
     for c in combs:
         

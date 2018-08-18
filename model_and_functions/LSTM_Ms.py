@@ -80,7 +80,7 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     
     return model
 
-def LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
+def LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes):
 
     number_layers = len(lags)
     
@@ -124,6 +124,10 @@ def LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, 
     else:
         
         concatenated = lstm_layers[0]
+        
+    if final_nodes != 0:
+        
+        concatenated = Dense(final_nodes, activation = 'sigmoid')(concatenated)
         
     outputs = Dense(1)(concatenated)
     #outputs = dense_layers[2]
