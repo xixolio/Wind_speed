@@ -132,7 +132,7 @@ def LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, 
     outputs = Dense(1)(concatenated)
     #outputs = dense_layers[2]
     #outputs2 = dense_layers[1]
-    outputs = concatenated
+    #outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
     #model2 = Model(inputs = inputs, outputs = outputs2)
     ad = optimizers.Adadelta(lr = 0.05)
@@ -195,7 +195,7 @@ def SRNN_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, 
     outputs = Dense(1)(concatenated)
     #outputs = dense_layers[2]
     #outputs2 = dense_layers[1]
-    outputs = concatenated
+    #outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
     #model2 = Model(inputs = inputs, outputs = outputs2)
     ad = optimizers.Adadelta(lr = 0.05)
