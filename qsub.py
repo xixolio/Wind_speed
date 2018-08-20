@@ -263,7 +263,8 @@ elif model == "hierarchical_LSTM":
 #            
 #            subprocess.call(["python","main.py",model, path, file,string])
             
-elif model == "LSTM_Ms" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return':
+elif model == "LSTM_Ms" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
+or model == "SRNN_Ms_return":
         
     if experiment == 0:
                 

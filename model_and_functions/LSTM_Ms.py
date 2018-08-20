@@ -7,7 +7,7 @@ Created on Thu Aug  2 11:56:29 2018
 
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, TimeDistributed, \
-Reshape, Lambda, Conv1D, MaxPooling1D, Flatten, LocallyConnected1D
+Reshape, Lambda, Conv1D, MaxPooling1D, Flatten, LocallyConnected1D, SimpleRNN
 from keras import regularizers, optimizers
 
 import keras
@@ -132,7 +132,70 @@ def LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, 
     outputs = Dense(1)(concatenated)
     #outputs = dense_layers[2]
     #outputs2 = dense_layers[1]
-    #outputs = concatenated
+    outputs = concatenated
+    model = Model(inputs = inputs, outputs = outputs)
+    #model2 = Model(inputs = inputs, outputs = outputs2)
+    ad = optimizers.Adadelta(lr = 0.05)
+    
+    model.compile(loss = 'mse', optimizer = ad)
+    #model2.compile(loss = 'mse', optimizer = ad)
+    #model.compile(loss = 'mse', optimizer = "sgd")
+    
+    return model
+
+def SRNN_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes):
+
+    number_layers = len(lags)
+    
+    # we get the max number of values required by the model
+    
+    max_input_values = np.max([lags[i]*time_steps[i] for i in range(number_layers)])
+    
+    inputs = Input(shape = (max_input_values, 1))
+    
+    dense_layers = []
+    
+    dense_layers.append(inputs)
+    
+    for i in range(1, number_layers):
+        
+        strides =  lags[i]//lags[i-1]
+        
+        conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = strides, \
+               activation = 'sigmoid', use_bias = True)(dense_layers[i-1])
+        
+        dense_layers.append(conv)
+        
+    lstm_layers = []
+    
+    for scale in processed_scales:
+        
+        lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
+            
+        lstm = SimpleRNN(lstm_nodes[scale], activation='sigmoid',\
+                activity_regularizer=regularizers.l2(l2), \
+                recurrent_regularizer=regularizers.l2(l2), return_sequences = True)(lambda_layer)
+        
+        flattened = Flatten()(lstm)
+        lstm_layers.append(flattened)
+        
+    if len(lstm_layers) > 1:
+        
+        
+        concatenated = keras.layers.concatenate(lstm_layers)
+        
+    else:
+        
+        concatenated = lstm_layers[0]
+        
+    if final_nodes != 0:
+        
+        concatenated = Dense(final_nodes, activation = 'sigmoid')(concatenated)
+        
+    outputs = Dense(1)(concatenated)
+    #outputs = dense_layers[2]
+    #outputs2 = dense_layers[1]
+    outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
     #model2 = Model(inputs = inputs, outputs = outputs2)
     ad = optimizers.Adadelta(lr = 0.05)
@@ -416,13 +479,13 @@ def test2():
     l2 = 0.001
     #values = int(48*10)
     values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
-    mod,mod2 = LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2)
+    mod = LSTM_Ms_return(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, 0)
     
     
     inputs = np.ones((1,values,1))
     outputs = np.random.normal(size=(1,1))
     #outputs[:,1] = mod.predict(inputs)[:,1]
     #print(mod.predict(inputs).shape)
-    return mod,mod2, inputs
+    return mod, inputs
 
         
