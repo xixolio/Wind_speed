@@ -346,7 +346,7 @@ or model == "SRNN_Ms_return":
         
         l2 = [0.001]
         
-        batch_size = [1]
+        batch_size = [1,5]
         
         shuffle = [0]
         
