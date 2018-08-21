@@ -332,13 +332,13 @@ or model == "SRNN_Ms_return":
         
         time_steps = ["[24-5]","[24-10]"]
         
-        dense_nodes = ["[1-5]", "[1-10]","[1-15]"]
+        dense_nodes = ["[1-10]","[1-15]","[1-20]"]
         
         #lstm_nodes = ["[20-20]","[30-30]"]
         
-        lstm_nodes = ["[1-1]", "[5-5]","[10-10]"]
+        lstm_nodes = [ "[5-5]","[10-10]"]
         
-        final_nodes = [5,10,15]
+        final_nodes = [10,15]
         
         processed_scales = ["[1]"]
         
@@ -406,7 +406,7 @@ or model == "SRNN_Ms_return":
         
         l2 = [0.001]
         
-        batch_size = [1]
+        batch_size = [1,5]
         
         shuffle = [0]
         
@@ -441,7 +441,7 @@ or model == "SRNN_Ms_return":
     
     #verbose = [1]
     shuffle = [1]
-    epochs = [10,20]
+    epochs = [30,40]
     
     combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                     epochs, l2, batch_size, shuffle, final_nodes)
