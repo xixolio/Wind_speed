@@ -43,6 +43,7 @@ if __name__ == "__main__":
     set_index = int(sys.argv[6])
     
     data_path = path+"data/"
+    
     functions_path = path+"model_and_functions/"
     results_path = path+"results/"
     sys.path.append(data_path)
@@ -171,7 +172,7 @@ if __name__ == "__main__":
                                                           shuffle = shuffle,experiment = experiment)
                 elif experiment == 'test':
                     X = np.concatenate((X,X_val),axis=0)
-                    y = np.concatenate((y,y_val),axis=0)
+                    y = np.concatenate((y,y_val[:,0]),axis=0)
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
