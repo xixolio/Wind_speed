@@ -28,7 +28,7 @@ session = tf.Session(config=config)
 
 import copy
 import numpy as np
-
+np.random.seed(46)
 
 if __name__ == "__main__":
     
@@ -170,6 +170,8 @@ if __name__ == "__main__":
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
                                                           shuffle = shuffle,experiment = experiment)
+                    write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    
                 elif experiment == 'test':
                     X = np.concatenate((X,X_val),axis=0)
                     y = np.concatenate((y,y_val[:,0]),axis=0)
@@ -177,8 +179,8 @@ if __name__ == "__main__":
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
                                                           shuffle = shuffle,experiment = experiment)
-                
-            write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    write_file_name = str(model) + '_test_' + file_name[:-4] + "set_"+str(i)+".txt"
+            
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
             
         
