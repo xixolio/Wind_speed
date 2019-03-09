@@ -9,7 +9,7 @@ import copy
 
 def train(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts, \
                    batch_size = 32, shuffle = True, verbose = False, overlap = False,\
-                   stateful = False, experiment):
+                   stateful = False, experiment = 'validation'):
     
     best_mae = None
     count = 0
