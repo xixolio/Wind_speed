@@ -89,11 +89,11 @@ if model == "simple_LSTM":
                 subprocess.call(["qsub","main.sh","-F",string])
             
             
- elif model == "LSTM_Ms" or model == "LSTM_Ms_pool" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
+elif model == "LSTM_Ms" or model == "LSTM_Ms_pool" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
 or model == "SRNN_Ms_return" and test=='test':  
     
     for i in range(5):
-        file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+        file_name = str(model) + '_' + file[:-4] + "set_"+str(i)+".txt"
         with open('best_val_results/best_'+file_name,'r') as file2:
             
             for line in file2.readlines():
