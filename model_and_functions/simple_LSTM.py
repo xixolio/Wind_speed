@@ -30,8 +30,7 @@ def get_params(argv_position):
 
 def model(layers, lag, time_steps, l2, learning_rate):
                      
-    inputs = Input(batch_shape=(1, time_steps, lag))
-    
+    inputs = Input(shape=(time_steps, lag))
     dummy_layer = inputs
     
     for i in range(len(layers)):
@@ -42,10 +41,10 @@ def model(layers, lag, time_steps, l2, learning_rate):
             
             return_sequences = False
                    
-        lstm = LSTM(layers[i], return_sequences=return_sequences, activation='sigmoid',
+        lstm = LSTM(layers[i], return_sequences=return_sequences, activation='tanh',
                  recurrent_activation='sigmoid', dropout=0.0,
                  recurrent_dropout=0.0, activity_regularizer=regularizers.l2(l2),
-                 recurrent_regularizer=regularizers.l2(l2), stateful=True)
+                 recurrent_regularizer=regularizers.l2(l2), stateful=False)
     
         dummy_layer = lstm(dummy_layer)
     

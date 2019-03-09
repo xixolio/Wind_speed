@@ -9,22 +9,23 @@ Created on Sun Jun 10 15:07:18 2018
 import os
 #os.environ["MKL_THREADING_LAYER"] = "GNU"
 import sys
-sys.path.append('/user/i/iaraya/Wind_speed/data/')
-sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
+#sys.path.append('/user/i/iaraya/Wind_speed/data/')
+#sys.path.append('/user/i/iaraya/Wind_speed/model_and_functions/')
 #sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/data/')
 #sys.path.append('C:/Users/iaaraya/Documents/CIARP/Wind_speed/model_and_functions/')
-#sys.path.append('/home/iaraya/Wind_speed/CIARP2/Wind_speed/data/')
-#sys.path.append('/home/iaraya/Wind_speed/CIARP2/Wind_speed/model_and_functions/')
+
+import tensorflow as tf
+
+os.environ['CUDA_VISIBLE_DEVICES']='0' # gpu='0' o gpu='1'
+###################################
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True#Utiliza la memoria que necesita de manera dinamica, puede ser o no en bloque.
+config.gpu_options.per_process_gpu_memory_fraction = 0.2#20%de la ram,
+session = tf.Session(config=config)
+###################################
 
 
-from data_processing import get_data
-import simple_LSTM as sLSTM
-import hierarchical_LSTM as hLSTM
-import LSTM_Ms as Ms
-import write_results as wr
-import get_params as gp
-import train_and_test_functions as trf
-import persistence
+
 import copy
 import numpy as np
 
@@ -36,126 +37,73 @@ if __name__ == "__main__":
     path = sys.argv[2]
         
     file_name = sys.argv[3]
+    
+    experiment = sys.argv[5]
+    
+    set_index = int(sys.argv[6])
+    
+    data_path = path+"data/"
+    functions_path = path+"model_and_functions/"
+    results_path = path+"results/"
+    sys.path.append(data_path)
+    sys.path.append(functions_path)
+    
+    from data_processing import get_data
+    import simple_LSTM as sLSTM
+    import LSTM_Ms as Ms
+    import write_results as wr
+    import get_params as gp
+    import train_and_test_functions as trf
+    import persistence
         
     if model == "simple_LSTM":
       
-        runs = 5
+        runs = 1
         
-        sets = 10
+        sets = 5
            
-        layers, lag, time_steps, epochs, l2, learning_rate = sLSTM.get_params(4)
+        layers, lag, time_steps, epochs, l2, learning_rate, batch_size = gp.get_params(4)
     
-        params = [layers, lag, time_steps, epochs, l2, learning_rate]
+        params = [layers, lag, time_steps, epochs, l2, learning_rate, batch_size]
         
-        training_inputs, testing_inputs, training_outputs, testing_outputs,\
-        vmins, vmaxs = get_data(path, file_name, time_steps, lag)
+        training_inputs, validation_inputs,testing_inputs, training_outputs, validation_outputs,\
+        testing_outputs,vmins, vmaxs = get_data(data_path, file_name, time_steps, lag)
             
         mae = np.zeros((sets, runs))
-        mape = np.zeros((sets, runs))
+        #mape = np.zeros((sets, runs))
         mse = np.zeros((sets, runs))
+        h_mae = np.zeros((sets,runs,24))
+        h_mse = np.zeros((sets,runs,24))
         
         for i in range(sets):
             
             X = training_inputs[i]
+            X_val = validation_inputs[i]
             X_ts = testing_inputs[i]
             y = training_outputs[i]
+            y_val = validation_outputs[i]
             y_ts = testing_outputs[i]
             
             for j in range(runs):
                 
-                model = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
+                mod = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
                 
-                mae[i,j], mape[i,j], mse[i,j], model = sLSTM.train_and_test(model, time_steps, lag, \
+                mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts))
-                
-                model_name = "simple_LSTM_test_set_" + str(i) + "_run_" + str(j) +\
-                '_'.join(str(x) for x in params)
-                #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
-               
-        path = "/user/i/iaraya/Wind_speed/results/"
-        write_file_name = "finalsimple_LSTM_" + file_name[:-4] + ".txt"
-                
-        sLSTM.write_results(path, write_file_name, params, mae, mse,runs)
-        
-        
-    elif model == "hierarchical_LSTM":
-      
-        runs = 5
-        
-        sets = 10
-           
-        lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
-        epochs, l2, batch_size, shuffle = hLSTM.get_params(4)
-    
-        params = [lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
-                   epochs, l2, batch_size, shuffle]
-        
-        training_inputs_sets = []
-        testing_inputs_sets = []
-        
-        for i in range(len(lags)):
+                                                      X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
+                                                      shuffle = True, overlap = True)
             
-            training_inputs, testing_inputs, training_outputs, testing_outputs,\
-            vmins, vmaxs = get_data(path, file_name, time_steps[i], lags[i],overlap=False)
-            
-            training_inputs_sets.append(training_inputs)
-            testing_inputs_sets.append(testing_inputs)
-            
-
-            
-        mae = np.zeros((sets, runs))
-        mape = np.zeros((sets, runs))
-        mse = np.zeros((sets, runs))
-        
-        for i in range(sets):
-            
-            min_data_len = 10000000
-            
-            for j in range(len(lags)):
-                
-                if len(training_inputs_sets[j][i]) < min_data_len:
-                    
-                    min_data_len = len(training_inputs_sets[j][i])
-            
-            X = []
-            X_ts = []
-                        
-            for j in range(len(lags)):
-                
-                 X.append(training_inputs_sets[j][i][-min_data_len:])
-                 X_ts.append(testing_inputs_sets[j][i])
-    
-            y = training_outputs[i][-min_data_len:]
-            y_ts = testing_outputs[i]
-            
-            for j in range(runs):
-                
-                mod = hLSTM.model(lags, time_steps, processed_scales, \
-                                    dense_nodes, lstm_nodes, l2)
-                
-                mae[i,j], mape[i,j], mse[i,j], mod = hLSTM.train_and_test(mod, time_steps, lags, \
-                                                      epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_ts), y_ts, batch_size = batch_size, \
-                                                      shuffle = shuffle)
-                
-                model_name = "hierarchical2_LSTM_set_" + str(i) + "_run_" + str(j) +\
-                '_'.join(str(x) for x in params)
-                #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
-               
-        path = "/user/i/iaraya/Wind_speed/results/"
-        #path = "/home/iaraya/CIARP/Wind_speed/results/"
-        write_file_name = "final2_hierarchical_LSTM_" + file_name[:-4] + ".txt"
-                
-        hLSTM.write_results(path, write_file_name, params, mae, mse,runs)
+            write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+            wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
         
     elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool' or model == 'LSTM_Ms_locally' \
     or model == 'LSTM_Ms_return' or model == 'SRNN_Ms_return':
         
-        runs = 5
+        runs = 1
+        sets = 5
+        if experiment == 'test':
+            runs = 5
         
-        sets = 10
-           
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
         epochs, l2, batch_size, shuffle, final_nodes = gp.get_params_Ms(4)
     
@@ -165,18 +113,28 @@ if __name__ == "__main__":
         max_input_values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
         
             
-        training_inputs, testing_inputs, training_outputs, testing_outputs,\
-        vmins, vmaxs = get_data(path, file_name, max_input_values, 1, overlap=False)
+        training_inputs, validation_inputs, testing_inputs, training_outputs, validation_outputs,\
+        testing_outputs,vmins, vmaxs = get_data(data_path, file_name, max_input_values, 1, overlap=False)
         
         mae = np.zeros((sets, runs))
-        mape = np.zeros((sets, runs))
+        h_mae = np.zeros((sets,runs,24))
+        #mape = np.zeros((sets, runs))
         mse = np.zeros((sets, runs))
+        h_mse = np.zeros((sets,runs,24))
+        
+        if experiment == 'test':
+            sets = 1
         
         for i in range(sets):
             
+            if experiment == 'test':
+                i = set_index
+                
             X = training_inputs[i]
+            X_val = validation_inputs[i]
             X_ts = testing_inputs[i]
             y = training_outputs[i]
+            y_val = validation_outputs[i]
             y_ts = testing_outputs[i]
             
             for j in range(runs):
@@ -184,12 +142,12 @@ if __name__ == "__main__":
                 if model == 'LSTM_Ms':
                     
                     mod = Ms.LSTM_Ms(lags, time_steps, processed_scales, \
-                                        dense_nodes, lstm_nodes, l2)
+                                        dense_nodes, lstm_nodes, l2,final_nodes)
                     
                 elif model == 'LSTM_Ms_pool':
                     
                     mod = Ms.LSTM_Ms_pool(lags, time_steps, processed_scales, \
-                                        dense_nodes, lstm_nodes, l2)
+                                        dense_nodes, lstm_nodes, l2,final_nodes)
                     
                 elif model == 'LSTM_Ms_locally':
                    
@@ -206,23 +164,28 @@ if __name__ == "__main__":
                     mod = Ms.SRNN_Ms_return(lags, time_steps, processed_scales, \
                                         dense_nodes, lstm_nodes, l2, final_nodes)
                     
+                if experiment == 'validation': 
+                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
+                                                          epochs, vmins[i], vmaxs[i],     \
+                                                          X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
+                                                          shuffle = shuffle,experiment)
+                elif experiment == 'test':
+                    X = np.concatenate((X,X_val),axis=0)
+                    y = np.concatenate((y,y_val),axis=0)
+                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
+                                                          epochs, vmins[i], vmaxs[i],     \
+                                                          X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
+                                                          shuffle = shuffle,experiment)
                 
-                mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, max_input_values, 1, \
-                                                      epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
-                                                      shuffle = shuffle)
-                
-        path = "/user/i/iaraya/Wind_speed/results/"     
-                
-        write_file_name = str(model) + '_' + file_name[:-4] + ".txt"
-        
-        wr.write_results(path, write_file_name, params, mae, mse,runs)
+            write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+            wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
+            
         
     elif model == 'Conv' or model == 'TDNN' or model == 'TDNN_l':
         
-        runs = 5
+        runs = 1
         
-        sets = 10
+        sets = 5
            
         lags, dense_nodes, input_length, final_nodes, epochs, l2,\
             batch_size, shuffle = gp.get_params_Conv(4)
@@ -232,19 +195,27 @@ if __name__ == "__main__":
         
         #max_input_values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
         
+        training_inputs, validation_inputs, testing_inputs, training_outputs, validation_outputs,\
+        testing_outputs,vmins, vmaxs = get_data(data_path, file_name, input_length, 1, overlap=False)
+        
             
-        training_inputs, testing_inputs, training_outputs, testing_outputs,\
-        vmins, vmaxs = get_data(path, file_name, input_length, 1, overlap=False)
+        #training_inputs, testing_inputs, training_outputs, testing_outputs,\
+        #vmins, vmaxs = get_data(path, file_name, input_length, 1, overlap=False)
         
         mae = np.zeros((sets, runs))
-        mape = np.zeros((sets, runs))
+        #mape = np.zeros((sets, runs))
         mse = np.zeros((sets, runs))
+        
+        h_mae = np.zeros((sets,runs,24))
+        h_mse = np.zeros((sets,runs,24))
         
         for i in range(sets):
             
             X = training_inputs[i]
+            X_val = validation_inputs[i]
             X_ts = testing_inputs[i]
             y = training_outputs[i]
+            y_val = validation_outputs[i]
             y_ts = testing_outputs[i]
             
             for j in range(runs):
@@ -260,17 +231,16 @@ if __name__ == "__main__":
                 elif model == 'TDNN_l':
                     
                     mod = Ms.TDNN_locally(lags, dense_nodes, input_length, l2, final_nodes)
-                    
-                mae[i,j], mape[i,j], mse[i,j], mod = trf.train_and_test(mod, input_length, 1, \
+                
+                mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, input_length, 1, \
                                                       epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
+                                                      X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
                                                       shuffle = shuffle)
                 
-        path = "/user/i/iaraya/Wind_speed/results/"     
                 
-        write_file_name = str(model) + '_' + file_name[:-4] + ".txt"
-        
-        wr.write_results(path, write_file_name, params, mae, mse,runs)
+            write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+            wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
+            
         
     elif model == "persistence":
         

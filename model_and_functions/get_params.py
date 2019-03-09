@@ -6,6 +6,22 @@ Created on Thu Aug  2 21:54:53 2018
 """
 import sys
 
+def get_params(argv_position):
+    
+    params = str(sys.argv[argv_position]).split(',')
+    
+    layers = str(params[0]).strip('[]')
+    layers = [int(layer) for layer in layers.split('-')]
+    
+    lag = int(params[1])
+    time_steps = int(params[2])
+    epochs = int(params[3])
+    l2 = float(params[4])
+    learning_rate = float(params[5])
+    batch_size = int(params[6])
+    
+    return layers, lag, time_steps, epochs, l2, learning_rate, batch_size
+
 def get_params_Ms(argv_position):
     
     params = str(sys.argv[argv_position]).split(',')

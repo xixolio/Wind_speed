@@ -23,7 +23,7 @@ def z_n(x, position):
 #lambda_layer = Lambda(return_specific, arguments = {'position': 1})(dense)
 #dense = Dense(1)(lambda_layer)
 
-def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
+def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes):
 
     number_layers = len(lags)
     
@@ -42,7 +42,7 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         strides =  lags[i]//lags[i-1]
         
         conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = strides, \
-               activation = 'sigmoid', use_bias = True)(dense_layers[i-1])
+               activation = 'relu', use_bias = True)(dense_layers[i-1])
         
         dense_layers.append(conv)
         
@@ -51,8 +51,8 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
     for scale in processed_scales:
         
         lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
-            
-        lstm = LSTM(lstm_nodes[scale], activation='sigmoid', recurrent_activation='sigmoid',\
+        #lambda_layer = dense_layers[scale]
+        lstm = LSTM(lstm_nodes[scale], activation='tanh', recurrent_activation='sigmoid',\
                 activity_regularizer=regularizers.l2(l2), \
                 recurrent_regularizer=regularizers.l2(l2))(lambda_layer)
         
@@ -66,13 +66,19 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
         
         concatenated = lstm_layers[0]
         
+    if final_nodes != 0:
+        
+        concatenated = Dense(final_nodes, activation = 'relu')(concatenated)
+        
+    #outputs = Dense(1)(concatenated)
+        
     outputs = Dense(1)(concatenated)
     #outputs = dense_layers[2]
     #outputs2 = dense_layers[1]
     #outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
     #model2 = Model(inputs = inputs, outputs = outputs2)
-    ad = optimizers.Adadelta(lr = 0.05)
+    ad = optimizers.Adam()
     
     model.compile(loss = 'mse', optimizer = ad)
     #model2.compile(loss = 'mse', optimizer = ad)
@@ -267,10 +273,6 @@ def Conv(lags, dense_nodes, input_length, l2, final_nodes):
 
     number_layers = len(lags)
     
-    # we get the max number of values required by the model
-    
-    #max_input_values = np.max([lags[i]*time_steps[i] for i in range(number_layers)])
-    
     inputs = Input(shape = (input_length, 1))
     
     dense_layers = []
@@ -282,27 +284,31 @@ def Conv(lags, dense_nodes, input_length, l2, final_nodes):
         strides =  lags[i]//lags[i-1]
         
         conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = 1, \
-               activation = 'sigmoid', use_bias = True, padding = 'same')(dense_layers[i-1])
+               activation = 'relu', use_bias = True, padding = 'same')(dense_layers[i-1])
         
         pool = MaxPooling1D(pool_size = strides, strides = strides)(conv)
         
         dense_layers.append(pool)
         
     flattened = Flatten()(dense_layers[-1])
-    final_layer = Dense(final_nodes, activation = 'sigmoid')(flattened)
-    outputs = Dense(1)(final_layer)
+    
+    if final_nodes != 0:
+        
+        flattened = Dense(final_nodes, activation = 'relu')(flattened)
+      
+    outputs = Dense(1)(flattened)
     #outputs = concatenated
     
     model = Model(inputs = inputs, outputs = outputs)
     
-    ad = optimizers.Adadelta(lr = 0.05)
+    ad = optimizers.Adam()
     
     model.compile(loss = 'mse', optimizer = ad)
     #model.compile(loss = 'mse', optimizer = "sgd")
     
     return model
 
-def LSTM_Ms_pool(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2):
+def LSTM_Ms_pool(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2,final_nodes):
 
     number_layers = len(lags)
     
@@ -321,7 +327,7 @@ def LSTM_Ms_pool(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2
         strides =  lags[i]//lags[i-1]
         
         conv = Conv1D(filters = dense_nodes[i], kernel_size = strides, strides = 1, \
-               activation = 'sigmoid', use_bias = True, padding = 'same')(dense_layers[i-1])
+               activation = 'relu', use_bias = True, padding = 'same')(dense_layers[i-1])
         
         pool = MaxPooling1D(pool_size = strides, strides = strides)(conv)
         
@@ -333,7 +339,7 @@ def LSTM_Ms_pool(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2
         
         lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
         
-        lstm = LSTM(lstm_nodes[scale], activation='sigmoid', recurrent_activation='sigmoid',\
+        lstm = LSTM(lstm_nodes[scale],\
                 activity_regularizer=regularizers.l2(l2), \
                 recurrent_regularizer=regularizers.l2(l2))(lambda_layer)
         
@@ -347,12 +353,17 @@ def LSTM_Ms_pool(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2
         
         concatenated = lstm_layers[0]
         
+    if final_nodes != 0:
+        
+        concatenated = Dense(final_nodes, activation = 'relu')(concatenated)
+        
+        
     outputs = Dense(1)(concatenated)
     #outputs = dense_layers[1]
     #outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
     
-    ad = optimizers.Adadelta(lr = 0.05)
+    ad = optimizers.Adam()
     
     model.compile(loss = 'mse', optimizer = ad)
     #model.compile(loss = 'mse', optimizer = "sgd")

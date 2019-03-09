@@ -138,8 +138,6 @@ def get_missing_values(path,name):
         
         speed = temporal_data['speed'][i]
         
-        
-            
         hour_minute = temporal_data['date'][i].split(' ')[1].split(':')
         year_month_day = temporal_data['date'][i].split(' ')[0].split('-')
         
@@ -250,7 +248,8 @@ def correct_data(data,missing_positions,expected_date,name):
 #data = correct_data(temporal_data,missing_positions,expected_date,'originalb08.csv')
  
 
-def get_data(path, name, ts=1, lag=1, overlap=True):
+def get_data(path, name, ts=1, lag=1, overlap=True, number_of_sets = 5,  \
+             val_percentage = 0.05, test_percentage = 0.05):
     
     #path = ''
     data = pd.read_csv(path+name, usecols = ['date','speed'])
@@ -280,7 +279,7 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
     
     N = len(data_hour)
     diff_percentage = 0.3
-    number_of_sets = 10
+    number_of_sets = 5
     
     n = int(N / ((number_of_sets - 1) * diff_percentage + 1))
     w = int(n * diff_percentage)
@@ -297,8 +296,10 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         temp_data = data_hour[i*w : i*w + n].copy()
         temp_data.index = temp_data.index - temp_data.index.min()
         
-        min_speed = temp_data[:-24].values.min()
-        max_speed = temp_data[:-24].values.max()
+        tr_length = int(len(temp_data)*(1 - val_percentage - test_percentage))
+ 
+        min_speed = temp_data[:tr_length].values.min()
+        max_speed = temp_data[:tr_length].values.max()
         
         temp_data = (temp_data - min_speed)/(max_speed - min_speed)
         
@@ -307,21 +308,27 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         max_speeds.append(max_speed)
 
 
+    # Split each set in train - validation - test, while conforming to the
+    # right data format
+    
     training_data_input = []
+    validation_data_input = []
     testing_data_input = []
     
     training_data_output = []
+    validation_data_output = []
     testing_data_output = []
     
     for i in range(number_of_sets):
-           
-        shifted_sets = [data_sets[i].shift(lag-k) for k in range(lag+1)]
+        
+        N = len(data_sets[i])
+        shifted_sets = [data_sets[i].shift(lag+24-k-1) for k in range(lag+24)]
         
         temp_input = pd.concat(shifted_sets,axis=1).dropna()
-        temp_output = temp_input.iloc[:,-1:]
-        temp_input = temp_input.iloc[:,:-1]
+        temp_output = temp_input.iloc[:,-24:]
+        temp_input = temp_input.iloc[:,:-24]
             
-        if overlap==True:
+        if overlap:
             
             shifted = [temp_input.shift(ts-k-1) for k in range(ts)]
             temp_output = temp_output[ts-1:]
@@ -333,14 +340,20 @@ def get_data(path, name, ts=1, lag=1, overlap=True):
         
         temp_input = pd.concat(shifted,axis=1).dropna()
         
-        training_data_input.append(temp_input[:-24].values.reshape(-1,ts,lag))
-        testing_data_input.append(temp_input.iloc[-24].values.reshape(-1,ts,lag))
+        #tr_length = int(len(temp_input)*(1 - val_percentage - test_percentage))
+        val_length = int(N*val_percentage)
+        ts_length = int(N*test_percentage)
         
-        training_data_output.append(temp_output[:-24].values)
-        testing_data_output.append(temp_output[-24:].values)        
+        training_data_input.append(temp_input[:-(val_length + ts_length)].values.reshape(-1,ts,lag))
+        validation_data_input.append(temp_input[-(val_length + ts_length):-ts_length].values.reshape(-1,ts,lag))
+        testing_data_input.append(temp_input.iloc[-ts_length:].values.reshape(-1,ts,lag))
         
-    return training_data_input, testing_data_input, training_data_output, \
-           testing_data_output, min_speeds, max_speeds
+        training_data_output.append(temp_output.iloc[:-(val_length + ts_length),0].values)
+        validation_data_output.append(temp_output[-(val_length + ts_length):-ts_length].values)
+        testing_data_output.append(temp_output[-ts_length:].values)        
+        
+    return training_data_input, validation_data_input, testing_data_input, training_data_output, \
+           validation_data_output, testing_data_output, min_speeds, max_speeds
 #
 #training_data_input, testing_data_input, training_data_output, \
 #           testing_data_output, min_speeds, max_speeds = \
