@@ -168,14 +168,14 @@ if __name__ == "__main__":
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
-                                                          shuffle = shuffle,experiment)
+                                                          shuffle = shuffle,experiment = experiment)
                 elif experiment == 'test':
                     X = np.concatenate((X,X_val),axis=0)
                     y = np.concatenate((y,y_val),axis=0)
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
-                                                          shuffle = shuffle,experiment)
+                                                          shuffle = shuffle,experiment = experiment)
                 
             write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
