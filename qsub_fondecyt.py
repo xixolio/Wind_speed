@@ -92,17 +92,19 @@ if model == "simple_LSTM":
 elif model == "LSTM_Ms" or model == "LSTM_Ms_pool" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
 or model == "SRNN_Ms_return" and test=='test':  
     
-    for i in range(5):
-        file_name = str(model) + '_' + file[:-4] + "set_"+str(i)+".txt"
-        with open('best_val_results/best_'+file_name,'r') as file2:
-            
-            for line in file2.readlines():
-                string = line
-                if setting == "fondecyt":
-                            subprocess.call(["python","main.py",model, path, file,string,'test',str(i)])
-                elif setting == "cluster":
-                            string = str(model) +" "+path+" "+file+" "+string+" test "+str(i) 
-                            subprocess.call(["qsub","main.sh","-F",string])
+    files = ['no_mvs_b08.csv','no_mvs_e01.csv','no_mvs_original_d08.csv','no_mvs_d05a.csv']
+    for file in files:
+        for i in range(5):
+            file_name = str(model) + '_' + file[:-4] + "set_"+str(i)+".txt"
+            with open('best_val_results/best_'+file_name,'r') as file2:
+                
+                for line in file2.readlines():
+                    string = line
+                    if setting == "fondecyt":
+                                subprocess.call(["python","main.py",model, path, file,string,'test',str(i)])
+                    elif setting == "cluster":
+                                string = str(model) +" "+path+" "+file+" "+string+" test "+str(i) 
+                                subprocess.call(["qsub","main.sh","-F",string])
     
 
 elif model == "LSTM_Ms" or model == "LSTM_Ms_pool" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
