@@ -103,6 +103,7 @@ or model == "SRNN_Ms_return" and test=='test':
                     if setting == "fondecyt":
                                 subprocess.call(["python","main.py",model, path, file,string,'test',str(i)])
                     elif setting == "cluster":
+                                string = string.replace('\n','')
                                 print(string)
                                 string = str(model) +" "+path+" "+file+" "+string+" test "+str(i) 
                                 print(string)
