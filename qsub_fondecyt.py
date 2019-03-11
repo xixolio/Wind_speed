@@ -104,8 +104,10 @@ or model == "SRNN_Ms_return" and test=='test':
                                 subprocess.call(["python","main.py",model, path, file,string,'test',str(i)])
                     elif setting == "cluster":
                                 string = string.replace('\n','')
+                                print('nuevo')
                                 print(string)
                                 string = str(model) +" "+path+" "+file+" "+string+" test "+str(i) 
+                                print('caca')
                                 print(string)
                                 subprocess.call(["qsub","main.sh","-F",string])
     
