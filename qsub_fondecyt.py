@@ -27,7 +27,7 @@ test = sys.argv[6]
 #model = "hierarchical_LSTM"
 #experiment = 2
 
-if model == "simple_LSTM":
+if model == "simple_LSTM" and test != "test":
     
     if experiment == 0:
         
