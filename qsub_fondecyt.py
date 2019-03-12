@@ -89,8 +89,7 @@ if model == "simple_LSTM":
                 subprocess.call(["qsub","main.sh","-F",string])
             
             
-elif model == "LSTM_Ms" or model == "LSTM_Ms_pool" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
-or model == "SRNN_Ms_return" and test=='test':  
+elif test=='test':  
     
     files = ['no_mvs_b08.csv','no_mvs_e01.csv','no_mvs_originald08.csv','no_mvs_d05a.csv']
     for file in files:
