@@ -279,6 +279,7 @@ if __name__ == "__main__":
         
     elif model == "persistence":
         
+        sets = 5
         training_inputs, validation_inputs, testing_inputs, training_outputs, validation_outputs,\
         testing_outputs,vmins, vmaxs = get_data(data_path, file_name, 24, 1, overlap=False)
         
