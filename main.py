@@ -40,7 +40,8 @@ if __name__ == "__main__":
     
     experiment = sys.argv[5]
     
-    set_index = int(sys.argv[6])
+    if experiment == 'test':
+        set_index = int(sys.argv[6])
     
     data_path = path+"data/"
     
