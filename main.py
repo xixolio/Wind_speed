@@ -60,9 +60,9 @@ if __name__ == "__main__":
     if model == "simple_LSTM":
       
         runs = 1
-        
         sets = 5
-           
+        if experiment == 'test':
+            runs = 5
         layers, lag, time_steps, epochs, l2, learning_rate, batch_size = gp.get_params(4)
     
         params = [layers, lag, time_steps, epochs, l2, learning_rate, batch_size]
@@ -76,8 +76,14 @@ if __name__ == "__main__":
         h_mae = np.zeros((sets,runs,24))
         h_mse = np.zeros((sets,runs,24))
         
+        if experiment == 'test':
+            sets = 1
+        
         for i in range(sets):
             
+            if experiment == 'test':
+                i = set_index
+                
             X = training_inputs[i]
             X_val = validation_inputs[i]
             X_ts = testing_inputs[i]
@@ -89,12 +95,20 @@ if __name__ == "__main__":
                 
                 mod = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
                 
-                mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
-                                                      epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
-                                                      shuffle = True, overlap = True)
-            
-            write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                if experiment == 'validation':
+                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
+                                                          epochs, vmins[i], vmaxs[i],     \
+                                                          X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
+                                                          shuffle = True, overlap = True, experiment = experiment)
+                    write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                elif experiment == 'test':
+                    X = np.concatenate((X,X_val),axis=0)
+                    y = np.concatenate((y,y_val[:,0]),axis=0)
+                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
+                                                          epochs, vmins[i], vmaxs[i],     \
+                                                          X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
+                                                          shuffle = True, overlap = True, experiment = experiment)
+                    write_file_name = str(model) + '_test_' + file_name[:-4] + "set_"+str(i)+".txt"
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
         
     elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool' or model == 'LSTM_Ms_locally' \
@@ -187,8 +201,10 @@ if __name__ == "__main__":
     elif model == 'Conv' or model == 'TDNN' or model == 'TDNN_l':
         
         runs = 1
-        
         sets = 5
+        if experiment == 'test':
+            runs = 5
+       
            
         lags, dense_nodes, input_length, final_nodes, epochs, l2,\
             batch_size, shuffle = gp.get_params_Conv(4)
@@ -212,7 +228,13 @@ if __name__ == "__main__":
         h_mae = np.zeros((sets,runs,24))
         h_mse = np.zeros((sets,runs,24))
         
+        if experiment == 'test':
+            sets = 1
+        
         for i in range(sets):
+            
+            if experiment == 'test':
+                i = set_index
             
             X = training_inputs[i]
             X_val = validation_inputs[i]
@@ -235,13 +257,22 @@ if __name__ == "__main__":
                     
                     mod = Ms.TDNN_locally(lags, dense_nodes, input_length, l2, final_nodes)
                 
-                mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, input_length, 1, \
-                                                      epochs, vmins[i], vmaxs[i],     \
-                                                      X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
-                                                      shuffle = shuffle)
-                
-                
-            write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                if experiment == 'validation':
+                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, input_length, 1, \
+                                                          epochs, vmins[i], vmaxs[i],     \
+                                                          X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
+                                                          shuffle = shuffle, experiment = experiment)
+                    write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    
+                elif experiment == 'test':
+                    X = np.concatenate((X,X_val),axis=0)
+                    y = np.concatenate((y,y_val[:,0]),axis=0)
+                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
+                                                          epochs, vmins[i], vmaxs[i],     \
+                                                          X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
+                                                          shuffle = shuffle,experiment = experiment)
+                    write_file_name = str(model) + '_test_' + file_name[:-4] + "set_"+str(i)+".txt"
+            
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
             
         
