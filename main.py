@@ -278,30 +278,24 @@ if __name__ == "__main__":
         
     elif model == "persistence":
         
-        training_inputs, testing_inputs, training_outputs, testing_outputs,\
-        vmins, vmaxs = get_data(path, file_name, 1, 1)
+        training_inputs, validation_inputs, testing_inputs, training_outputs, validation_outputs,\
+        testing_outputs,vmins, vmaxs = get_data(data_path, file_name, 24, 1, overlap=False)
         
         mae = np.zeros((sets))
-        mape = np.zeros((sets))
         mse = np.zeros((sets))
+        
+        h_mae = np.zeros((sets,24))
+        h_mse = np.zeros((sets,24))
         
         for i in range(sets):
             
-            X = training_inputs[i]
             X_ts = testing_inputs[i]
-            y = training_outputs[i]
             y_ts = testing_outputs[i]
+
+            mae[i], mse[i],h_mae[i,:],h_mse[i,:] = persistence.train_and_test(vmins[i], vmaxs[i], X_ts, y_ts)
             
-            #model = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
-            
-            mae[i], mape[i], mse[i] = persistence.train_and_test(vmins[i], vmaxs[i], y, y_ts)
-            
-            model_name = "persistence_" + str(i) + "_run"
-            #model.save("/user/i/iaraya/CIARP/Wind_speed/models/" + model_name + ".h5")
-           
-        path = "results/"
-        write_file_name = "persistence_" + file_name[:-4] + ".txt"
-                
-        persistence.write_results(path, write_file_name, mae,mape, mse)
+  
+            write_file_name = 'persistence_test_' + file_name[:-4] + "set_"+str(i)+".txt"
+            wr.write_result(results_path, write_file_name, [24], mae[i], mse[i],h_mae[i],h_mse[i],0)
         
        

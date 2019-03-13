@@ -88,7 +88,15 @@ if model == "simple_LSTM" and test != "test":
                 string = str(model) +" "+path+" "+file+" "+string  
                 subprocess.call(["qsub","main.sh","-F",string])
             
-            
+elif model=='persistence':
+    string = 'dummy'
+    if setting == "fondecyt":
+        subprocess.call(["python","main.py",model, path, file,string,' test'])
+    elif setting == "cluster":
+        string = string.replace('\n','')
+        string = str(model) +" "+path+" "+file+" "+string+" test"
+        subprocess.call(["qsub","main.sh","-F",string])
+    
 elif test=='test':  
     
     files = ['no_mvs_b08.csv','no_mvs_e01.csv','no_mvs_originald08.csv','no_mvs_d05a.csv']
