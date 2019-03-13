@@ -283,11 +283,11 @@ if __name__ == "__main__":
         training_inputs, validation_inputs, testing_inputs, training_outputs, validation_outputs,\
         testing_outputs,vmins, vmaxs = get_data(data_path, file_name, 24, 1, overlap=False)
         
-        mae = np.zeros((sets))
-        mse = np.zeros((sets))
+        mae = np.zeros((sets,1))
+        mse = np.zeros((sets,1))
         
-        h_mae = np.zeros((sets,24))
-        h_mse = np.zeros((sets,24))
+        h_mae = np.zeros((sets,1,24))
+        h_mse = np.zeros((sets,1,24))
         
         for i in range(sets):
             
