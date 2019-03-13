@@ -296,7 +296,7 @@ if __name__ == "__main__":
 
             mae[i], mse[i],h_mae[i,:],h_mse[i,:] = persistence.train_and_test(vmins[i], vmaxs[i], X_ts, y_ts)
             
-            print(h_mae)
+            print(h_mae[i])
             write_file_name = 'persistence_test_' + file_name[:-4] + "set_"+str(i)+".txt"
             wr.write_result(results_path, write_file_name, [24], mae[i], mse[i],h_mae[i],h_mse[i],0)
         
