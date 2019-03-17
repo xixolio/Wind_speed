@@ -123,7 +123,7 @@ if __name__ == "__main__":
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
         epochs, l2, batch_size, shuffle, final_nodes = gp.get_params_Ms(4)
     
-        epochs = 20
+        #epochs = 20
         params = [lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                    epochs, l2, batch_size, shuffle, final_nodes]
         
