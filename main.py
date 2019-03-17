@@ -92,6 +92,10 @@ if __name__ == "__main__":
             y_val = validation_outputs[i]
             y_ts = testing_outputs[i]
             
+            if experiment == 'test':
+                X = np.concatenate((X,X_val),axis=0)
+                y = np.concatenate((y,y_val[:,0]),axis=0)
+            
             for j in range(runs):
                 
                 mod = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
@@ -103,8 +107,7 @@ if __name__ == "__main__":
                                                           shuffle = True, overlap = True, experiment = experiment)
                     write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
                 elif experiment == 'test':
-                    X = np.concatenate((X,X_val),axis=0)
-                    y = np.concatenate((y,y_val[:,0]),axis=0)
+                    
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
