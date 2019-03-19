@@ -78,7 +78,7 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, fin
     #outputs = concatenated
     model = Model(inputs = inputs, outputs = outputs)
     #model2 = Model(inputs = inputs, outputs = outputs2)
-    ad = optimizers.Adam()
+    ad = optimizers.Adam(lr=0.001)
     
     model.compile(loss = 'mse', optimizer = ad)
     #model2.compile(loss = 'mse', optimizer = ad)

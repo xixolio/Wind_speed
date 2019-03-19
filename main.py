@@ -126,7 +126,7 @@ if __name__ == "__main__":
         lags, time_steps, dense_nodes, lstm_nodes, processed_scales, \
         epochs, l2, batch_size, shuffle, final_nodes = gp.get_params_Ms(4)
     
-        #epochs = 20
+        epochs = 50
         params = [lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
                    epochs, l2, batch_size, shuffle, final_nodes]
         
@@ -201,7 +201,7 @@ if __name__ == "__main__":
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
                                                           shuffle = shuffle,experiment = experiment)
-                    write_file_name = str(model) + '_test4_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    write_file_name = str(model) + '_test5_' + file_name[:-4] + "set_"+str(i)+".txt"
             
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
             
