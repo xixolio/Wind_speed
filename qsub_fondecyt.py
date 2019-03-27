@@ -351,7 +351,7 @@ or model == "SRNN_Ms_return" and test=='validation':
                 
 
 
-elif model == "Conv":
+elif model == "Conv" or model == "TDNN":
     
     if experiment == 0:
         
@@ -392,12 +392,7 @@ elif model == "Conv":
         input_length = input_length.tolist()
         
         final_nodes = [5,10,15,20]
-        #lstm_nodes = ["10-10]"]
-        
-        #lstm_nodes = ["[10-10]"]
-        
-        #processed_scales = ["[0-1]"]
-        
+
         epochs = [20]
         
         l2 = [0.001]
@@ -420,11 +415,6 @@ elif model == "Conv":
         input_length = input_length.tolist()
         
         final_nodes = [5,10,15,20]
-        #lstm_nodes = ["10-10]"]
-        
-        #lstm_nodes = ["[10-10]"]
-        
-        #processed_scales = ["[0-1]"]
         
         epochs = [10, 20]
         

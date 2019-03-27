@@ -397,13 +397,18 @@ def TDNN(lags, dense_nodes, input_length, l2, final_nodes):
         dense_layers.append(conv)
         
     flattened = Flatten()(dense_layers[-1])
-    final_layer = Dense(final_nodes, activation = 'sigmoid')(flattened)
-    outputs = Dense(1)(final_layer)
+    
+    if final_nodes != 0:
+        
+        flattened = Dense(final_nodes, activation = 'relu')(flattened)
+      
+    outputs = Dense(1)(flattened)
+    #outputs = Dense(1)(final_layer)
     #outputs = concatenated
     
     model = Model(inputs = inputs, outputs = outputs)
     
-    ad = optimizers.Adadelta(lr = 0.05)
+    ad = optimizers.Adam()
     
     model.compile(loss = 'mse', optimizer = ad)
     #model.compile(loss = 'mse', optimizer = "sgd")
