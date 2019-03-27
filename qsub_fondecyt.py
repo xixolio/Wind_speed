@@ -449,7 +449,7 @@ elif model == "Conv" or model == "TDNN":
                 subprocess.call(["python","main.py",model, path, file,string])
             elif setting == "cluster":
                 string = str(model) +" "+path+" "+file+" "+string  
-                string = string+" validation "+str(i) 
+                string = string+" validation 0" 
                 subprocess.call(["qsub","main.sh","-F",string])
             
 elif model == "TDNN":
