@@ -52,7 +52,7 @@ def model(layers, lag, time_steps, l2, learning_rate):
 
     model = Model(inputs = inputs, outputs = outputs)
 
-    ad = optimizers.Adadelta(lr = learning_rate)
+    ad = optimizers.Adam(lr = learning_rate)
     
     model.compile(optimizer = ad, loss = 'mse')
     

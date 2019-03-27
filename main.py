@@ -77,6 +77,7 @@ if __name__ == "__main__":
         h_mae = np.zeros((sets,runs,24))
         h_mse = np.zeros((sets,runs,24))
         
+        epochs = 50
         if experiment == 'test':
             sets = 1
         
