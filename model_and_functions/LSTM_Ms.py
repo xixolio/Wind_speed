@@ -301,7 +301,7 @@ def Conv(lags, dense_nodes, input_length, l2, final_nodes):
     
     model = Model(inputs = inputs, outputs = outputs)
     
-    ad = optimizers.Adam()
+    ad = optimizers.Adam(lr=0.001)
     
     model.compile(loss = 'mse', optimizer = ad)
     #model.compile(loss = 'mse', optimizer = "sgd")
@@ -408,7 +408,7 @@ def TDNN(lags, dense_nodes, input_length, l2, final_nodes):
     
     model = Model(inputs = inputs, outputs = outputs)
     
-    ad = optimizers.Adam()
+    ad = optimizers.Adam(lr=0.001)
     
     model.compile(loss = 'mse', optimizer = ad)
     #model.compile(loss = 'mse', optimizer = "sgd")

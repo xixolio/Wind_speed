@@ -228,7 +228,7 @@ if __name__ == "__main__":
             
         #training_inputs, testing_inputs, training_outputs, testing_outputs,\
         #vmins, vmaxs = get_data(path, file_name, input_length, 1, overlap=False)
-        
+        epochs = 50
         mae = np.zeros((sets, runs))
         #mape = np.zeros((sets, runs))
         mse = np.zeros((sets, runs))
@@ -282,7 +282,7 @@ if __name__ == "__main__":
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
                                                           shuffle = shuffle,experiment = experiment)
-                    write_file_name = str(model) + '_test_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    write_file_name = str(model) + '_test_50_' + file_name[:-4] + "set_"+str(i)+".txt"
             
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
             
