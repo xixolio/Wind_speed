@@ -428,7 +428,7 @@ elif model == "Conv" or model == "TDNN":
         verbose = [0]
         
     shuffle = [1]
-    epochs = [1000]
+    epochs = [20,50]
     batch_size =[32]
     final_nodes = [10,15,20]
     combs = product(lags, dense_nodes, input_length, final_nodes, epochs,\
