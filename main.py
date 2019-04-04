@@ -60,10 +60,8 @@ if __name__ == "__main__":
         
     if model == "simple_LSTM":
       
-        runs = 1
+        runs = 5
         sets = 5
-        if experiment == 'test':
-            runs = 5
         layers, lag, time_steps, epochs, l2, learning_rate, batch_size = gp.get_params(4)
     
         params = [layers, lag, time_steps, epochs, l2, learning_rate, batch_size]
@@ -105,8 +103,8 @@ if __name__ == "__main__":
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
-                                                          shuffle = True, overlap = True, experiment = experiment)
-                    write_file_name = str(model) + '_' + file_name[:-4] + "set_"+str(i)+".txt"
+                                                          shuffle = True, overlap = True, experiment = 'test')
+                    write_file_name = str(model) + '_validation5_' + file_name[:-4] + "set_"+str(i)+".txt"
                 elif experiment == 'test':
                     
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
@@ -119,7 +117,7 @@ if __name__ == "__main__":
     elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool' or model == 'LSTM_Ms_locally' \
     or model == 'LSTM_Ms_return' or model == 'SRNN_Ms_return':
         
-        runs = 1
+        runs = 5
         sets = 5
         if experiment == 'test':
             runs = 5
@@ -193,7 +191,7 @@ if __name__ == "__main__":
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
                                                           shuffle = shuffle,experiment = 'test')
-                    write_file_name = str(model) + '_val_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    write_file_name = str(model) + '_val5_' + file_name[:-4] + "set_"+str(i)+".txt"
                     
                 elif experiment == 'test':
 

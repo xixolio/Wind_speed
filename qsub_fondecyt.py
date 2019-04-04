@@ -41,11 +41,11 @@ if model == "simple_LSTM" and test != "test":
         
     if experiment == 1:
         
-        layers = ['[5]', '[10]', '[15]', '[20]','[25]','[30]']
+        layers = ['[10]', '[20]','[30]','[40]']
         
-        lag = [1,24]
+        lag = [24]
         
-        time_steps = [1,10,20,30,40,50]
+        time_steps = [1,12,24,36,48,60,72]
         
         #epochs = [10, 20]
         
@@ -69,7 +69,7 @@ if model == "simple_LSTM" and test != "test":
         learning_rate = [0.1]
         
     batch_size = [32]
-    epochs = [100]
+    epochs = [50,100]
     combs = product(layers, lag, time_steps, epochs, l2, learning_rate, batch_size)
     
     for c in combs:
@@ -162,7 +162,7 @@ or model == "SRNN_Ms_return" and test=='validation':
                           
         #print(time_steps)
         
-        time_steps = ["[12-1]","[12-5]","[12-10]","[12-15]"]
+        time_steps = ["[24-1]","[24-5]","[24-10]"]
         
         final_nodes = [0,10,20]
         
@@ -188,7 +188,7 @@ or model == "SRNN_Ms_return" and test=='validation':
                 
         lags = ["[1-24]"]
         
-        time_steps = ["[12-5]","[12-10]","[12-15]"]
+        time_steps = ["[24-1]","[24-5]","[24-10]"]
         
         dense_nodes = ["[1-5]","[1-10]","[1-15]"]
         
@@ -214,8 +214,8 @@ or model == "SRNN_Ms_return" and test=='validation':
         
         lags = ["[1-24-48]"]
         
-        time_steps = ["[12-1-1]","[12-5-1]","[12-10-1]","[12-15-1]", \
-                      "[12-15-1]","[12-15-5]","[12-15-10]","[12-15-15]"]
+        time_steps = ["[24-1-1]","[24-5-1]","[24-10-1]", \
+                      "[24-15-1]","[24-15-5]","[24-15-10]"]
         
         #time_steps = ["[24-10-1]"]
         
@@ -246,8 +246,8 @@ or model == "SRNN_Ms_return" and test=='validation':
         lags = ["[1-24-48]"]
         
         
-        time_steps = ["[12-1-1]","[12-5-1]","[12-10-1]","[12-15-1]", \
-                      "[12-15-1]","[12-15-5]","[12-15-10]","[12-15-15]"]
+        time_steps = ["[12-1-1]","[12-5-1]","[12-10-1]", \
+                      "[12-5-1]","[12-5-5]","[12-5-10]", ]
         
         
         #dense_nodes = ["[1-10-10]","[1-20-20]"]
