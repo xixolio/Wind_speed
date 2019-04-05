@@ -86,6 +86,7 @@ if model == "simple_LSTM" and test != "test":
                 subprocess.call(["python","main.py",model, path, file,string])
             elif setting == "cluster":
                 string = str(model) +" "+path+" "+file+" "+string  
+                string = string+" validation 0" 
                 subprocess.call(["qsub","main.sh","-F",string])
             
 elif model=='persistence':
