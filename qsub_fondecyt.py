@@ -154,7 +154,7 @@ elif test=='test2':
             #file = 'no_mvs_e01.csv'
 
             if setting == "fondecyt":
-                subprocess.call(["python","main.py",model, path, file,string])
+                subprocess.call(["python","main.py",model, path, file,string,"test",0])
             elif setting == "cluster":
                 string = str(model) +" "+path+" "+file+" "+string  
                 string = string+" test 0" 
