@@ -130,7 +130,7 @@ elif test=='test2':
     dense_nodes = ["[1-10]"]
     lstm_nodes = ["[20-20]"]
     processed_scales = ["[0-1]"]
-    epochs = [50] 
+    epochs = [10] 
     l2 = [0.001]
     batch_size = [32]
     shuffle = [1]
