@@ -129,7 +129,7 @@ elif test=='test2':
     final_nodes = [0]
     dense_nodes = ["[1-10]"]
     lstm_nodes = ["[20-20]"]
-    processed_scales = ["[1]"]
+    processed_scales = ["[0-1]"]
     epochs = [100] 
     l2 = [0.001]
     batch_size = [32]
