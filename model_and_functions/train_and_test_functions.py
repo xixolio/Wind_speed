@@ -19,7 +19,7 @@ def train(model, time_steps, lag, epochs, vmin, vmax, X, y, X_ts, y_ts, \
         for i in range(epochs):
                 model.fit(X, y, batch_size = batch_size, shuffle = shuffle, verbose = False, epochs = 1)
                 mae,mse,h_mae,h_mse,_ = test(model,time_steps,lag,epochs,vmin,vmax,copy.deepcopy(X_ts),copy.deepcopy(y_ts),overlap=overlap)
-                print(mae)
+                #print(mae)
                 if best_mae:
                     if mae < best_mae:
                         count = 0

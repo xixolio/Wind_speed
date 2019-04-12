@@ -201,6 +201,7 @@ if __name__ == "__main__":
                                                           shuffle = shuffle,experiment = 'validation')
                     write_file_name = str(model) + '_test6_' + file_name[:-4] + "set_"+str(i)+".txt"
             
+            print(np.mean(mae[i]))
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
             
         
