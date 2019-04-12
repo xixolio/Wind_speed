@@ -119,6 +119,60 @@ elif test=='test':
                                 print(string)
                                 subprocess.call(["qsub","main.sh","-F",string])
     
+elif test=='test2':  
+    
+    #files = ['no_mvs_a06.csv']
+    lags = ["[1-24]"]
+    
+    time_steps = ["[24-1]","[24-2]","[24-3]","[24-4]","[24-5]","[24-6]",\
+                  "[24-7]","[24-8]","[24-9]","[24-10]","[24-11]","[24-12]"]
+    final_nodes = [0]
+    dense_nodes = ["[1-10]"]
+    lstm_nodes = ["[20-20]"]
+    processed_scales = ["[1]"]
+    epochs = [100] 
+    l2 = [0.001]
+    batch_size = [32]
+    shuffle = [1]
+    verbose = [0]
+    
+    combs = product(lags, time_steps, dense_nodes, lstm_nodes, processed_scales,\
+                    epochs, l2, batch_size, shuffle, final_nodes) 
+            
+    for c in combs:
+        
+        if c:
+            
+            string = ''
+            
+            for element in c:
+                
+                string += str(element) + ','
+            
+
+            #path = '/home/iaraya/CIARP/'
+            #file = 'no_mvs_e01.csv'
+
+            if setting == "fondecyt":
+                subprocess.call(["python","main.py",model, path, file,string])
+            elif setting == "cluster":
+                string = str(model) +" "+path+" "+file+" "+string  
+                string = string+" test 0" 
+                subprocess.call(["qsub","main.sh","-F",string])
+
+    
+    if setting == "fondecyt":
+                subprocess.call(["python","main.py",model, path, file,string,'test',str(i)])
+    elif setting == "cluster":
+                string = string.replace('\n','')
+                print('nuevo')
+                print(string)
+                string = str(model) +" "+path+" "+file+" "+string+" test "+str(i) 
+                    print('caca')
+                    print(string)
+                    subprocess.call(["qsub","main.sh","-F",string])
+    
+
 
 elif model == "LSTM_Ms" or model == "LSTM_Ms_pool" or model == "LSTM_Ms_locally" or model == 'LSTM_Ms_return' \
 or model == "SRNN_Ms_return" and test=='validation':
