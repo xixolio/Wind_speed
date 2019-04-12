@@ -79,7 +79,7 @@ def test(model, time_steps, lag, epochs, vmin, vmax, X_ts, y_ts, \
     mse = np.mean(h_mse)
             
     #print(h_mae)            
-    print(mae)
+    #print(mae)
     
     return mae, mse,h_mae,h_mse,model
     
