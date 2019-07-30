@@ -5,32 +5,25 @@ Created on Mon Jan 21 12:11:54 2019
 @author: iaaraya
 """
 
-
 from itertools import product
 import subprocess
 import sys
 import numpy as np
 
-
 model = sys.argv[1]
-
 experiment = int(sys.argv[2])
-
 setting = sys.argv[3]
-
 path = sys.argv[4]
-
 file = sys.argv[5]
-
 test = sys.argv[6]
 
 #model = "hierarchical_LSTM"
 #experiment = 2
 
-if model == "simple_LSTM" and test != "test":
-    
+if model == "simple_LSTM" or model == "simple_GRU" and test != "test":
+    # Testing experiment to not waste time.
+    rnn = [str.lower(model.split("_")[1])]
     if experiment == 0:
-        
         layers = ['[5]']
         lag = [24]
         time_steps = [12]
@@ -40,46 +33,29 @@ if model == "simple_LSTM" and test != "test":
         batch_size = [32]
         
     if experiment == 1:
-        
-        layers = ['[10]', '[20]','[30]','[40]']
-        
+        layers = ['[50]','[100]','[150]']
         lag = [24]
-        
-        time_steps = [1,12,24,36,48,60,72]
-        
-        #epochs = [10, 20]
-        
-        l2 = [0]
-        
-        learning_rate = [0.1]
-        
-        
+        time_steps = [1,24,48,72]
+        l2 = [0,0.001]
+        learning_rate = [0.01,0.001]
+
     if experiment == 2:
-        
         layers = ['[5-5]', '[10-10]', '[15-15]', '[20-20]','[25-25]','[30-30]']
-        
         lag = [1,24]
-        
-        time_steps = [1,10,20,30,40,50]
-        
+        time_steps = [1,12,24,36,48,60,72]
         epochs = [1]
-        
         l2 = [0]
-        
         learning_rate = [0.1]
         
     batch_size = [32]
     epochs = [50,100]
-    combs = product(layers, lag, time_steps, epochs, l2, learning_rate, batch_size)
+    combs = product(layers, lag, time_steps, epochs, l2, learning_rate, batch_size,rnn)
     
     for c in combs:
-        
         if c:
-            
             string = ''
             
             for element in c:
-                
                 string += str(element) + ','
             
             if setting == "fondecyt":
@@ -98,29 +74,26 @@ elif model=='persistence':
         string = str(model) +" "+path+" "+file+" "+string+" test"
         subprocess.call(["qsub","main.sh","-F",string])
     
-elif test=='test':  
-    
-    files = ['no_mvs_b08.csv','no_mvs_e01.csv','no_mvs_originald08.csv','no_mvs_d05a.csv']
+elif test=='test':
+    files = ['no_mvs_b08.csv',
+             'no_mvs_e01.csv',
+             'no_mvs_originald08.csv',
+             'no_mvs_d05a.csv']
+
     for file in files:
         for i in range(5):
             file_name = str(model) + '_' + file[:-4] + "set_"+str(i)+".txt"
             with open('best_val_results/best_'+file_name,'r') as file2:
-                
                 for line in file2.readlines():
                     string = line
                     if setting == "fondecyt":
                                 subprocess.call(["python","main.py",model, path, file,string,'test',str(i)])
                     elif setting == "cluster":
                                 string = string.replace('\n','')
-                                print('nuevo')
-                                print(string)
-                                string = str(model) +" "+path+" "+file+" "+string+" test "+str(i) 
-                                print('caca')
-                                print(string)
+                                string = str(model) +" "+path+" "+file+" "+string+" test "+str(i)
                                 subprocess.call(["qsub","main.sh","-F",string])
     
-elif test=='test2':  
-    
+elif test=='test2':
     #files = ['no_mvs_a06.csv']
     lags = ["[1-24]"]
     
