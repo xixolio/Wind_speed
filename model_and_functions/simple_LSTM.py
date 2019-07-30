@@ -2,13 +2,13 @@
 
 #from pathlib import Path
 from keras.models import Model
-from keras.layers import Input, LSTM, Dense
+from keras.layers import Input, LSTM, Dense, GRU
 from keras import optimizers, regularizers
 import numpy as np
 import sys
 import os
 
-''' Parameters format "[layer1-layer2-...-layern],lag,time_steps,epochs,l2,learning_rate" '''
+''' Parameters format "[layer1-layer2-...-layern],lag,time_steps,epochs,l2,learning_rate,rnn" '''
 
 def get_params(argv_position):
     
@@ -24,14 +24,21 @@ def get_params(argv_position):
     epochs = int(params[3])
     l2 = float(params[4])
     learning_rate = float(params[5])
+    rnn = str(params[6])
     
     return layers, lag, time_steps, epochs, l2, learning_rate
     
 
-def model(layers, lag, time_steps, l2, learning_rate):
+def model(layers, lag, time_steps, l2, learning_rate, rnn):
                      
     inputs = Input(shape=(time_steps, lag))
     dummy_layer = inputs
+
+    if rnn == "lstm":
+      RNN = LSTM
+
+    elif rnn == "gru":
+      RNN = GRU
     
     for i in range(len(layers)):
         
@@ -41,7 +48,7 @@ def model(layers, lag, time_steps, l2, learning_rate):
             
             return_sequences = False
                    
-        lstm = LSTM(layers[i], return_sequences=return_sequences, activation='tanh',
+        lstm = RNN(layers[i], return_sequences=return_sequences, activation='tanh',
                  recurrent_activation='sigmoid', dropout=0.0,
                  recurrent_dropout=0.0, activity_regularizer=regularizers.l2(l2),
                  recurrent_regularizer=regularizers.l2(l2), stateful=False)

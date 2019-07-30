@@ -19,8 +19,9 @@ def get_params(argv_position):
     l2 = float(params[4])
     learning_rate = float(params[5])
     batch_size = int(params[6])
+    rnn = str(params[7])
     
-    return layers, lag, time_steps, epochs, l2, learning_rate, batch_size
+    return layers, lag, time_steps, epochs, l2, learning_rate, batch_size, rnn
 
 def get_params_Ms(argv_position):
     

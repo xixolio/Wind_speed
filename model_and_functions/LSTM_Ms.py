@@ -23,7 +23,12 @@ def z_n(x, position):
 #lambda_layer = Lambda(return_specific, arguments = {'position': 1})(dense)
 #dense = Dense(1)(lambda_layer)
 
-def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes):
+def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes, rnn):
+
+    if rnn == "lstm":
+      RNN = LSTM
+    elif rnn == "gru":
+      RNN = GRU
 
     number_layers = len(lags)
     
@@ -52,7 +57,7 @@ def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, fin
         
         lambda_layer = Lambda(z_n, arguments = {'position': time_steps[scale]})(dense_layers[scale])
         #lambda_layer = dense_layers[scale]
-        lstm = LSTM(lstm_nodes[scale], activation='tanh', recurrent_activation='sigmoid',\
+        lstm = RNN(lstm_nodes[scale], activation='tanh', recurrent_activation='sigmoid',\
                 activity_regularizer=regularizers.l2(l2), \
                 recurrent_regularizer=regularizers.l2(l2))(lambda_layer)
         
@@ -504,4 +509,3 @@ def test2():
     #print(mod.predict(inputs).shape)
     return mod, inputs
 
-        

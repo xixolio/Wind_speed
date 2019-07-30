@@ -58,13 +58,13 @@ if __name__ == "__main__":
     import train_and_test_functions as trf
     import persistence
         
-    if model == "simple_LSTM":
-      
+    if model == "simple_LSTM" or model == "simple_GRU":
+
         runs = 5
         sets = 5
-        layers, lag, time_steps, epochs, l2, learning_rate, batch_size = gp.get_params(4)
+        layers, lag, time_steps, epochs, l2, learning_rate, batch_size, rnn = gp.get_params(4)
     
-        params = [layers, lag, time_steps, epochs, l2, learning_rate, batch_size]
+        params = [layers, lag, time_steps, epochs, l2, learning_rate, batch_size, rnn]
         
         training_inputs, validation_inputs,testing_inputs, training_outputs, validation_outputs,\
         testing_outputs,vmins, vmaxs = get_data(data_path, file_name, time_steps, lag)
@@ -72,10 +72,9 @@ if __name__ == "__main__":
         mae = np.zeros((sets, runs))
         #mape = np.zeros((sets, runs))
         mse = np.zeros((sets, runs))
-        h_mae = np.zeros((sets,runs,24))
-        h_mse = np.zeros((sets,runs,24))
-        
-        epochs = 50
+        h_mae = np.zeros((sets, runs, 24))
+        h_mse = np.zeros((sets, runs, 24))
+
         if experiment == 'test':
             sets = 1
         
@@ -93,25 +92,29 @@ if __name__ == "__main__":
             
             if experiment == 'test':
                 X = np.concatenate((X,X_val),axis=0)
-                y = np.concatenate((y,y_val[:,0]),axis=0)
+                y = np.concatenate((y,y_val[:, 0]),axis=0)
             
             for j in range(runs):
                 
-                mod = sLSTM.model(layers, lag, time_steps, l2, learning_rate)
+                mod = sLSTM.model(layers, lag, time_steps, l2, learning_rate, rnn)
                 
                 if experiment == 'validation':
-                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
-                                                          epochs, vmins[i], vmaxs[i],     \
-                                                          X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),  batch_size = batch_size, \
-                                                          shuffle = True, overlap = True, experiment = 'test')
-                    write_file_name = str(model) + '_validation5_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    mae[i, j], mse[i, j],h_mae[i, j, :],h_mse[i, j, :], epoch = \
+                      trf.train(mod, time_steps, lag, epochs, vmins[i], vmaxs[i],
+                                X, y, copy.deepcopy(X_val), copy.deepcopy(y_val),
+                                batch_size = batch_size, shuffle = True,
+                                overlap = True, experiment = 'test')
+
+                    write_file_name = str(model)+'_rnn_'+rnn+'_validation_'+file_name[:-4]+"set_"+str(i)+".txt"
+
                 elif experiment == 'test':
-                    
-                    mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, time_steps, lag, \
-                                                          epochs, vmins[i], vmaxs[i],     \
-                                                          X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
-                                                          shuffle = True, overlap = True, experiment = experiment)
-                    write_file_name = str(model) + '_test_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    mae[i, j], mse[i, j],h_mae[i, j, :],h_mse[i, j, :], epoch = \
+                      trf.train(mod, time_steps, lag, epochs, vmins[i], vmaxs[i],
+                                X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),
+                                batch_size = batch_size, shuffle = True,
+                                overlap = True, experiment = experiment)
+
+                    write_file_name = str(model)+'_test_'+file_name[:-4]+"set_"+str(i)+".txt"
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
         
     elif model == 'LSTM_Ms' or model == 'LSTM_Ms_pool' or model == 'LSTM_Ms_locally' \
@@ -198,7 +201,7 @@ if __name__ == "__main__":
                     mae[i,j], mse[i,j],h_mae[i,j,:],h_mse[i,j,:], epoch = trf.train(mod, max_input_values, 1, \
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
-                                                          shuffle = shuffle,experiment = 'validation')
+                                                          shuffle = shuffle,experiment = 'test')
                     write_file_name = str(model) + '_test6_' + file_name[:-4] + "set_"+str(i)+".txt"
             
             print(np.mean(mae[i]))
@@ -311,4 +314,3 @@ if __name__ == "__main__":
             
         
         
-       
