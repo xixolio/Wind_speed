@@ -7,7 +7,7 @@ Created on Thu Aug  2 11:56:29 2018
 
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, TimeDistributed, \
-Reshape, Lambda, Conv1D, MaxPooling1D, Flatten, LocallyConnected1D, SimpleRNN
+Reshape, Lambda, Conv1D, MaxPooling1D, Flatten, LocallyConnected1D, SimpleRNN, GRU
 from keras import regularizers, optimizers
 
 import keras
@@ -23,12 +23,14 @@ def z_n(x, position):
 #lambda_layer = Lambda(return_specific, arguments = {'position': 1})(dense)
 #dense = Dense(1)(lambda_layer)
 
-def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes, rnn):
+def LSTM_Ms(lags, time_steps, processed_scales, dense_nodes, lstm_nodes, l2, final_nodes):
 
-    if rnn == "lstm":
-      RNN = LSTM
-    elif rnn == "gru":
-      RNN = GRU
+    #if rnn == "lstm":
+    #  RNN = LSTM
+    #elif rnn == "gru":
+    #  RNN = GRU
+
+    RNN = GRU
 
     number_layers = len(lags)
     
