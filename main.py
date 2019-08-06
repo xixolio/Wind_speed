@@ -133,7 +133,7 @@ if __name__ == "__main__":
         
         max_input_values = np.max([lags[i]*time_steps[i] for i in range(len(lags))])
         
-            
+        epochs = 50
         training_inputs, validation_inputs, testing_inputs, training_outputs, validation_outputs,\
         testing_outputs,vmins, vmaxs = get_data(data_path, file_name, max_input_values, 1, overlap=False)
         
@@ -202,7 +202,7 @@ if __name__ == "__main__":
                                                           epochs, vmins[i], vmaxs[i],     \
                                                           X, y, copy.deepcopy(X_ts), copy.deepcopy(y_ts),  batch_size = batch_size, \
                                                           shuffle = shuffle,experiment = 'test')
-                    write_file_name = str(model) + '_test_GRU_' + file_name[:-4] + "set_"+str(i)+".txt"
+                    write_file_name = str(model) + '_test_GRU_50_' + file_name[:-4] + "set_"+str(i)+".txt"
             
             print(np.mean(mae[i]))
             wr.write_result(results_path, write_file_name, params, mae[i], mse[i],h_mae[i],h_mse[i],epoch)
