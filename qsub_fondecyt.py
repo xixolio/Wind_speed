@@ -36,13 +36,13 @@ if model == "simple_LSTM" or model == "simple_GRU" and test != "test":
         layers = ['[50]','[100]','[150]']
         lag = [24]
         time_steps = [1,24,48,72]
-        l2 = [0,0.001]
-        learning_rate = [0.01,0.001]
+        l2 = [0.001]
+        learning_rate = [0.001]
 
     if experiment == 2:
         layers = ['[5-5]', '[10-10]', '[15-15]', '[20-20]','[25-25]','[30-30]']
         lag = [1,24]
-        time_steps = [1,12,24,36,48,60,72]
+        time_steps = [1,24,48,72]
         epochs = [1]
         l2 = [0]
         learning_rate = [0.1]
