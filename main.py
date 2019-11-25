@@ -60,7 +60,7 @@ if __name__ == "__main__":
         
     if model == "simple_LSTM" or model == "simple_GRU":
 
-        runs = 5
+        runs = 1
         sets = 5
         layers, lag, time_steps, epochs, l2, learning_rate, batch_size, rnn = gp.get_params(4)
     
@@ -105,7 +105,7 @@ if __name__ == "__main__":
                                 batch_size = batch_size, shuffle = True,
                                 overlap = True, experiment = 'test')
 
-                    write_file_name = str(model)+'_rnn_'+rnn+'_validation_'+file_name[:-4]+"set_"+str(i)+".txt"
+                    write_file_name = 'final'+str(model)+'_rnn_'+rnn+'_validation_'+file_name[:-4]+"set_"+str(i)+".txt"
 
                 elif experiment == 'test':
                     mae[i, j], mse[i, j],h_mae[i, j, :],h_mse[i, j, :], epoch = \
